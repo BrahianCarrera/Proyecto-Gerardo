@@ -3,6 +3,7 @@ import Card from 'components/Card'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useEffect, useState } from 'react'
 import { getMeals } from '../../services/mealService'
+import { ScrollView } from 'react-native'
 
 const foodTracking = () => {
   const [meals, setMeals] = useState<any[]>([])
@@ -12,7 +13,7 @@ const foodTracking = () => {
   }, [])
   return (
     <SafeAreaView>
-      <View>
+      <ScrollView>
         {meals.map((meal) => (
           <Card
             key={meal.id}
@@ -21,7 +22,7 @@ const foodTracking = () => {
             imageUrl="https://placecats.com/neo_2/300/200"
           />
         ))}
-      </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }
