@@ -2,12 +2,14 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useEffect, useState } from 'react'
 import { getPatients } from 'services/patientService'
 import PatientCard from 'components/PatientCard'
-import { ScrollView, TextInput, View, Text } from 'react-native'
+import { ScrollView, TextInput, View, Text, Pressable } from 'react-native'
+import { useRouter } from 'expo-router'
 
 const Patients = () => {
   const [patients, setPatients] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
+  const router = useRouter()
 
   useEffect(() => {
     getPatients()
@@ -39,8 +41,22 @@ const Patients = () => {
               name={patient.name}
               diagnosis={patient.medicalHistory}
               age={patient.age}
+              onPress={() => router.push(`/patients/${patient.id}`)}
             />
           ))}
+        </View>
+
+        <View>
+          <Pressable
+            onPress={() => {
+              router.push('/add-patient')
+            }}
+            className="bg-blue-400  p-4 my-4 rounded-md "
+          >
+            <Text className="text-center text-white text-lg">
+              Agregar Paciente
+            </Text>
+          </Pressable>
         </View>
       </ScrollView>
     </SafeAreaView>

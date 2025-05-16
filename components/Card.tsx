@@ -15,7 +15,7 @@ const Card: React.FC<CardProps> = ({
   onPress,
 }) => {
   return (
-    <View className="bg-white rounded-2xl p-4 m-4 w-80 shadow-md shadow-black/10 elevation-4">
+    <View className="bg-white rounded-2xl p-4 m-4 shadow-md shadow-black/10 elevation-4">
       {imageUrl && (
         <Image
           source={{ uri: imageUrl }}
