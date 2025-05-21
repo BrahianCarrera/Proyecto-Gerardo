@@ -242,10 +242,10 @@ export default function PatientDetail() {
           {isAssigningDiet ? (
             <View className="border border-gray-300 rounded-md overflow-hidden bg-white">
               <Picker
+                className="h-10 px-2"
                 selectedValue={selectedDiet}
                 onValueChange={(itemValue) => setSelectedDiet(itemValue)}
                 dropdownIconColor="#4F46E5"
-                style={{ height: 50 }}
               >
                 {diets.map((diet) => (
                   <Picker.Item

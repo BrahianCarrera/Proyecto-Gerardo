@@ -2,7 +2,7 @@
   "expo": {
     "name": "my-expo-app",
     "slug": "my-expo-app",
-    "scheme" : "my-expo-app",
+    "scheme": "my-expo-app",
     "version": "1.0.0",
     "web": {
       "bundler": "metro",
@@ -32,6 +32,13 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "package": "com.gerardoProject"
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "5ea408bc-f480-424a-918f-d5576bfca08f"
       }
     }
   }
