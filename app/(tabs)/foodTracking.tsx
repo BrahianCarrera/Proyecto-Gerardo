@@ -13,7 +13,7 @@ const foodTracking = () => {
   }, [])
   return (
     <SafeAreaProvider>
-      <SafeAreaView edges={['top']}>
+      <SafeAreaView className="flex-1" edges={['top']}>
         <ScrollView className="px-6">
           {meals.map((meal) => (
             <Card

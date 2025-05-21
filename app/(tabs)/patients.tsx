@@ -1,9 +1,10 @@
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { getPatients } from 'services/patientService'
 import PatientCard from 'components/PatientCard'
 import { ScrollView, TextInput, View, Text, Pressable } from 'react-native'
 import { useRouter } from 'expo-router'
+import { useFocusEffect } from '@react-navigation/native'
 
 const Patients = () => {
   const [patients, setPatients] = useState<any[]>([])
@@ -22,8 +23,14 @@ const Patients = () => {
     patient.name.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
+  useFocusEffect(
+    useCallback(() => {
+      getPatients().then(setPatients)
+    }, []),
+  )
+
   return (
-    <SafeAreaView>
+    <SafeAreaView className="flex-1">
       <ScrollView className="px-6">
         <View className="space-y-4">
           <Text className="text-lg font-bold">Pacientes</Text>
