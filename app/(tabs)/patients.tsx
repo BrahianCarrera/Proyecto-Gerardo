@@ -30,43 +30,41 @@ const Patients = () => {
   )
 
   return (
-    <SafeAreaView className="flex-1">
-      <ScrollView className="px-6">
-        <View className="space-y-4">
-          <Text className="text-lg font-bold">Pacientes</Text>
+    <ScrollView className="px-6">
+      <View className="space-y-4">
+        <Text className="text-lg font-bold">Pacientes</Text>
 
-          <TextInput
-            className="border border-gray-300 rounded-md p-2"
-            placeholder="Buscar por nombre..."
-            value={searchTerm}
-            onChangeText={setSearchTerm}
+        <TextInput
+          className="border border-gray-300 rounded-md p-2"
+          placeholder="Buscar por nombre..."
+          value={searchTerm}
+          onChangeText={setSearchTerm}
+        />
+
+        {filteredPatients.map((patient) => (
+          <PatientCard
+            key={patient.id}
+            name={patient.name}
+            subtext={patient.medicalHistory}
+            detail={patient.age + ' años'}
+            onPress={() => router.push(`/patients/${patient.id}`)}
           />
+        ))}
+      </View>
 
-          {filteredPatients.map((patient) => (
-            <PatientCard
-              key={patient.id}
-              name={patient.name}
-              diagnosis={patient.medicalHistory}
-              age={patient.age}
-              onPress={() => router.push(`/patients/${patient.id}`)}
-            />
-          ))}
-        </View>
-
-        <View>
-          <Pressable
-            onPress={() => {
-              router.push('/add-patient')
-            }}
-            className="bg-blue-400  p-4 my-4 rounded-md "
-          >
-            <Text className="text-center text-white text-lg">
-              Agregar Paciente
-            </Text>
-          </Pressable>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+      <View>
+        <Pressable
+          onPress={() => {
+            router.push('/add-patient')
+          }}
+          className="bg-blue-400  p-4 my-4 rounded-md "
+        >
+          <Text className="text-center text-white text-lg">
+            Agregar Paciente
+          </Text>
+        </Pressable>
+      </View>
+    </ScrollView>
   )
 }
 

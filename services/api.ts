@@ -10,8 +10,8 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
   })
 
   if (!response.ok) {
-    const error = await response.text()
-    throw new Error(error || 'Error de red')
+    const error = await response.json()
+    throw error  
   }
 
   return response.json()

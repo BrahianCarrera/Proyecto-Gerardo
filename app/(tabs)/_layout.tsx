@@ -11,6 +11,7 @@ const TabLayout = () => {
       <Tabs.Screen name="home" />
       <Tabs.Screen name="patients" />
       <Tabs.Screen name="foodTracking" />
+      <Tabs.Screen name="alarms" />
     </Tabs>
   )
 }

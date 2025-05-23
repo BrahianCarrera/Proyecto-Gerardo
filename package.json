@@ -1,9 +1,9 @@
 {
-  "name": "my-expo-app",
+  "name": "gerardo_app",
   "version": "1.0.0",
   "scripts": {
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "start": "expo start",
     "prebuild": "expo prebuild",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx}\" && prettier -c \"**/*.{js,jsx,ts,tsx,json}\"",
@@ -12,8 +12,10 @@
   },
   "dependencies": {
     "@expo/metro-runtime": "~5.0.4",
+    "@react-native-community/datetimepicker": "^8.3.0",
     "@react-native-picker/picker": "^2.11.0",
     "expo": "^53.0.4",
+    "expo-alarm-module": "^1.2.0",
     "expo-constants": "~17.1.6",
     "expo-dev-client": "~5.1.8",
     "expo-device": "~7.1.4",
@@ -26,9 +28,11 @@
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-native": "0.79.1",
+    "react-native-picker-weekday": "^1.1.2",
     "react-native-reanimated": "^3.17.5",
     "react-native-safe-area-context": "5.3.0",
     "react-native-screens": "^4.10.0",
+    "react-native-timer-picker": "^2.2.0",
     "react-native-web": "^0.20.0"
   },
   "devDependencies": {
