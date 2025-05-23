@@ -1,49 +1,42 @@
 import { Tabs } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
 
-export default function TabsLayout() {
+export default function TabLayout() {
   return (
-    <Tabs
-      screenOptions={({ route }) => ({
-        headerShown: true,
-        tabBarLabelStyle: { fontSize: 12 },
-        tabBarActiveTintColor: '#4F46E5',
-        tabBarInactiveTintColor: '#94A3B8',
-        tabBarIcon: ({ color, size }) => {
-          let iconName: keyof typeof Ionicons.glyphMap = 'home-outline'
-
-          switch (route.name) {
-            case 'patients':
-              iconName = 'person-outline'
-              break
-            case 'foodTracking':
-              iconName = 'restaurant-outline'
-              break
-            case 'alarms':
-              iconName = 'alarm-outline'
-              break
-          }
-
-          return <Ionicons name={iconName} size={size} color={color} />
-        },
-      })}
-    >
+    <Tabs screenOptions={{ tabBarActiveTintColor: '#14798B' }}>
       <Tabs.Screen
         name="patients"
         options={{
-          tabBarLabel: 'Pacientes',
+          title: 'Pacientes',
+          headerStyle: { backgroundColor: '#14798B' },
+          headerTintColor: 'white',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="people" size={size} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
-        name="foodTracking"
+        name="foodtracking"
         options={{
-          tabBarLabel: 'Alimentación',
+          title: 'Comidas',
+          headerTitle: 'Seguimiento de comidas',
+          headerStyle: { backgroundColor: '#14798B' },
+          headerTintColor: 'white',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="restaurant-outline" size={size} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
         name="alarms"
         options={{
-          tabBarLabel: 'Alarmas',
+          title: 'Alarmas',
+          headerTitle: 'Alarmas para pacientes',
+          headerStyle: { backgroundColor: '#14798B' },
+          headerTintColor: 'white',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="alarm" size={size} color={color} />
+          ),
         }}
       />
     </Tabs>

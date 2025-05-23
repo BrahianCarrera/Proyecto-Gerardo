@@ -30,12 +30,10 @@ const Patients = () => {
   )
 
   return (
-    <ScrollView className="px-6">
+    <ScrollView className="px-6 my-8">
       <View className="space-y-4">
-        <Text className="text-lg font-bold">Pacientes</Text>
-
         <TextInput
-          className="border border-gray-300 rounded-md p-2"
+          className="border border-gray-300 rounded-md p-2 bg-white"
           placeholder="Buscar por nombre..."
           value={searchTerm}
           onChangeText={setSearchTerm}
@@ -57,7 +55,7 @@ const Patients = () => {
           onPress={() => {
             router.push('/patients/add-patient')
           }}
-          className="bg-blue-400  p-4 my-4 rounded-md "
+          className="bg-blue-400  p-4 my-4 rounded-md bg-primary "
         >
           <Text className="text-center text-white text-lg">
             Agregar Paciente

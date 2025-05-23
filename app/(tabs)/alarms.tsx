@@ -64,9 +64,11 @@ const AlarmMedicines = () => {
           onPress={() => {
             router.push('/alarms/add-alarm')
           }}
-          className="bg-blue-400 p-4 my-4 rounded-md"
+          className="bg-blue-400 p-4 my-4 rounded-md bg-primary"
         >
-          <Text className="text-center text-white text-lg">Agregar Alarma</Text>
+          <Text className="text-center text-white text-lg bg-primary">
+            Agregar Alarma
+          </Text>
         </Pressable>
       </View>
     </ScrollView>
