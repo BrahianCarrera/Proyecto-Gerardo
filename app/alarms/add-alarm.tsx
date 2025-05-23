@@ -7,6 +7,8 @@ import { ScrollView } from 'react-native'
 import TimerPicker from 'components/TimePicker'
 import CustomDayPicker from 'components/DayPicker'
 import { createAlarm } from 'services/alarmService'
+import { useRouter } from 'expo-router'
+import Toast from 'react-native-toast-message'
 
 const addAlarm = () => {
   const [patientId, SetPatientId] = useState('')
@@ -18,6 +20,7 @@ const addAlarm = () => {
   const [daysOfWeek, setDaysOfWeek] = useState<number[]>([])
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const router = useRouter()
 
   const handleSubmit = async () => {
     if (!patientId.trim())
@@ -42,6 +45,11 @@ const addAlarm = () => {
 
     try {
       await createAlarm(payload)
+      Toast.show({
+        type: 'success',
+        text1: 'Alarma creada correctamente',
+      })
+      router.replace('/(tabs)/alarms')
     } catch (error: any) {
       const errorMessage = error?.error || error?.message || 'Error desconocido'
       setError(errorMessage)
@@ -89,7 +97,7 @@ const addAlarm = () => {
             <TimerPicker time={time} setTime={setTime} />
           </View>
 
-          <View className="mb-4">
+          <View className="mb-4 wrap">
             <Text className="text-xl">Días de la semana</Text>
             <CustomDayPicker
               selectedDays={daysOfWeek}

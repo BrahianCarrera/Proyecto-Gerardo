@@ -5868,6 +5868,11 @@ react-native-timer-picker@^2.2.0:
   resolved "https://registry.yarnpkg.com/react-native-timer-picker/-/react-native-timer-picker-2.2.0.tgz#4a8b0656d3d8b8b951e1fa0e4ada31dcac4012ea"
   integrity sha512-TvWGXx+WCvx00sP5/WfUZnuUus7Jbsi585aT5PfwKEkWikKI/ntlYZFiZJBG8TPPaFXvwAU9EO5JdOimzhUHWQ==
 
+react-native-toast-message@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-toast-message/-/react-native-toast-message-2.3.0.tgz#c25fb40d7af4388f6a798efbfca479d53916ed00"
+  integrity sha512-d7LldTK1ei1Bl7RFhoOYw8hVQ4oKPQHORYI//xR9Pyz3HxSlFlvQbueE5X3KLoemRRgBrOUg3zY6DxXnxrVLRg==
+
 react-native-uuid@^2.0.1:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/react-native-uuid/-/react-native-uuid-2.0.3.tgz#f85f8a8d68e52e3f1c18ba0f02ec7776f9d4a0da"

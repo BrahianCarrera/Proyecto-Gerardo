@@ -1,19 +1,11 @@
-import { StyleSheet, Text, View } from 'react-native'
 import { Stack } from 'expo-router'
+import Toast from 'react-native-toast-message'
 
-const RootLayout = () => {
+export default function RootLayout() {
   return (
-    <Stack>
-      <Stack.Screen
-        name="(tabs)"
-        options={{
-          headerShown: false,
-        }}
-      />
-    </Stack>
+    <>
+      <Stack screenOptions={{ headerShown: false }} />
+      <Toast />
+    </>
   )
 }
-
-export default RootLayout
-
-const styles = StyleSheet.create({})

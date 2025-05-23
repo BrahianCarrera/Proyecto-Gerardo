@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import Card from 'components/Card'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import { useEffect, useState } from 'react'
-import { getMeals } from '../../services/mealService'
+import { getMeals } from '../../../services/mealService'
 import { ScrollView } from 'react-native'
 
 const foodTracking = () => {

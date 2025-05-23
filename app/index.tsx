@@ -12,7 +12,7 @@ const Index = () => {
 
       <Text
         className="mt-4 text-blue-600 underline"
-        onPress={() => router.push('/foodTracking')}
+        onPress={() => router.push('/(tabs)/foodtracking')}
       >
         Ir a Food Tracking
       </Text>
@@ -20,7 +20,7 @@ const Index = () => {
       {/* Nuevo enlace para la pantalla de alarmas */}
       <Text
         className="mt-4 text-blue-600 underline"
-        onPress={() => router.push('/alarms')}
+        onPress={() => router.push('/(tabs)/alarms')}
       >
         Configurar Alarmas
       </Text>

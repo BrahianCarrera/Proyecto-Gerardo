@@ -20,14 +20,14 @@ const CustomDayPicker: React.FC<Props> = ({
   }
 
   return (
-    <View className="flex-row justify-between items-center">
+    <View className="flex-row justify-center flex-wrap items-center my-2">
       {days.map((day, index) => {
         const isSelected = selectedDays.includes(index)
         return (
           <Pressable
             key={index}
             onPress={() => toggleDay(index)}
-            className={`w-10 h-10 rounded-full border items-center justify-center mx-1 ${
+            className={`w-7 h-7 rounded-full border items-center justify-center mx-1 ${
               isSelected
                 ? 'bg-primary border-primary'
                 : 'bg-white border-primary'

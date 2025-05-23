@@ -247,6 +247,11 @@ export default function PatientDetail() {
                 onValueChange={(itemValue) => setSelectedDiet(itemValue)}
                 dropdownIconColor="#4F46E5"
               >
+                <Picker.Item
+                  label="Selecciona un tipo..."
+                  value=""
+                  enabled={false}
+                />
                 {diets.map((diet) => (
                   <Picker.Item
                     key={diet.id}

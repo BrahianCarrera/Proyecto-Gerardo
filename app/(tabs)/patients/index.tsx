@@ -55,7 +55,7 @@ const Patients = () => {
       <View>
         <Pressable
           onPress={() => {
-            router.push('/add-patient')
+            router.push('/patients/add-patient')
           }}
           className="bg-blue-400  p-4 my-4 rounded-md "
         >
