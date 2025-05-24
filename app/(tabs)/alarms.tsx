@@ -30,12 +30,10 @@ const AlarmMedicines = () => {
   }, [searchTerm])
 
   return (
-    <ScrollView className="px-6">
+    <ScrollView className="px-6 pt-8">
       <View className="space-y-4">
-        <Text className="text-lg font-bold">Alarmas</Text>
-
         <TextInput
-          className="border border-gray-300 rounded-md p-2"
+          className="border border-gray-300 rounded-md p-2 bg-white"
           placeholder="Buscar por cédula..."
           value={searchTerm}
           onChangeText={setSearchTerm}

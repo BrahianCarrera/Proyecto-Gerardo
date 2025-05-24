@@ -8,9 +8,15 @@ export default function TabLayout() {
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: '#14798B',
+          headerShadowVisible: true,
           tabBarStyle: {
             paddingBottom: 10, // espacio adicional
             height: 60,
+          },
+          headerStyle: { backgroundColor: '#14798B' },
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontWeight: 'bold',
           },
         }}
       >
@@ -18,8 +24,6 @@ export default function TabLayout() {
           name="patients"
           options={{
             title: 'Pacientes',
-            headerStyle: { backgroundColor: '#14798B' },
-            headerTintColor: 'white',
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="people" size={size} color={color} />
             ),
@@ -30,8 +34,6 @@ export default function TabLayout() {
           options={{
             title: 'Comidas',
             headerTitle: 'Seguimiento de comidas',
-            headerStyle: { backgroundColor: '#14798B' },
-            headerTintColor: 'white',
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="restaurant-outline" size={size} color={color} />
             ),
@@ -41,9 +43,7 @@ export default function TabLayout() {
           name="alarms"
           options={{
             title: 'Alarmas',
-            headerTitle: 'Alarmas para pacientes',
-            headerStyle: { backgroundColor: '#14798B' },
-            headerTintColor: 'white',
+            headerTitle: 'Alarmas ',
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="alarm" size={size} color={color} />
             ),

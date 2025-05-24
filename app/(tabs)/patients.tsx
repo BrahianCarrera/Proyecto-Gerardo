@@ -31,7 +31,7 @@ const Patients = () => {
 
   return (
     <SafeAreaProvider>
-      <ScrollView className="px-6 my-8">
+      <ScrollView className="px-6 pt-8">
         <View className="space-y-4">
           <TextInput
             className="border border-gray-300 rounded-md p-2 bg-white"

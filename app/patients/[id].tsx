@@ -34,6 +34,7 @@ export default function PatientDetail() {
   const [selectedDiet, setSelectedDiet] = useState('')
 
   const [patient, setPatient] = useState({
+    id: '',
     name: '',
     age: '',
     diagnosis: '',
@@ -51,6 +52,7 @@ export default function PatientDetail() {
       getPatientById(id)
         .then((data) => {
           setPatient({
+            id: data.id || '',
             name: data.name || '',
             age: data.age?.toString() || '',
             diagnosis: data.medicalHistory || '',
@@ -160,64 +162,99 @@ export default function PatientDetail() {
           <Text className="text-xl font-bold text-center mb-6">
             Información General
           </Text>
-          <View className="flex-row justify-between">
-            <View className="w-1/2">
-              <Text className="text-base font-bold mb-2">Documento:</Text>
-              <Text className="text-base font-bold mb-2">Nombre:</Text>
-              <Text className="text-base font-bold mb-2">Edad:</Text>
-              <Text className="text-base font-bold mb-2">Diagnóstico:</Text>
-              <Text className="text-base font-bold mb-2">
-                Hábitos alimenticios:
-              </Text>
+
+          <View className="space-y-4">
+            <View className="flex-row">
+              <View className="w-2/5">
+                <Text className="text-base font-bold">Documento:</Text>
+              </View>
+              <View className="flex-1">
+                <Text className="text-base break-words">{patient.id}</Text>
+              </View>
             </View>
 
-            <View className="flex-1">
-              {isEditing ? (
-                <>
+            <View className="flex-row">
+              <View className="w-2/5">
+                <Text className="text-base font-bold">Nombre:</Text>
+              </View>
+              <View className="flex-1">
+                {isEditing ? (
                   <TextInput
-                    className="border p-2 mb-2"
+                    className="border border-primary p-2 bg-white rounded"
                     value={patient.name}
                     onChangeText={(text) =>
                       setPatient({ ...patient, name: text })
                     }
                   />
+                ) : (
+                  <Text className="text-base break-words">{patient.name}</Text>
+                )}
+              </View>
+            </View>
+
+            <View className="flex-row">
+              <View className="w-2/5">
+                <Text className="text-base font-bold">Edad:</Text>
+              </View>
+              <View className="flex-1">
+                {isEditing ? (
                   <TextInput
-                    className="border p-2 mb-2"
+                    className="border border-primary p-2 bg-white rounded"
                     value={patient.age}
                     onChangeText={(text) =>
                       setPatient({ ...patient, age: text })
                     }
                   />
+                ) : (
+                  <Text className="text-base">{patient.age} años</Text>
+                )}
+              </View>
+            </View>
+
+            <View className="flex-row">
+              <View className="w-2/5">
+                <Text className="text-base font-bold">Diagnóstico:</Text>
+              </View>
+              <View className="flex-1">
+                {isEditing ? (
                   <TextInput
-                    className="border p-2 mb-2"
+                    multiline
+                    numberOfLines={8}
+                    className=" bg-white rounded text-base border border-primary shadow-sm"
                     value={patient.diagnosis}
                     onChangeText={(text) =>
                       setPatient({ ...patient, diagnosis: text })
                     }
                   />
+                ) : (
+                  <Text className="text-base break-words">
+                    {patient.diagnosis}
+                  </Text>
+                )}
+              </View>
+            </View>
+
+            <View className="flex-row">
+              <View className="w-2/5">
+                <Text className="text-base font-bold">
+                  Hábitos alimenticios:
+                </Text>
+              </View>
+              <View className="flex-1">
+                {isEditing ? (
                   <TextInput
-                    className="border p-2 mb-2"
+                    className="border border-primary p-2 bg-white rounded"
                     value={patient.eatingHabits}
                     onChangeText={(text) =>
                       setPatient({ ...patient, eatingHabits: text })
                     }
                   />
-                </>
-              ) : (
-                <>
-                  <Text className="text-base mb-2 break-words">119307921</Text>
-                  <Text className="text-base mb-2 break-words">
-                    {patient.name}
-                  </Text>
-                  <Text className="text-base mb-2">{patient.age} años</Text>
-                  <Text className="text-base mb-2 break-words">
-                    {patient.diagnosis}
-                  </Text>
-                  <Text className="text-base mb-2 break-words">
+                ) : (
+                  <Text className="text-base break-words">
                     {patient.eatingHabits}
                   </Text>
-                </>
-              )}
+                )}
+              </View>
             </View>
           </View>
 
@@ -225,7 +262,7 @@ export default function PatientDetail() {
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={isEditing ? handleSave : () => setIsEditing(true)}
-              className="bg-blue-500 rounded-lg py-2 px-6"
+              className="bg-primary rounded-lg py-2 px-6"
             >
               <Text className="text-white font-bold text-base">
                 {isEditing ? 'Guardar' : 'Editar'}
@@ -274,7 +311,7 @@ export default function PatientDetail() {
                   ? handleDietAssign
                   : () => setIsAssigningDiet(true)
               }
-              className="bg-green-500 rounded-lg px-6 py-2 items-center justify-center w-32"
+              className="bg-primary rounded-lg px-6 py-2 items-center justify-center w-32"
             >
               <Text className="text-white font-bold text-base text-center">
                 {isAssigningDiet ? 'Guardar' : 'Asignar'}

@@ -59,7 +59,8 @@ const TimerPicker: React.FC<TimerPickerProps> = ({ time, setTime }) => {
             fontWeight: 'bold',
           },
           cancelButton: {
-            color: '#888888',
+            backgroundColor: '#e5e7eb',
+            color: 'black',
           },
         }}
       />
