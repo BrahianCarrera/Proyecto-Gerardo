@@ -34,7 +34,7 @@ const Patients = () => {
       <ScrollView className="px-6 pt-8">
         <View className="space-y-4">
           <TextInput
-            className="border border-gray-300 rounded-md p-2 bg-white"
+            className="border border-gray-300 rounded-md p-2 bg-white mb-4"
             placeholder="Buscar por nombre..."
             value={searchTerm}
             onChangeText={setSearchTerm}

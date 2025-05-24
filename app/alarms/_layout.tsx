@@ -15,7 +15,7 @@ export default function StackLayout() {
       }}
     >
       {/* Optionally configure static options outside the route.*/}
-      <Stack.Screen name="Agregar Alarma" options={{}} />
+      <Stack.Screen name="add-alarm" options={{}} />
     </Stack>
   )
 }

@@ -158,7 +158,7 @@ export default function PatientDetail() {
   return (
     <View className="flex-1 relative">
       <ScrollView className="p-6">
-        <View className="border border-gray-300 p-4 rounded-md shadow space-y-4 mb-2">
+        <View className="border border-gray-200 bg-white p-4 rounded-md shadow space-y-4 mb-2">
           <Text className="text-xl font-bold text-center mb-6">
             Información General
           </Text>
@@ -271,7 +271,7 @@ export default function PatientDetail() {
           </View>
         </View>
 
-        <View className="border border-gray-300 p-4 rounded-md shadow space-y-4">
+        <View className="border border-gray-300 bg-white p-4 rounded-md shadow space-y-4">
           <Text className="text-xl font-bold text-center mb-6">
             Dieta Asignadas
           </Text>
@@ -311,7 +311,7 @@ export default function PatientDetail() {
                   ? handleDietAssign
                   : () => setIsAssigningDiet(true)
               }
-              className="bg-primary rounded-lg px-6 py-2 items-center justify-center w-32"
+              className="bg-primary rounded-lg px-6 py-2 mx-4 items-center justify-center w-32"
             >
               <Text className="text-white font-bold text-base text-center">
                 {isAssigningDiet ? 'Guardar' : 'Asignar'}
@@ -320,7 +320,7 @@ export default function PatientDetail() {
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => setIsModalVisible(true)}
-              className="bg-red-500 rounded-lg px-6 py-2 items-center justify-center w-32"
+              className="bg-red-500 rounded-lg px-6 py-2 mx-4 items-center justify-center w-32"
             >
               <Text className="text-white font-bold text-base text-center">
                 Eliminar
