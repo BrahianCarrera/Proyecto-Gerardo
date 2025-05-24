@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { getAlarmsByPatient } from 'services/alarmService'
 import { ScrollView, TextInput, View, Text, Pressable } from 'react-native'
 import { useRouter } from 'expo-router'
-import PatientCard from 'components/PatientCard'
+import AlarmCard from 'components/AlarmCard'
 
 const AlarmMedicines = () => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -23,6 +23,7 @@ const AlarmMedicines = () => {
           .finally(() => setLoading(false))
       } else {
         setAlarms([])
+        console.log(alarms)
       }
     }, 500)
 
@@ -48,10 +49,15 @@ const AlarmMedicines = () => {
         {!loading &&
           alarms.map((alarm) => (
             <View key={alarm.id}>
-              <PatientCard
+              <AlarmCard
+                key={alarm.id}
                 name={alarm.patient.name}
-                subtext={alarm.type}
+                subtext={
+                  alarm.type.charAt(0).toUpperCase() +
+                  alarm.type.slice(1).toLowerCase()
+                }
                 detail={alarm.name}
+                days={alarm.daysOfWeek}
               />
             </View>
           ))}
