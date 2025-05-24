@@ -1,4 +1,4 @@
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import { useCallback, useEffect, useState } from 'react'
 import { getPatients } from 'services/patientService'
 import PatientCard from 'components/PatientCard'
@@ -30,39 +30,41 @@ const Patients = () => {
   )
 
   return (
-    <ScrollView className="px-6 my-8">
-      <View className="space-y-4">
-        <TextInput
-          className="border border-gray-300 rounded-md p-2 bg-white"
-          placeholder="Buscar por nombre..."
-          value={searchTerm}
-          onChangeText={setSearchTerm}
-        />
-
-        {filteredPatients.map((patient) => (
-          <PatientCard
-            key={patient.id}
-            name={patient.name}
-            subtext={patient.medicalHistory}
-            detail={patient.age + ' años'}
-            onPress={() => router.push(`/patients/${patient.id}`)}
+    <SafeAreaProvider>
+      <ScrollView className="px-6 my-8">
+        <View className="space-y-4">
+          <TextInput
+            className="border border-gray-300 rounded-md p-2 bg-white"
+            placeholder="Buscar por nombre..."
+            value={searchTerm}
+            onChangeText={setSearchTerm}
           />
-        ))}
-      </View>
 
-      <View>
-        <Pressable
-          onPress={() => {
-            router.push('/patients/add-patient')
-          }}
-          className="bg-blue-400  p-4 my-4 rounded-md bg-primary "
-        >
-          <Text className="text-center text-white text-lg">
-            Agregar Paciente
-          </Text>
-        </Pressable>
-      </View>
-    </ScrollView>
+          {filteredPatients.map((patient) => (
+            <PatientCard
+              key={patient.id}
+              name={patient.name}
+              subtext={patient.medicalHistory}
+              detail={patient.age + ' años'}
+              onPress={() => router.push(`/patients/${patient.id}`)}
+            />
+          ))}
+        </View>
+
+        <View>
+          <Pressable
+            onPress={() => {
+              router.push('/patients/add-patient')
+            }}
+            className="bg-blue-400  p-4 my-4 rounded-md bg-primary "
+          >
+            <Text className="text-center text-white text-lg">
+              Agregar Paciente
+            </Text>
+          </Pressable>
+        </View>
+      </ScrollView>
+    </SafeAreaProvider>
   )
 }
 
