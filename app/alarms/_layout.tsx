@@ -1,10 +1,14 @@
+import React from 'react'
 import { Stack } from 'expo-router'
 
-export default function StackLayout() {
+export default function AlarmStackLayout() {
   return (
     <Stack
       screenOptions={{
         headerTitle: 'Agregar Alarma',
+        animation: 'slide_from_bottom',
+        animationDuration: 400,
+        animationTypeForReplace: 'push',
         headerStyle: {
           backgroundColor: '#14798B',
         },
@@ -14,7 +18,6 @@ export default function StackLayout() {
         },
       }}
     >
-      {/* Optionally configure static options outside the route.*/}
       <Stack.Screen name="add-alarm" options={{}} />
     </Stack>
   )

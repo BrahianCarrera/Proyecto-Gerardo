@@ -61,7 +61,7 @@ const addAlarm = () => {
   return (
     <SafeAreaProvider>
       <ScrollView className="px-4 align-center">
-        <View className="border border-gray-300 p-5 rounded-md shadow py-4 bg-background">
+        <View className=" my-4 border border-gray-300 p-5 rounded-md shadow py-4 bg-background ">
           <Text className="text-center font-bold text-xl">Crear alarmas</Text>
           <Text className="text-lg">Número de cédula del paciente</Text>
           <TextInput
@@ -130,7 +130,7 @@ const addAlarm = () => {
           <Pressable
             onPress={handleSubmit}
             disabled={isSubmitting}
-            className={`  rounded-xl shadow-md active:opacity-80 ${
+            className={` my-4 p-4 rounded-xl shadow-md active:opacity-80 ${
               isSubmitting ? 'bg-gray-400' : 'bg-primary'
             }`}
           >

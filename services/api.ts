@@ -1,4 +1,4 @@
-const BASE_URL = 'http://192.168.0.18:4000'
+const BASE_URL = 'http://localhost:4000'
 
 export async function apiFetch(path: string, options: RequestInit = {}) {
   const response = await fetch(`${BASE_URL}${path}`, {
@@ -17,7 +17,6 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
   return response.json()
 }
 
-// Atajos si lo prefieres
 export const api = {
   get: (path: string) => apiFetch(path),
   post: (path: string, data: any) =>

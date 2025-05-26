@@ -27,7 +27,7 @@ const CustomDayPicker: React.FC<Props> = ({
           <Pressable
             key={index}
             onPress={() => toggleDay(index)}
-            className={`w-7 h-7 rounded-full border items-center justify-center mx-1 ${
+            className={`w-10 h-10 rounded-full border items-center justify-center mx-1 ${
               isSelected
                 ? 'bg-primary border-primary'
                 : 'bg-white border-primary'

@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { getAlarmsByPatient } from 'services/alarmService'
 import { ScrollView, TextInput, View, Text, Pressable } from 'react-native'
-import { useRouter } from 'expo-router'
+import { useFocusEffect, useRouter } from 'expo-router'
 import AlarmCard from 'components/AlarmCard'
+import React from 'react'
+import { debounce } from 'lodash'
 
 const AlarmMedicines = () => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -10,25 +12,35 @@ const AlarmMedicines = () => {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
-  useEffect(() => {
-    const delayDebounce = setTimeout(() => {
-      if (searchTerm.length >= 5) {
-        setLoading(true)
-        getAlarmsByPatient(searchTerm)
-          .then((res) => setAlarms(res))
-          .catch((err) => {
-            console.error('Error cargando alarmas', err)
-            setAlarms([])
-          })
-          .finally(() => setLoading(false))
-      } else {
-        setAlarms([])
-        console.log(alarms)
-      }
-    }, 500)
+  const fetchAlarms = useCallback(
+    debounce(async (term: string) => {
+      if (term.length < 5) return
 
-    return () => clearTimeout(delayDebounce)
-  }, [searchTerm])
+      setLoading(true)
+      try {
+        const data = await getAlarmsByPatient(term)
+        setAlarms(data)
+      } catch {
+        setAlarms([])
+      } finally {
+        setLoading(false)
+      }
+    }, 500),
+    [],
+  )
+
+  useEffect(() => {
+    fetchAlarms(searchTerm)
+    return () => fetchAlarms.cancel()
+  }, [searchTerm, fetchAlarms])
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (searchTerm.length >= 5) {
+        fetchAlarms(searchTerm)
+      }
+    }, [searchTerm, fetchAlarms]),
+  )
 
   return (
     <ScrollView className="px-6 pt-8">
@@ -58,6 +70,12 @@ const AlarmMedicines = () => {
                 }
                 detail={alarm.name}
                 days={alarm.daysOfWeek}
+                onPress={() =>
+                  router.push({
+                    pathname: `/alarms/${alarm.id}`,
+                    params: { alarmId: alarm.id },
+                  })
+                }
               />
             </View>
           ))}

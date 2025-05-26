@@ -17,7 +17,7 @@ const DAYS_MAP = [
   { id: 4, short: 'J', name: 'Jueves' },
   { id: 5, short: 'V', name: 'Viernes' },
   { id: 6, short: 'S', name: 'Sábado' },
-  { id: 7, short: 'D', name: 'Domingo' },
+  { id: 0, short: 'D', name: 'Domingo' },
 ]
 
 export default function AlarmCard({
