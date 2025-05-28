@@ -1,10 +1,11 @@
 import React from 'react'
 import { Stack } from 'expo-router'
 
-export default function PatientsStackLayout() {
+export default function DietsStackLayout() {
   return (
     <Stack
       screenOptions={{
+        headerTitle: 'Agregar Alarma',
         headerStyle: {
           backgroundColor: '#14798B',
         },
@@ -18,12 +19,12 @@ export default function PatientsStackLayout() {
       <Stack.Screen
         name="[id]"
         options={{
-          headerTitle: 'Editar usuario',
+          headerTitle: 'Editar Dieta ',
         }}
       />
 
       <Stack.Screen
-        name="add-patient"
+        name="add-Diet"
         options={{
           headerTitle: 'Ingresar Paciente',
         }}

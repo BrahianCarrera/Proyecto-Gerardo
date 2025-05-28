@@ -5,6 +5,7 @@ import PatientCard from 'components/PatientCard'
 import { ScrollView, TextInput, View, Text, Pressable } from 'react-native'
 import { useRouter } from 'expo-router'
 import { useFocusEffect } from '@react-navigation/native'
+import SafeAreaContainer from 'components/safeAreaContainer'
 
 const Patients = () => {
   const [patients, setPatients] = useState<any[]>([])
@@ -30,7 +31,7 @@ const Patients = () => {
   )
 
   return (
-    <SafeAreaProvider>
+    <SafeAreaContainer>
       <ScrollView className="px-6 pt-8">
         <View className="space-y-4">
           <TextInput
@@ -64,7 +65,7 @@ const Patients = () => {
           </Pressable>
         </View>
       </ScrollView>
-    </SafeAreaProvider>
+    </SafeAreaContainer>
   )
 }
 

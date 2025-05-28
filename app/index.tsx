@@ -24,6 +24,13 @@ const Index = () => {
       >
         Configurar Alarmas
       </Text>
+
+      <Text
+        className="mt-4 text-blue-600 underline"
+        onPress={() => router.push('/Login/login')}
+      >
+        Login
+      </Text>
     </View>
   )
 }

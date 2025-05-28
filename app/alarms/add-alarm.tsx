@@ -11,7 +11,7 @@ import { useRouter } from 'expo-router'
 import Toast from 'react-native-toast-message'
 
 const addAlarm = () => {
-  const [patientId, SetPatientId] = useState('')
+  const [patientId, setPatientId] = useState('')
   const [name, setName] = useState('')
   const [type, setType] = useState('')
   const [notes, setNotes] = useState('')
@@ -62,12 +62,11 @@ const addAlarm = () => {
     <SafeAreaProvider>
       <ScrollView className="px-4 align-center">
         <View className="border border-gray-300 p-5 rounded-md shadow py-4 bg-background">
-          <Text className="text-center font-bold text-xl">Crear alarmas</Text>
           <Text className="text-lg">Número de cédula del paciente</Text>
           <TextInput
             className=" p-2 mb-4 bg-white rounded border border-primary shadow-sm"
             value={patientId}
-            onChangeText={(value) => SetPatientId(value)}
+            onChangeText={(value) => setPatientId(value)}
           />
 
           <Text className="text-lg">Nombre de la alarma</Text>

@@ -5,6 +5,11 @@ interface PatientCardProps {
   subtext: string
   detail: string
   onPress?: () => void
+  flex?: string
+}
+
+export function cn(...classes: (string | undefined | null | false)[]) {
+  return classes.filter(Boolean).join(' ')
 }
 
 export default function PatientCard({
@@ -12,10 +17,15 @@ export default function PatientCard({
   subtext,
   detail,
   onPress,
+  flex = 'flex-row',
 }: PatientCardProps) {
   return (
     <Pressable onPress={onPress}>
-      <View className="flex-row justify-between items-center bg-white p-4 border border-gray-300 rounded-md mb-2">
+      <View
+        className={cn(
+          `${flex} justify-between items-center bg-white p-4 border border-gray-300 rounded-md mb-2`,
+        )}
+      >
         <View className="flex-1 mr-2">
           <Text className="text-base font-medium mb-1" numberOfLines={1}>
             {name}

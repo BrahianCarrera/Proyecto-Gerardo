@@ -1,3 +1,5 @@
+import { green } from 'react-native-reanimated/lib/typescript/Colors';
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     
@@ -10,7 +12,8 @@ module.exports = {
       extend: {
         colors: {
         primary: '#14798B',
-        background: '#F9FAFB'
+        background: '#F9FAFB',
+        secondary: "#D9D9D9"
       },
 
       },

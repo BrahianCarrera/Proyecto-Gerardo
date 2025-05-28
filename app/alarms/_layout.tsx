@@ -5,20 +5,28 @@ export default function AlarmStackLayout() {
   return (
     <Stack
       screenOptions={{
-        headerTitle: 'Agregar Alarma',
-        animation: 'slide_from_bottom',
-        animationDuration: 400,
-        animationTypeForReplace: 'push',
         headerStyle: {
           backgroundColor: '#14798B',
         },
         headerTintColor: '#fff',
+        headerTitleAlign: 'center',
         headerTitleStyle: {
           fontWeight: 'bold',
         },
       }}
     >
-      <Stack.Screen name="add-alarm" options={{}} />
+      <Stack.Screen
+        name="add-alarm"
+        options={{
+          headerTitle: 'Agregar Alarma',
+        }}
+      />
+      <Stack.Screen
+        name="[id]"
+        options={{
+          headerTitle: 'Editar Alarma',
+        }}
+      ></Stack.Screen>
     </Stack>
   )
 }
