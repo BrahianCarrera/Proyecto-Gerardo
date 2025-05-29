@@ -1,6 +1,7 @@
 import { Tabs } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { CookingPot } from 'lucide-react-native'
 
 export default function TabLayout() {
   return (
@@ -13,7 +14,7 @@ export default function TabLayout() {
 
           headerShown: false,
           tabBarStyle: {
-            paddingBottom: 10, // espacio adicional
+            paddingBottom: 10,
             height: 60,
           },
         }}
@@ -53,7 +54,7 @@ export default function TabLayout() {
             title: 'Dietas',
             headerTitle: 'Dietas ',
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="alarm" size={size} color={color} />
+              <CookingPot size={size} color={color} />
             ),
           }}
         />

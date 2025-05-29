@@ -7,8 +7,9 @@ import {
   Pressable,
   Alert,
 } from 'react-native'
-import { Eye, EyeOff, Smartphone } from 'lucide-react-native'
+import { Eye, EyeOff } from 'lucide-react-native'
 import { Checkbox } from 'react-native-paper'
+import { Link } from 'expo-router'
 
 export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false)
@@ -27,17 +28,17 @@ export default function LoginScreen() {
     <View className="flex-1 bg-gradient-to-br from-blue-50 to-indigo-100 justify-center items-center px-4">
       <View className="w-full max-w-sm bg-white rounded-2xl shadow-xl p-6 space-y-6">
         <View className="items-center space-y-2">
-          <View className="w-16 h-16 bg-blue-600 rounded-full justify-center items-center"></View>
-          <Text className="text-2xl font-bold text-gray-900">Welcome Back</Text>
-          <Text className="text-gray-600">Sign in to your account</Text>
+          <View className="w-16 h-16 bg-primary rounded-full justify-center items-center"></View>
+          <Text className="text-2xl font-bold text-gray-900">Bienvenido</Text>
+          <Text className="text-gray-600">Inicia Sesion</Text>
         </View>
 
         <View className="space-y-4">
           <View className="space-y-2">
-            <Text className="text-sm font-medium text-gray-700">Email</Text>
+            <Text className="text-sm font-medium text-gray-700">Correo</Text>
             <TextInput
               className="h-12 px-4 border border-gray-300 rounded-md text-base"
-              placeholder="Enter your email"
+              placeholder="Ingresa tu correo"
               keyboardType="email-address"
               value={email}
               onChangeText={setEmail}
@@ -45,11 +46,13 @@ export default function LoginScreen() {
           </View>
 
           <View className="space-y-2">
-            <Text className="text-sm font-medium text-gray-700">Password</Text>
+            <Text className="text-sm font-medium text-gray-700">
+              Contraseña
+            </Text>
             <View className="relative">
               <TextInput
                 className="h-12 px-4 pr-12 border border-gray-300 rounded-md text-base"
-                placeholder="Enter your password"
+                placeholder="Ingresa tu constraseña"
                 secureTextEntry={!showPassword}
                 value={password}
                 onChangeText={setPassword}
@@ -69,27 +72,33 @@ export default function LoginScreen() {
                 status={rememberMe ? 'checked' : 'unchecked'}
                 onPress={() => setRememberMe(!rememberMe)}
               />
-              <Text className="text-sm text-gray-600">Remember me</Text>
+              <Text className="text-sm text-gray-600">Recuerdame</Text>
             </View>
             <Pressable>
-              <Text className="text-sm text-blue-600 font-medium">
-                Forgot password?
+              <Text className="text-sm text-primary font-medium">
+                Recuperar contraseña
               </Text>
             </Pressable>
           </View>
 
           <Pressable
             onPress={handleSubmit}
-            className="bg-blue-600 rounded-md h-12 justify-center items-center"
+            className="bg-primary rounded-md h-12 justify-center items-center"
           >
-            <Text className="text-base font-medium text-white">Sign In</Text>
+            <Text className="text-base font-medium text-white">
+              Iniciar sesion
+            </Text>
           </Pressable>
         </View>
 
         <View className="items-center">
           <Text className="text-sm text-gray-600">
-            Don't have an account?{' '}
-            <Text className="text-blue-600 font-medium">Sign up</Text>
+            No tienes una cuenta?{' '}
+            <Link href={'./register'} asChild>
+              <Pressable>
+                <Text className="text-primary font-medium">Registrate</Text>
+              </Pressable>
+            </Link>
           </Text>
         </View>
       </View>

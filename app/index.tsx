@@ -6,9 +6,6 @@ const Index = () => {
   return (
     <View>
       <Text>Pantalla Principal</Text>
-      <View className="flex-1 items-center justify-center bg-blue-500">
-        <Text className="text-white text-lg">NativeWind funciona</Text>
-      </View>
 
       <Text
         className="mt-4 text-blue-600 underline"
@@ -17,7 +14,6 @@ const Index = () => {
         Ir a Food Tracking
       </Text>
 
-      {/* Nuevo enlace para la pantalla de alarmas */}
       <Text
         className="mt-4 text-blue-600 underline"
         onPress={() => router.push('/(tabs)/alarms')}
@@ -27,7 +23,7 @@ const Index = () => {
 
       <Text
         className="mt-4 text-blue-600 underline"
-        onPress={() => router.push('/Login/login')}
+        onPress={() => router.push('users/login')}
       >
         Login
       </Text>
