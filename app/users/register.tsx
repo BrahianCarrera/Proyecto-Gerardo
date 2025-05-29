@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import React, { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react-native'
-import DatePicker from 'react-native-date-picker'
+import DateTimePicker from '@react-native-community/datetimepicker'
 import { Picker } from '@react-native-picker/picker'
 import { registerUser } from 'services/userService'
 import Logo from '../../assets/logo.svg'
@@ -17,6 +17,7 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [submitError, setSubmitError] = useState('')
+  const [show, setShow] = useState(false)
 
   const [form, setForm] = useState({
     id: '',
@@ -160,10 +161,20 @@ export default function Register() {
             )}
           </Field>
 
-          <DatePicker
-            date={form.date}
-            onDateChange={(date) => handleChange('date', date)}
-          />
+          <Pressable onPress={() => setShow(true)}>
+            <Text>Seleccionar fecha</Text>
+          </Pressable>
+
+          {show && (
+            <DateTimePicker
+              value={form.date}
+              mode="date"
+              display="default"
+              onChange={(event, selectedDate) => {
+                handleChange('date', selectedDate || form.date)
+              }}
+            />
+          )}
           {errors.date && (
             <Text className="text-red-500 text-sm">{errors.name}</Text>
           )}
