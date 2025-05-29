@@ -17,6 +17,7 @@ export default function Register() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   const [form, setForm] = useState({
+    id: '',
     name: '',
     email: '',
     password: '',
@@ -36,7 +37,7 @@ export default function Register() {
 
   const handleSubmit = () => {
     const newErrors: { [key: string]: string } = {}
-
+    if (!form.id.trim()) newErrors.id = 'La cédula es obligatoria'
     if (!form.name.trim()) newErrors.name = 'El nombre es obligatorio.'
     if (!form.email.trim()) newErrors.email = 'El correo es obligatorio.'
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
@@ -78,6 +79,18 @@ export default function Register() {
         </View>
 
         <View className="space-y-4">
+          <Field label="Identificación">
+            <TextInput
+              className="h-12 px-4 border border-gray-300 rounded-md text-base"
+              placeholder="Ingresa tu cédula"
+              value={form.id}
+              onChangeText={(val) => handleChange('id', val)}
+            />
+            {errors.id && (
+              <Text className="text-red-500 text-sm">{errors.id}</Text>
+            )}
+          </Field>
+
           <Field label="Nombre">
             <TextInput
               className="h-12 px-4 border border-gray-300 rounded-md text-base"
@@ -193,15 +206,15 @@ export default function Register() {
           </View>
 
           <View className="space-y-2">
-            <Text className="text-sm font-medium text-gray-700">Peso</Text>
+            <Text className="text-sm font-medium text-gray-700">Estatura</Text>
             <View className="flex-row space-x-2">
               <Picker
                 selectedValue={form.heightInt}
                 onValueChange={(val) => handleChange('heightInt', val)}
                 className="w-2/3 bg-white h-12 px-4 pr-12 border border-gray-300 rounded-md text-base"
               >
-                {Array.from({ length: 100 }, (_, i) => (
-                  <Picker.Item key={i} label={`${i + 100}`} value={i + 100} />
+                {Array.from({ length: 140 }, (_, i) => (
+                  <Picker.Item key={i} label={`${i + 70}`} value={i + 70} />
                 ))}
               </Picker>
               <Picker

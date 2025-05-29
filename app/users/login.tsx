@@ -10,6 +10,7 @@ import {
 import { Eye, EyeOff } from 'lucide-react-native'
 import { Checkbox } from 'react-native-paper'
 import { Link } from 'expo-router'
+import { linkTo } from 'expo-router/build/global-state/routing'
 
 export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false)
@@ -30,7 +31,7 @@ export default function LoginScreen() {
         <View className="items-center space-y-2">
           <View className="w-16 h-16 bg-primary rounded-full justify-center items-center"></View>
           <Text className="text-2xl font-bold text-gray-900">Bienvenido</Text>
-          <Text className="text-gray-600">Inicia Sesion</Text>
+          <Text className="text-gray-600">Inicia Sesión</Text>
         </View>
 
         <View className="space-y-4">
@@ -86,7 +87,7 @@ export default function LoginScreen() {
             className="bg-primary rounded-md h-12 justify-center items-center"
           >
             <Text className="text-base font-medium text-white">
-              Iniciar sesion
+              Iniciar sesión
             </Text>
           </Pressable>
         </View>
