@@ -11,6 +11,7 @@ import { Eye, EyeOff } from 'lucide-react-native'
 import DatePicker from 'react-native-date-picker'
 import { Picker } from '@react-native-picker/picker'
 import { registerUser } from 'services/userService'
+import Svg from 'react-native-svg'
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false)
@@ -28,6 +29,7 @@ export default function Register() {
     weightDec: 0,
     heightInt: 170,
     heightDec: 0,
+    role: '',
   })
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
 
@@ -74,6 +76,7 @@ export default function Register() {
       <ScrollView className="w-full max-w-sm bg-white rounded-2xl shadow-xl p-6 my-6 space-y-6">
         <View className="items-center space-y-2">
           <View className="w-16 h-16 bg-primary rounded-full justify-center items-center" />
+          <Svg></Svg>
           <Text className="text-2xl font-bold text-gray-900">Registrate</Text>
           <Text className="text-gray-600">Crea una cuenta para continuar</Text>
         </View>
@@ -227,6 +230,23 @@ export default function Register() {
                 ))}
               </Picker>
             </View>
+          </View>
+
+          <View className="space-y-2">
+            <Text className="text-sm font-medium text-gray-700">Rol</Text>
+
+            <Picker
+              selectedValue={form.role}
+              onValueChange={(val) => handleChange('role', val)}
+              className="h-12 px-4 border border-gray-300 rounded-md text-base bg-white"
+            >
+              <Picker.Item label="Selecciona un rol" value="" enabled={false} />
+              <Picker.Item label="Paciente" value="PACIENTE" />
+              <Picker.Item label="Cuidador" value="CUIDADOR" />
+            </Picker>
+            {errors.gender && (
+              <Text className="text-red-500 text-sm">{errors.gender}</Text>
+            )}
           </View>
 
           <Pressable
