@@ -163,7 +163,7 @@ export default function PatientDetail() {
             Información General
           </Text>
 
-          <View className="space-y-4">
+          <View className="my-4">
             <View className="flex-row">
               <View className="w-2/5">
                 <Text className="text-base font-bold">Documento:</Text>

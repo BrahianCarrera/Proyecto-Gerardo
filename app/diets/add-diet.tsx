@@ -15,19 +15,20 @@ const AddDiet = () => {
           <TextInput
             className=" p-2 mb-4 bg-white rounded border border-primary shadow-sm"
             value={name}
+            keyboardType="numeric"
             onChangeText={(value) => setName(value)}
           />
-          <Text className="text-lg">Descripcion</Text>
+          <Text className="text-lg">Descripción</Text>
           <TextInput
             className=" p-2 mb-4 bg-white rounded border border-primary shadow-sm"
-            value={name}
-            onChangeText={(value) => setName(value)}
+            value={description}
+            onChangeText={(value) => setDescription(value)}
           />
           <Text className="text-lg">Notas</Text>
           <TextInput
             className=" p-2 mb-4 bg-white rounded border border-primary shadow-sm"
-            value={name}
-            onChangeText={(value) => setName(value)}
+            value={notes}
+            onChangeText={(value) => setNotes(value)}
           />
 
           <Pressable

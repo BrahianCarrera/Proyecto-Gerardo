@@ -10,7 +10,7 @@ import {
 import { Eye, EyeOff } from 'lucide-react-native'
 import { Checkbox } from 'react-native-paper'
 import { Link } from 'expo-router'
-import { linkTo } from 'expo-router/build/global-state/routing'
+import Logo from '../../assets/logo.svg'
 
 export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false)
@@ -27,15 +27,19 @@ export default function LoginScreen() {
 
   return (
     <View className="flex-1 bg-gradient-to-br from-blue-50 to-indigo-100 justify-center items-center px-4">
-      <View className="w-full max-w-sm bg-white rounded-2xl shadow-xl p-6 space-y-6">
-        <View className="items-center space-y-2">
-          <View className="w-16 h-16 bg-primary rounded-full justify-center items-center"></View>
-          <Text className="text-2xl font-bold text-gray-900">Bienvenido</Text>
-          <Text className="text-gray-600">Inicia Sesión</Text>
+      <View className="w-full max-w-sm bg-white rounded-2xl shadow-xl p-6 gap-y-6">
+        <View className="items-center">
+          <Logo width={200} height={200} />
+        </View>
+        <View className="items-center gap-y-2">
+          <Text className="text-2xl font-bold text-gray-900">
+            Bienvenido a Gerardo
+          </Text>
+          <Text className="text-gray-600">Iniciar Sesión</Text>
         </View>
 
-        <View className="space-y-4">
-          <View className="space-y-2">
+        <View className="gap-y-4">
+          <View className="gap-y-2">
             <Text className="text-sm font-medium text-gray-700">Correo</Text>
             <TextInput
               className="h-12 px-4 border border-gray-300 rounded-md text-base"
@@ -46,14 +50,14 @@ export default function LoginScreen() {
             />
           </View>
 
-          <View className="space-y-2">
+          <View className="gap-y-2">
             <Text className="text-sm font-medium text-gray-700">
               Contraseña
             </Text>
             <View className="relative">
               <TextInput
                 className="h-12 px-4 pr-12 border border-gray-300 rounded-md text-base"
-                placeholder="Ingresa tu constraseña"
+                placeholder="Ingresa tu contraseña"
                 secureTextEntry={!showPassword}
                 value={password}
                 onChangeText={setPassword}
@@ -96,9 +100,7 @@ export default function LoginScreen() {
           <Text className="text-sm text-gray-600">
             No tienes una cuenta?{' '}
             <Link href={'./register'} asChild>
-              <Pressable>
-                <Text className="text-primary font-medium">Registrate</Text>
-              </Pressable>
+              <Text className="text-primary font-medium">Registrate</Text>
             </Link>
           </Text>
         </View>

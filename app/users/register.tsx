@@ -11,11 +11,12 @@ import { Eye, EyeOff } from 'lucide-react-native'
 import DatePicker from 'react-native-date-picker'
 import { Picker } from '@react-native-picker/picker'
 import { registerUser } from 'services/userService'
-import Svg from 'react-native-svg'
+import Logo from '../../assets/logo.svg'
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 
   const [form, setForm] = useState({
     id: '',
@@ -37,8 +38,10 @@ export default function Register() {
     setForm((prev) => ({ ...prev, [field]: value }))
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const newErrors: { [key: string]: string } = {}
+    setSubmitError('') // limpia errores anteriores
+
     if (!form.id.trim()) newErrors.id = 'La cédula es obligatoria'
     if (!form.name.trim()) newErrors.name = 'El nombre es obligatorio.'
     if (!form.email.trim()) newErrors.email = 'El correo es obligatorio.'
@@ -55,33 +58,38 @@ export default function Register() {
       newErrors.confirmPassword = 'Las contraseñas no coinciden.'
 
     if (!form.gender) newErrors.gender = 'Selecciona un género.'
+    if (!form.role) newErrors.role = 'Selecciona un rol.'
 
     setErrors(newErrors)
 
     if (Object.keys(newErrors).length === 0) {
-      console.log('Formulario válido:', form)
-
-      handleRegister
+      try {
+        await handleRegister()
+      } catch (error: any) {
+        console.error('Error al registrar usuario:', error)
+        setSubmitError('Ocurrió un error al registrar. Inténtalo de nuevo.')
+      }
     }
   }
 
   const handleRegister = async () => {
     try {
       await registerUser(form)
-    } catch {}
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
     <View className="flex-1 bg-gradient-to-br from-blue-50 to-indigo-100 justify-center items-center px-4">
-      <ScrollView className="w-full max-w-sm bg-white rounded-2xl shadow-xl p-6 my-6 space-y-6">
-        <View className="items-center space-y-2">
-          <View className="w-16 h-16 bg-primary rounded-full justify-center items-center" />
-          <Svg></Svg>
+      <ScrollView className="w-full max-w-sm bg-white rounded-2xl shadow-xl p-6 my-6 gap-y-6">
+        <View className="items-center gap-y-2">
+          <Logo className=" w-24 h-24 justify-center items-center" />
           <Text className="text-2xl font-bold text-gray-900">Registrate</Text>
           <Text className="text-gray-600">Crea una cuenta para continuar</Text>
         </View>
 
-        <View className="space-y-4">
+        <View className="gap-y-4">
           <Field label="Identificación">
             <TextInput
               className="h-12 px-4 border border-gray-300 rounded-md text-base"
@@ -152,17 +160,15 @@ export default function Register() {
             )}
           </Field>
 
-          <Field label="Fecha de Nacimiento">
-            <DatePicker
-              date={form.date}
-              onDateChange={(date) => handleChange('date', date)}
-            />
-            {errors.date && (
-              <Text className="text-red-500 text-sm">{errors.name}</Text>
-            )}
-          </Field>
+          <DatePicker
+            date={form.date}
+            onDateChange={(date) => handleChange('date', date)}
+          />
+          {errors.date && (
+            <Text className="text-red-500 text-sm">{errors.name}</Text>
+          )}
 
-          <View className="space-y-2">
+          <View className="gap-y-2">
             <Text className="text-sm font-medium text-gray-700">Genero</Text>
 
             <Picker
@@ -183,7 +189,7 @@ export default function Register() {
             )}
           </View>
 
-          <View className="space-y-2">
+          <View className="gap-y-2">
             <Text className="text-sm font-medium text-gray-700">Peso</Text>
             <View className="flex-row space-x-2">
               <Picker
@@ -208,7 +214,7 @@ export default function Register() {
             </View>
           </View>
 
-          <View className="space-y-2">
+          <View className="gap-y-2">
             <Text className="text-sm font-medium text-gray-700">Estatura</Text>
             <View className="flex-row space-x-2">
               <Picker
@@ -232,7 +238,7 @@ export default function Register() {
             </View>
           </View>
 
-          <View className="space-y-2">
+          <View className="gap-y-2">
             <Text className="text-sm font-medium text-gray-700">Rol</Text>
 
             <Picker
@@ -257,6 +263,9 @@ export default function Register() {
               Crear cuenta
             </Text>
           </Pressable>
+          {submitError ? (
+            <Text className="text-red-500 text-center">{submitError}</Text>
+          ) : null}
         </View>
       </ScrollView>
     </View>
@@ -271,7 +280,7 @@ function Field({
   children: React.ReactNode
 }) {
   return (
-    <View className="space-y-2">
+    <View className="gap-y-2">
       <Text className="text-sm font-medium text-gray-700">{label}</Text>
       {children}
     </View>
