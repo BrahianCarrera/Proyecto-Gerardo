@@ -13,6 +13,9 @@ import { Picker } from '@react-native-picker/picker'
 import { registerUser } from 'services/userService'
 import Logo from '../../assets/logo.svg'
 import Toast from 'react-native-toast-message'
+import DateInput from 'components/Datepicker'
+import SafeAreaContainer from 'components/safeAreaContainer'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 // Types
 interface FormData {
@@ -179,11 +182,12 @@ const PasswordInput: React.FC<{
 }) => (
   <View className="relative">
     <TextInput
-      className="h-12 px-4 pr-12 border border-gray-300 rounded-md text-base"
+      className=" px-4 pr-12 border border-gray-300 rounded-md text-base"
       placeholder={placeholder}
       secureTextEntry={!show}
       value={value}
       onChangeText={onChangeText}
+      scrollEnabled={false}
     />
     <Pressable
       onPress={toggle}
@@ -193,77 +197,6 @@ const PasswordInput: React.FC<{
     </Pressable>
   </View>
 )
-
-const DateInput: React.FC<{
-  date: Date
-  onChange: (date: Date) => void
-}> = ({ date, onChange }) => {
-  const [show, setShow] = useState(false)
-
-  if (Platform.OS === 'web') {
-    return (
-      <View className="flex-col space-x-2">
-        <TextInput
-          className="flex-1 h-12 px-4 border border-gray-300 rounded-md text-base"
-          placeholder="Año"
-          keyboardType="numeric"
-          maxLength={4}
-          onChangeText={(year) => {
-            const newDate = new Date(date)
-            newDate.setFullYear(Number(year))
-            if (!isNaN(newDate.getTime())) onChange(newDate)
-          }}
-          value={date.getFullYear().toString()}
-        />
-        <TextInput
-          className="flex-1 h-12 px-4 border border-gray-300 rounded-md text-base"
-          placeholder="Mes"
-          keyboardType="numeric"
-          maxLength={2}
-          onChangeText={(month) => {
-            const newDate = new Date(date)
-            newDate.setMonth(Number(month) - 1)
-            if (!isNaN(newDate.getTime())) onChange(newDate)
-          }}
-          value={(date.getMonth() + 1).toString().padStart(2, '0')}
-        />
-        <TextInput
-          className="flex-1 h-12 px-4 border border-gray-300 rounded-md text-base"
-          placeholder="Día"
-          keyboardType="numeric"
-          maxLength={2}
-          onChangeText={(day) => {
-            const newDate = new Date(date)
-            newDate.setDate(Number(day))
-            if (!isNaN(newDate.getTime())) onChange(newDate)
-          }}
-          value={date.getDate().toString().padStart(2, '0')}
-        />
-      </View>
-    )
-  }
-
-  return (
-    <>
-      <Pressable onPress={() => setShow(true)}>
-        <Text className="text-base text-blue-600">
-          {date.toLocaleDateString()}
-        </Text>
-      </Pressable>
-      {show && (
-        <DateTimePicker
-          value={date}
-          mode="date"
-          display="default"
-          onChange={(event, selectedDate) => {
-            setShow(false)
-            if (selectedDate) onChange(selectedDate)
-          }}
-        />
-      )}
-    </>
-  )
-}
 
 const GenderPicker: React.FC<{
   value: string
@@ -315,7 +248,8 @@ const WeightPicker: React.FC<{
     <Picker
       selectedValue={weightInt}
       onValueChange={onWeightIntChange}
-      className="w-2/3 bg-white h-12 px-4 pr-12 border border-gray-300 rounded-md text-base"
+      style={{ width: '65%' }}
+      className=" bg-white h-12 px-4 pr-12 border border-gray-300 rounded-md text-base"
     >
       {Array.from({ length: 90 }, (_, i) => (
         <Picker.Item key={i} label={`${i + 40}`} value={i + 40} />
@@ -324,7 +258,8 @@ const WeightPicker: React.FC<{
     <Picker
       selectedValue={weightDec}
       onValueChange={onWeightDecChange}
-      className="w-1/3 bg-white border border-gray-300 rounded-md text-base"
+      style={{ width: '35%' }}
+      className=" bg-white border border-gray-300 rounded-md text-base"
     >
       {Array.from({ length: 10 }, (_, i) => (
         <Picker.Item key={i} label={`.${i}`} value={i} />
@@ -339,11 +274,12 @@ const HeightPicker: React.FC<{
   onHeightIntChange: (value: number) => void
   onHeightDecChange: (value: number) => void
 }> = ({ heightInt, heightDec, onHeightIntChange, onHeightDecChange }) => (
-  <View className="flex-row space-x-2">
+  <View className="flex-row">
     <Picker
       selectedValue={heightInt}
       onValueChange={onHeightIntChange}
-      className="w-2/3 bg-white h-12 px-4 pr-12 border border-gray-300 rounded-md text-base"
+      style={{ width: '65%' }}
+      className="bg-white border border-gray-300 rounded-md text-base"
     >
       {Array.from({ length: 140 }, (_, i) => (
         <Picker.Item key={i} label={`${i + 70}`} value={i + 70} />
@@ -352,7 +288,8 @@ const HeightPicker: React.FC<{
     <Picker
       selectedValue={heightDec}
       onValueChange={onHeightDecChange}
-      className="w-1/3 bg-white border border-gray-300 rounded-md"
+      style={{ width: '35%' }}
+      className="bg-white border border-gray-300 rounded-md"
     >
       {Array.from({ length: 10 }, (_, i) => (
         <Picker.Item key={i} label={`.${i}`} value={i} />
@@ -361,7 +298,7 @@ const HeightPicker: React.FC<{
   </View>
 )
 
-// Main component
+// Main component</GestureHandlerRootView>
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -409,123 +346,139 @@ export default function Register() {
     }
   }
   return (
-    <View className="flex-1 bg-gradient-to-br from-blue-50 to-indigo-100 justify-center items-center px-4">
-      <ScrollView className="w-full max-w-sm bg-white rounded-2xl shadow-xl p-6 my-6 gap-y-6">
-        {/* Header */}
-        <View className="items-center gap-y-2">
-          <Logo className="w-24 h-24 justify-center items-center" />
-          <Text className="text-2xl font-bold text-gray-900">Registrate</Text>
-          <Text className="text-gray-600">Crea una cuenta para continuar</Text>
-        </View>
-
-        {/* Form */}
-        <View className="gap-y-4">
-          <Field label="Identificación">
-            <TextInput
-              className="h-12 px-4 border border-gray-300 rounded-md text-base"
-              placeholder="Ingresa tu cédula"
-              value={form.id}
-              onChangeText={(val) => updateForm('id', val)}
-            />
-            <ErrorText error={errors.id} />
-          </Field>
-
-          <Field label="Nombre">
-            <TextInput
-              className="h-12 px-4 border border-gray-300 rounded-md text-base"
-              placeholder="Ingresa tu nombre"
-              value={form.name}
-              onChangeText={(val) => updateForm('name', val)}
-            />
-            <ErrorText error={errors.name} />
-          </Field>
-
-          <Field label="Correo">
-            <TextInput
-              className="h-12 px-4 border border-gray-300 rounded-md text-base"
-              placeholder="Ingresa tu Email"
-              keyboardType="email-address"
-              value={form.email}
-              onChangeText={(val) => updateForm('email', val)}
-            />
-            <ErrorText error={errors.email} />
-          </Field>
-
-          <Field label="Contraseña">
-            <PasswordInput
-              value={form.password}
-              onChangeText={(val) => updateForm('password', val)}
-              show={showPassword}
-              toggle={() => setShowPassword(!showPassword)}
-            />
-            <ErrorText error={errors.password} />
-          </Field>
-
-          <Field label="Confirmar Contraseña">
-            <PasswordInput
-              value={form.confirmPassword}
-              onChangeText={(val) => updateForm('confirmPassword', val)}
-              show={showConfirmPassword}
-              toggle={() => setShowConfirmPassword(!showConfirmPassword)}
-              placeholder="Confirma tu contraseña"
-            />
-            <ErrorText error={errors.confirmPassword} />
-          </Field>
-
-          <Field label="Fecha de nacimiento">
-            <DateInput
-              date={form.date}
-              onChange={(date) => updateForm('date', date)}
-            />
-            <ErrorText error={errors.date} />
-          </Field>
-
-          <Field label="Género">
-            <GenderPicker
-              value={form.gender}
-              onValueChange={(val) => updateForm('gender', val)}
-            />
-            <ErrorText error={errors.gender} />
-          </Field>
-
-          <Field label="Peso">
-            <WeightPicker
-              weightInt={form.weightInt}
-              weightDec={form.weightDec}
-              onWeightIntChange={(val) => updateForm('weightInt', val)}
-              onWeightDecChange={(val) => updateForm('weightDec', val)}
-            />
-          </Field>
-
-          <Field label="Estatura">
-            <HeightPicker
-              heightInt={form.heightInt}
-              heightDec={form.heightDec}
-              onHeightIntChange={(val) => updateForm('heightInt', val)}
-              onHeightDecChange={(val) => updateForm('heightDec', val)}
-            />
-          </Field>
-
-          <Field label="Rol">
-            <RolePicker
-              value={form.role}
-              onValueChange={(val) => updateForm('role', val)}
-            />
-            <ErrorText error={errors.role} />
-          </Field>
-
-          <Pressable
-            onPress={handleSubmit}
-            className="bg-primary rounded-md h-12 justify-center items-center"
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaContainer>
+        <View className="flex-1 bg-gradient-to-br from-blue-50 to-indigo-100 justify-center items-center px-4">
+          <ScrollView
+            className="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 my-6 gap-y-6"
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="on-drag"
+            nestedScrollEnabled={true}
           >
-            <Text className="text-base font-medium text-white">
-              Crear cuenta
-            </Text>
-          </Pressable>
+            {/* Header */}
+            <View className="items-center gap-y-4">
+              <Logo width={120} height={120} />
+              <Text className="text-2xl font-bold text-gray-900">
+                Registrate
+              </Text>
+              <Text className="text-gray-600">
+                Crea una cuenta para continuar
+              </Text>
+            </View>
 
-          <ErrorText error={submitError} />
+            {/* Form */}
+            <View className="mt-4 gap-y-6 ">
+              <Field label="Identificación">
+                <TextInput
+                  className=" px-4 border border-gray-300 rounded-md text-base"
+                  placeholder="Ingresa tu cédula"
+                  value={form.id}
+                  scrollEnabled={false}
+                  onChangeText={(val) => updateForm('id', val)}
+                />
+                <ErrorText error={errors.id} />
+              </Field>
+
+              <Field label="Nombre">
+                <TextInput
+                  className=" px-4 border border-gray-300 rounded-md text-base"
+                  placeholder="Ingresa tu nombre"
+                  value={form.name}
+                  scrollEnabled={false}
+                  onChangeText={(val) => updateForm('name', val)}
+                />
+                <ErrorText error={errors.name} />
+              </Field>
+
+              <Field label="Correo">
+                <TextInput
+                  className=" px-4 border border-gray-300 rounded-md text-base"
+                  placeholder="Ingresa tu Email"
+                  keyboardType="email-address"
+                  scrollEnabled={false}
+                  value={form.email}
+                  onChangeText={(val) => updateForm('email', val)}
+                />
+                <ErrorText error={errors.email} />
+              </Field>
+
+              <Field label="Contraseña">
+                <PasswordInput
+                  value={form.password}
+                  onChangeText={(val) => updateForm('password', val)}
+                  show={showPassword}
+                  toggle={() => setShowPassword(!showPassword)}
+                />
+                <ErrorText error={errors.password} />
+              </Field>
+
+              <Field label="Confirmar Contraseña">
+                <PasswordInput
+                  value={form.confirmPassword}
+                  onChangeText={(val) => updateForm('confirmPassword', val)}
+                  show={showConfirmPassword}
+                  toggle={() => setShowConfirmPassword(!showConfirmPassword)}
+                  placeholder="Confirma tu contraseña"
+                />
+                <ErrorText error={errors.confirmPassword} />
+              </Field>
+
+              <Field label="Fecha de nacimiento">
+                <DateInput
+                  date={form.date}
+                  onChange={(date) => updateForm('date', date)}
+                />
+                <ErrorText error={errors.date} />
+              </Field>
+
+              <Field label="Género">
+                <GenderPicker
+                  value={form.gender}
+                  onValueChange={(val) => updateForm('gender', val)}
+                />
+                <ErrorText error={errors.gender} />
+              </Field>
+
+              <Field label="Peso">
+                <WeightPicker
+                  weightInt={form.weightInt}
+                  weightDec={form.weightDec}
+                  onWeightIntChange={(val) => updateForm('weightInt', val)}
+                  onWeightDecChange={(val) => updateForm('weightDec', val)}
+                />
+              </Field>
+
+              <Field label="Estatura">
+                <HeightPicker
+                  heightInt={form.heightInt}
+                  heightDec={form.heightDec}
+                  onHeightIntChange={(val) => updateForm('heightInt', val)}
+                  onHeightDecChange={(val) => updateForm('heightDec', val)}
+                />
+              </Field>
+
+              <Field label="Rol">
+                <RolePicker
+                  value={form.role}
+                  onValueChange={(val) => updateForm('role', val)}
+                />
+                <ErrorText error={errors.role} />
+              </Field>
+
+              <Pressable
+                onPress={handleSubmit}
+                className="bg-primary rounded-md h-12 mb-10 justify-center items-center"
+              >
+                <Text className="text-base font-medium text-white">
+                  Crear cuenta
+                </Text>
+              </Pressable>
+
+              <ErrorText error={submitError} />
+            </View>
+          </ScrollView>
         </View>
-      </ScrollView>
-    </View>
+      </SafeAreaContainer>
+    </GestureHandlerRootView>
   )
 }
