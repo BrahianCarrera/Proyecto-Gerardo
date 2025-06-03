@@ -17,16 +17,16 @@ export default function DietsStackLayout() {
       }}
     >
       <Stack.Screen
-        name="[id]"
+        name="associateMeals"
         options={{
           headerTitle: 'Editar Dieta ',
         }}
       />
 
       <Stack.Screen
-        name="add-Diet"
+        name="add-diet"
         options={{
-          headerTitle: 'Ingresar Paciente',
+          headerTitle: 'Añadir Dieta',
         }}
       />
     </Stack>

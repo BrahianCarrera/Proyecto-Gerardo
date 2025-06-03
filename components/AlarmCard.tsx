@@ -1,3 +1,4 @@
+import { AlarmClock } from 'lucide-react-native'
 import { View, Text, Pressable } from 'react-native'
 
 interface alarmCardProps {

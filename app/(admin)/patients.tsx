@@ -20,8 +20,10 @@ const Patients = () => {
       .finally(() => setLoading(false))
   }, [])
 
-  const filteredPatients = patients.filter((patient) =>
-    patient.name.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredPatients = patients.filter(
+    (patient) =>
+      patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      patient.id.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
   useFocusEffect(
@@ -36,7 +38,7 @@ const Patients = () => {
         <View className="space-y-4">
           <TextInput
             className="border border-gray-300 rounded-md p-2 bg-white mb-4"
-            placeholder="Buscar por nombre..."
+            placeholder="Buscar por nombre o cédula..."
             value={searchTerm}
             onChangeText={setSearchTerm}
           />
@@ -50,19 +52,6 @@ const Patients = () => {
               onPress={() => router.push(`/patients/${patient.id}`)}
             />
           ))}
-        </View>
-
-        <View>
-          <Pressable
-            onPress={() => {
-              router.push('/patients/add-patient')
-            }}
-            className="bg-blue-400  p-4 my-4 rounded-md bg-primary "
-          >
-            <Text className="text-center text-white text-lg">
-              Agregar Paciente
-            </Text>
-          </Pressable>
         </View>
       </ScrollView>
     </SafeAreaContainer>

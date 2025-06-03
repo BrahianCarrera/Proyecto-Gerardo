@@ -8,3 +8,7 @@ export async function getDiets() {
   return await api.get("/diets")
   
 }
+
+export async function createDiet(payload: { name: string; description: string; notes: string }){
+  return await api.post("/diets", payload )
+}

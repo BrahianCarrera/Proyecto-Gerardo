@@ -47,7 +47,7 @@ const Diets = () => {
       <ScrollView className="px-6 pt-8">
         <View className="space-y-4">
           <TextInput
-            className="border border-gray-300 rounded-md p-2 mb-4 bg-white"
+            className="border border-gray-300 rounded-md p-2 mb-2 bg-white"
             placeholder="Buscar Dieta"
             value={searchTerm}
             onChangeText={setSearchTerm}
@@ -63,7 +63,7 @@ const Diets = () => {
             filteredDiets.map((diet) => (
               <View key={diet.id}>
                 <Pressable>
-                  <View className="justify-between items-center bg-white p-4 border border-gray-300 rounded-md mb-2">
+                  <View className="justify-between items-center bg-white p-4 border border-gray-300 rounded-md ">
                     <View className="flex-1 mr-2">
                       <Text
                         className="text-base font-medium mb-1"

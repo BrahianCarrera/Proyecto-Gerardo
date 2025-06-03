@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { CookingPot } from 'lucide-react-native'
 
-export default function TabLayout() {
+export default function AdminLayout() {
   return (
     <SafeAreaProvider>
       <Tabs

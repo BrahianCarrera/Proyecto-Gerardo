@@ -298,8 +298,7 @@ const HeightPicker: React.FC<{
   </View>
 )
 
-// Main component</GestureHandlerRootView>
-export default function Register() {
+const Register = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [submitError, setSubmitError] = useState('')
@@ -348,7 +347,7 @@ export default function Register() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaContainer>
-        <View className="flex-1 bg-gradient-to-br from-blue-50 to-indigo-100 justify-center items-center px-4">
+        <View className="flex-1 bg-primary justify-center items-center px-4">
           <ScrollView
             className="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 my-6 gap-y-6"
             keyboardShouldPersistTaps="handled"
@@ -458,11 +457,13 @@ export default function Register() {
               </Field>
 
               <Field label="Rol">
-                <RolePicker
-                  value={form.role}
-                  onValueChange={(val) => updateForm('role', val)}
-                />
-                <ErrorText error={errors.role} />
+                <View className="border border-red">
+                  <RolePicker
+                    value={form.role}
+                    onValueChange={(val) => updateForm('role', val)}
+                  />
+                  <ErrorText error={errors.role} />
+                </View>
               </Field>
 
               <Pressable
@@ -482,3 +483,4 @@ export default function Register() {
     </GestureHandlerRootView>
   )
 }
+export default Register
