@@ -14,6 +14,9 @@ import {
   updatePatient,
   assignDietToPatientData,
 } from 'services/patientService'
+import * as Clipboard from 'expo-clipboard'
+import { ClipboardCopy } from 'lucide-react-native'
+import { Alert } from 'react-native'
 
 import { getDiets } from 'services/dietService'
 
@@ -147,6 +150,11 @@ export default function PatientDetail() {
     }
   }
 
+  const copyToClipboard = async (text: string) => {
+    await Clipboard.setStringAsync(text)
+    Alert.alert('Copiado', 'Documento copiado al portapapeles')
+  }
+
   if (loading) {
     return (
       <View className="flex-1 justify-center items-center">
@@ -158,26 +166,32 @@ export default function PatientDetail() {
   return (
     <View className="flex-1 relative">
       <ScrollView className="p-6">
-        <View className="border border-gray-200 bg-white p-4 rounded-md shadow space-y-4 mb-2">
+        <View className="border border-gray-200 bg-white p-4 rounded-md shadow  mb-2">
           <Text className="text-xl font-bold text-center mb-6">
             Información General
           </Text>
 
-          <View className="my-4">
-            <View className="flex-row">
+          <View className="">
+            <View className="flex-row items-center">
               <View className="w-2/5">
                 <Text className="text-base font-bold">Documento:</Text>
               </View>
-              <View className="flex-1">
+              <View className="flex-row items-center flex-1 gap-x-2">
                 <Text className="text-base break-words">{patient.id}</Text>
+                <TouchableOpacity
+                  onPress={() => copyToClipboard(patient.id)}
+                  className="p-1"
+                >
+                  <ClipboardCopy size={18} color="#4F46E5" />
+                </TouchableOpacity>
               </View>
             </View>
 
-            <View className="flex-row">
+            <View className="flex-row my-4">
               <View className="w-2/5">
                 <Text className="text-base font-bold">Nombre:</Text>
               </View>
-              <View className="flex-1">
+              <View className="flex-1 ">
                 {isEditing ? (
                   <TextInput
                     className="border border-primary p-2 bg-white rounded"
@@ -192,14 +206,14 @@ export default function PatientDetail() {
               </View>
             </View>
 
-            <View className="flex-row">
+            <View className="flex-row my-4">
               <View className="w-2/5">
                 <Text className="text-base font-bold">Edad:</Text>
               </View>
               <View className="flex-1">
                 {isEditing ? (
                   <TextInput
-                    className="border border-primary p-2 bg-white rounded"
+                    className="border border-primary p-2 my.2bg-white rounded"
                     value={patient.age}
                     onChangeText={(text) =>
                       setPatient({ ...patient, age: text })
@@ -211,7 +225,7 @@ export default function PatientDetail() {
               </View>
             </View>
 
-            <View className="flex-row">
+            <View className="flex-row my-4">
               <View className="w-2/5">
                 <Text className="text-base font-bold">Diagnóstico:</Text>
               </View>
@@ -234,7 +248,7 @@ export default function PatientDetail() {
               </View>
             </View>
 
-            <View className="flex-row">
+            <View className="flex-row my-4">
               <View className="w-2/5">
                 <Text className="text-base font-bold">
                   Hábitos alimenticios:
@@ -245,6 +259,7 @@ export default function PatientDetail() {
                   <TextInput
                     className="border border-primary p-2 bg-white rounded"
                     value={patient.eatingHabits}
+                    multiline
                     onChangeText={(text) =>
                       setPatient({ ...patient, eatingHabits: text })
                     }
@@ -271,7 +286,7 @@ export default function PatientDetail() {
           </View>
         </View>
 
-        <View className="border border-gray-300 bg-white p-4 rounded-md shadow space-y-4">
+        <View className="border border-gray-300 bg-white p-4 rounded-md shadow gap-y-4">
           <Text className="text-xl font-bold text-center mb-6">
             Dieta Asignadas
           </Text>
@@ -303,7 +318,7 @@ export default function PatientDetail() {
           )}
 
           <Text className="text-base font-bold mb-2">{patient.diet.name}</Text>
-          <View className="flex-row space-x-4 justify-center">
+          <View className="flex-row gap-x-4 justify-center">
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={

@@ -34,7 +34,7 @@ const TimerPicker: React.FC<TimerPickerProps> = ({ time, setTime }) => {
     <View>
       <Pressable onPress={() => setShowPicker(true)}>
         <TextInput
-          className="border p-2 mb-2 bg-white text-base rounded border border-primary shadow-sm"
+          className="border p-2 mb-2 bg-white text-base rounded border border-gray-300 shadow-sm"
           placeholder="Asignar hora a la alarma"
           value={time || '00:00'}
           editable={false}

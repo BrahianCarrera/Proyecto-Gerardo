@@ -63,7 +63,7 @@ const Diets = () => {
             filteredDiets.map((diet) => (
               <View key={diet.id}>
                 <Pressable>
-                  <View className="justify-between items-center bg-white p-4 border border-gray-300 rounded-md ">
+                  <View className="justify-between items-center bg-white p-4  my-2 border border-gray-300 rounded-md ">
                     <View className="flex-1 mr-2">
                       <Text
                         className="text-base font-medium mb-1"

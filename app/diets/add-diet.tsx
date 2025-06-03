@@ -47,13 +47,13 @@ const AddDiet = () => {
           <TextInput
             className="p-2 mb-4 bg-white rounded border border-primary shadow-sm"
             value={name}
-            keyboardType="numeric"
             onChangeText={setName}
           />
           <Text className="text-lg">Descripción</Text>
           <TextInput
             className="p-2 mb-4 bg-white rounded border border-primary shadow-sm"
             value={description}
+            multiline
             onChangeText={setDescription}
           />
           <Text className="text-lg">Notas</Text>
