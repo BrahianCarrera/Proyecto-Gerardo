@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons'
 import { Tabs } from 'expo-router'
-import { Pill } from 'lucide-react-native'
+import { CircleUserRound, Pill } from 'lucide-react-native'
 
 export default function UserTabsLayout() {
   return (
@@ -31,6 +31,15 @@ export default function UserTabsLayout() {
         options={{
           title: 'Medicamentos',
           tabBarIcon: ({ color, size }) => <Pill size={size} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="userProfile"
+        options={{
+          title: 'Perfil',
+          tabBarIcon: ({ color, size }) => (
+            <CircleUserRound size={size} color={color} />
+          ),
         }}
       />
       <Tabs.Screen

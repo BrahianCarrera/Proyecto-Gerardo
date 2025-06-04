@@ -15,7 +15,7 @@ import { getMeals } from '../../services/mealService'
 import { Divider } from 'react-native-paper'
 import FilterChips from 'components/FilterChips'
 
-//import { assignMealToDiet } from '../../services/dietService'
+import { assignMealsToDiet } from '../../services/dietService'
 
 export default function AssignMealsToDiet() {
   const [meals, setMeals] = useState<any[]>([])
@@ -42,7 +42,6 @@ export default function AssignMealsToDiet() {
     return typeMatch && groupMatch && sizeMatch
   })
 
-  // Alterna si el valor está activo o no
   const toggleFilter = (value: string, current: string, setter: Function) => {
     if (value === current) setter('')
     else setter(value)
@@ -77,7 +76,6 @@ export default function AssignMealsToDiet() {
     fetchMeals()
   }, [])
 
-  /*
   const handleSubmit = async () => {
     if (selectedMeals.length === 0) {
       Alert.alert('Selecciona al menos una comida.')
@@ -85,10 +83,15 @@ export default function AssignMealsToDiet() {
     }
 
     setSubmitting(true)
+
+    const payload = {
+      dietId: dietId!,
+      mealIds: selectedMeals,
+    }
+
     try {
-      await Promise.all(
-        selectedMeals.map((mealId) => assignMealToDiet({ dietId, mealId })),
-      )
+      await assignMealsToDiet(payload)
+
       Alert.alert('Éxito', 'Comidas asignadas correctamente.')
       router.back()
     } catch (err) {
@@ -98,7 +101,7 @@ export default function AssignMealsToDiet() {
       setSubmitting(false)
     }
   }
-*/
+
   if (loading) {
     return (
       <SafeAreaContainer>
@@ -190,7 +193,7 @@ export default function AssignMealsToDiet() {
         ))}
 
         <Pressable
-          //onPress={handleSubmit} // asegúrate de descomentarlo en tu código
+          onPress={handleSubmit}
           className="bg-primary p-4 rounded-xl mt-4 mb-10"
           disabled={submitting || selectedMeals.length === 0}
         >

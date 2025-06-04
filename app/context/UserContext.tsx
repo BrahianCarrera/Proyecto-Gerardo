@@ -7,6 +7,7 @@ type User = {
   name: string
   role: 'admin' | 'user'
   dietId: string
+  image: null
 }
 
 type UserContextType = {
@@ -27,6 +28,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     name: 'Usuario de prueba',
     role: 'user',
     dietId: 'cmb5lnpne0000vphcku4bn86a',
+    image: null,
   })
 
   const logout = () => setUser(null)

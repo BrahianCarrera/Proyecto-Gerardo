@@ -12,3 +12,8 @@ export async function getDiets() {
 export async function createDiet(payload: { name: string; description: string; notes: string }){
   return await api.post("/diets", payload )
 }
+
+export async function assignMealsToDiet(payload: {dietId: string, mealIds : String[]} ){
+  console.log(payload)
+  return await api.put("/meals/assign" , payload)
+}
