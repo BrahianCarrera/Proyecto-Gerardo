@@ -92,8 +92,8 @@ export default ProfileImagePicker
 
 const styles = StyleSheet.create({
   avatar: {
-    width: 140,
-    height: 140,
+    width: 160,
+    height: 160,
     borderRadius: 70,
     borderWidth: 0,
     borderColor: '#ccc',

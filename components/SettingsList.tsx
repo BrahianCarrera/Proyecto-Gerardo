@@ -1,7 +1,8 @@
 // components/SettingsList.tsx
-import { ChevronRight } from 'lucide-react-native'
 import { FC } from 'react'
+import { View, Text, Pressable } from 'react-native'
 import { Divider } from 'react-native-paper'
+import { ChevronRight } from 'lucide-react-native'
 
 interface SettingItemProps {
   icon: React.ReactNode
@@ -10,49 +11,47 @@ interface SettingItemProps {
   onClick?: () => void
 }
 
+interface SettingsListProps {
+  items: SettingItemProps[]
+}
+
 const SettingItem: FC<SettingItemProps> = ({
   icon,
   title,
   subtitle,
   onClick,
 }) => (
-  <div
-    className="flex items-center justify-between py-4 px-5 hover:bg-gray-50 transition rounded-xl cursor-pointer"
-    onClick={onClick}
+  <Pressable
+    className="flex-row justify-between items-center py-4 px-2 rounded-xl"
+    onPress={onClick}
   >
-    <div className="flex items-center gap-4">
-      <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+    <View className="flex-row gap-4 items-center flex-1">
+      <View className="w-14 h-14 bg-gray-100 rounded-full items-center justify-center">
         {icon}
-      </div>
-      <div>
-        <p className="text-sm font-semibold">{title}</p>
-        {subtitle && <p className="text-xs text-gray-500">{subtitle}</p>}
-      </div>
-    </div>
-    <ChevronRight className="w-4 h-4 text-gray-400" />
-  </div>
+      </View>
+      <View className="flex-1">
+        <Text className="text-xl font-semibold text-black" numberOfLines={0}>
+          {title}
+        </Text>
+        {subtitle && (
+          <Text className="text-2xl text-gray-500" numberOfLines={0}>
+            {subtitle}
+          </Text>
+        )}
+      </View>
+    </View>
+  </Pressable>
 )
 
-export const SettingsList = () => {
+export const SettingsList: FC<SettingsListProps> = ({ items }) => {
   return (
-    <div className="bg-white shadow-sm rounded-2xl p-4 space-y-2 w-full max-w-md mx-auto">
-      <SettingItem
-        icon={<div className="w-4 h-4 bg-purple-400 rounded-full" />}
-        title="email"
-        subtitle="@cooper_bessie"
-      />
-      <Divider />
-      <SettingItem
-        icon={<div className="w-4 h-4 bg-cyan-400 rounded-full" />}
-        title="Notifications"
-        subtitle="Mute, Push, Email"
-      />
-      <Divider />
-      <SettingItem
-        icon={<div className="w-4 h-4 bg-green-400 rounded-full" />}
-        title="Settings"
-        subtitle="Security, Privacy"
-      />
-    </div>
+    <View className="bg-white shadow-sm rounded-2xl p-4 space-y-2 w-full max-w-md self-center">
+      {items.map((item, index) => (
+        <View key={index}>
+          <SettingItem {...item} />
+          {index < items.length - 1 && <Divider />}
+        </View>
+      ))}
+    </View>
   )
 }

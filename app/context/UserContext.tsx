@@ -8,6 +8,7 @@ type User = {
   role: 'admin' | 'user'
   dietId: string
   image: null
+  email: string
 }
 
 type UserContextType = {
@@ -25,10 +26,11 @@ const UserContext = createContext<UserContextType>({
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>({
     id: '219271822',
-    name: 'Usuario de prueba',
+    name: 'Jose Ignacio Domingo De La Mancha',
     role: 'user',
     dietId: 'cmb5lnpne0000vphcku4bn86a',
     image: null,
+    email: 'brahian.carrera1913287127893198@gmail.com',
   })
 
   const logout = () => setUser(null)

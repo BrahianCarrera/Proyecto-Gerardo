@@ -33,21 +33,23 @@ export default function UserTabsLayout() {
           tabBarIcon: ({ color, size }) => <Pill size={size} color={color} />,
         }}
       />
+
+      <Tabs.Screen
+        name="userAlarms"
+        options={{
+          title: 'Alarmas',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="alarm" size={size} color={color} />
+          ),
+        }}
+      />
+
       <Tabs.Screen
         name="userProfile"
         options={{
           title: 'Perfil',
           tabBarIcon: ({ color, size }) => (
             <CircleUserRound size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="userAlarms"
-        options={{
-          title: 'alarms',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="alarm" size={size} color={color} />
           ),
         }}
       />
