@@ -2,10 +2,10 @@ import React, { createContext, useContext, useState, useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { jwtDecode } from 'jwt-decode'
 
-type User = {
+export type User = {
   id: string
   name: string
-  role: 'admin' | 'user'
+  role: 'ESPECIALISTA' | 'user'
   dietId: string
   image: null
   email: string

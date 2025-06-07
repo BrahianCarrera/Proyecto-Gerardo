@@ -17,6 +17,7 @@ import Toast from 'react-native-toast-message'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { jwtDecode } from 'jwt-decode'
 import { useUser } from '../context/UserContext'
+import { User } from '../context/UserContext'
 
 export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false)
@@ -30,7 +31,8 @@ export default function LoginScreen() {
     role: string
   }
 
-  const { user } = useUser()
+  const { user, setUser } = useUser()
+
   const handleSubmit = async () => {
     const payload = { email, password }
 
@@ -40,12 +42,21 @@ export default function LoginScreen() {
 
       await AsyncStorage.setItem('token', token)
 
-      const decoded = jwtDecode(token)
-      user
+      const decoded = jwtDecode<User>(token)
+      setUser(decoded)
 
-      router.push('/(users)/userProfile')
+      if (user?.role === 'ESPECIALISTA') {
+        router.push('/(admin)/patients')
+      } else {
+        router.push('/(users)/userProfile')
+      }
     } catch (error) {
       console.log('Error en login:', error)
+      Toast.show({
+        type: 'error',
+        text1: 'Error al iniciar sesión',
+        text2: 'Verifica tus credenciales',
+      })
     }
   }
 
