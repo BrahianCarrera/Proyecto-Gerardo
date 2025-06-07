@@ -2,7 +2,6 @@
 import { FC } from 'react'
 import { View, Text, Pressable } from 'react-native'
 import { Divider } from 'react-native-paper'
-import { ChevronRight } from 'lucide-react-native'
 
 interface SettingItemProps {
   icon: React.ReactNode

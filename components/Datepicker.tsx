@@ -1,61 +1,62 @@
 import React, { useState } from 'react'
-import { Platform, Pressable, View, Text } from 'react-native'
+import { Platform, View, TextInput, Pressable, Text } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker'
-import { TextInput } from 'react-native'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
+
+const isValidDateString = (value: string): boolean => {
+  const regex = /^\d{2}\/\d{2}\/\d{4}$/
+  if (!regex.test(value)) return false
+  const [day, month, year] = value.split('/').map(Number)
+  const date = new Date(year, month - 1, day)
+  return (
+    date.getFullYear() === year &&
+    date.getMonth() === month - 1 &&
+    date.getDate() === day
+  )
+}
 
 const DateInput: React.FC<{
   date: Date
   onChange: (date: Date) => void
 }> = ({ date, onChange }) => {
   const [show, setShow] = useState(false)
+  const [inputValue, setInputValue] = useState(format(date, 'dd/MM/yyyy'))
 
-  // Versión Web: inputs individuales
+  // 🖥 Web version: editable campo único con máscara implícita
   if (Platform.OS === 'web') {
+    const handleChange = (text: string) => {
+      // Solo permite números y /
+      const cleaned = text.replace(/[^\d]/g, '')
+      const parts = [
+        cleaned.slice(0, 2),
+        cleaned.slice(2, 4),
+        cleaned.slice(4, 8),
+      ].filter(Boolean)
+
+      const formatted = parts.join('/')
+      setInputValue(formatted)
+
+      if (formatted.length === 10 && isValidDateString(formatted)) {
+        const [day, month, year] = formatted.split('/').map(Number)
+        const newDate = new Date(year, month - 1, day)
+        onChange(newDate)
+      }
+    }
+
     return (
-      <View className="flex-row gap-2">
-        <TextInput
-          className="flex-1 h-12 px-4 border border-gray-300 rounded-md text-base"
-          placeholder="Año"
-          keyboardType="numeric"
-          maxLength={4}
-          onChangeText={(year) => {
-            const newDate = new Date(date)
-            newDate.setFullYear(Number(year))
-            if (!isNaN(newDate.getTime())) onChange(newDate)
-          }}
-          value={date.getFullYear().toString()}
-        />
-        <TextInput
-          className="flex-1 h-12 px-4 border border-gray-300 rounded-md text-base"
-          placeholder="Mes"
-          keyboardType="numeric"
-          maxLength={2}
-          onChangeText={(month) => {
-            const newDate = new Date(date)
-            newDate.setMonth(Number(month) - 1)
-            if (!isNaN(newDate.getTime())) onChange(newDate)
-          }}
-          value={(date.getMonth() + 1).toString().padStart(2, '0')}
-        />
-        <TextInput
-          className="flex-1 h-12 px-4 border border-gray-300 rounded-md text-base"
-          placeholder="Día"
-          keyboardType="numeric"
-          maxLength={2}
-          onChangeText={(day) => {
-            const newDate = new Date(date)
-            newDate.setDate(Number(day))
-            if (!isNaN(newDate.getTime())) onChange(newDate)
-          }}
-          value={date.getDate().toString().padStart(2, '0')}
-        />
-      </View>
+      <TextInput
+        className="h-12 px-4 border border-gray-300 rounded-md text-base w-full tracking-widest"
+        placeholder="DD/MM/AAAA"
+        value={inputValue}
+        onChangeText={handleChange}
+        maxLength={10}
+        keyboardType="numeric"
+      />
     )
   }
 
-  // Versión móvil: botón de fecha formateada
+  // 📱 Mobile: DateTimePicker
   return (
     <View>
       <Pressable
@@ -63,7 +64,7 @@ const DateInput: React.FC<{
         className="h-12 px-4 justify-center border border-gray-300 rounded-md bg-white"
       >
         <Text className="text-base text-gray-800">
-          {format(date, "d 'de' MMMM 'de' yyyy", { locale: es })}
+          {format(date, "dd 'de' MMMM 'de' yyyy", { locale: es })}
         </Text>
       </Pressable>
 
@@ -76,6 +77,7 @@ const DateInput: React.FC<{
             setShow(false)
             if (selectedDate) {
               onChange(selectedDate)
+              setInputValue(format(selectedDate, 'dd/MM/yyyy'))
             }
           }}
         />

@@ -1,6 +1,6 @@
-// context/UserContext.tsx
-
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useState, useEffect } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { jwtDecode } from 'jwt-decode'
 
 type User = {
   id: string
@@ -24,16 +24,28 @@ const UserContext = createContext<UserContextType>({
 })
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>({
-    id: '219271822',
-    name: 'Jose Ignacio Domingo De La Mancha',
-    role: 'user',
-    dietId: 'cmb5lnpne0000vphcku4bn86a',
-    image: null,
-    email: 'brahian.carrera1913287127893198@gmail.com',
-  })
+  const [user, setUser] = useState<User | null>(null)
 
-  const logout = () => setUser(null)
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const token = await AsyncStorage.getItem('token')
+        if (token) {
+          const decoded = jwtDecode<User>(token)
+          setUser(decoded)
+        }
+      } catch (error) {
+        console.log('Error al cargar el usuario:', error)
+      }
+    }
+
+    loadUser()
+  }, [])
+
+  const logout = async () => {
+    await AsyncStorage.removeItem('token')
+    setUser(null)
+  }
 
   return (
     <UserContext.Provider value={{ user, setUser, logout }}>

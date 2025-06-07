@@ -1,8 +1,7 @@
-// CustomDayPicker.tsx
 import React from 'react'
 import { View, Text, Pressable } from 'react-native'
 
-const days = ['D', 'L', 'M', 'X', 'J', 'V', 'S']
+const days = ['D', 'L', 'M', 'W', 'J', 'V', 'S']
 
 interface Props {
   selectedDays: number[]

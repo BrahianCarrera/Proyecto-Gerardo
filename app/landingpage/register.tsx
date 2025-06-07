@@ -16,6 +16,7 @@ import Toast from 'react-native-toast-message'
 import DateInput from 'components/Datepicker'
 import SafeAreaContainer from 'components/safeAreaContainer'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { router } from 'expo-router'
 
 // Types
 interface FormData {
@@ -317,8 +318,8 @@ const Register = () => {
         const payload = createPayload()
         await registerUser(payload)
 
-        // Resetear el formulario después de registro exitoso
         resetForm()
+        router.back()
 
         Toast.show({
           type: 'success',
@@ -457,7 +458,7 @@ const Register = () => {
               </Field>
 
               <Field label="Rol">
-                <View className="border border-red">
+                <View className="border border-gray-300 rounded">
                   <RolePicker
                     value={form.role}
                     onValueChange={(val) => updateForm('role', val)}

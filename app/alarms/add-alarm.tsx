@@ -66,105 +66,109 @@ const addAlarm = () => {
     }
   }
 
+  const formContent = (
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1, padding: 16 }}
+      keyboardShouldPersistTaps="handled"
+    >
+      <View className="border border-gray-300 p-5 rounded-md shadow py-4 bg-background">
+        <Text className="text-lg">Número de cédula del paciente</Text>
+        <TextInput
+          className=" p-2 mb-4 bg-white rounded border border-gray-300 shadow-sm"
+          value={patientId}
+          returnKeyType="done"
+          onChangeText={(value) => setPatientId(value)}
+        />
+
+        <Text className="text-lg">Nombre de la alarma</Text>
+        <TextInput
+          className="p-2 mb-4 bg-white rounded border border-gray-300 shadow-sm"
+          value={name}
+          returnKeyType="done"
+          onChangeText={(value) => setName(value)}
+        />
+
+        <Text className="text-lg">Tipo de Alarma</Text>
+        <Picker
+          className="h-10 px-2 mb-4 rounded  border border-gray-300 shadow-sm"
+          selectedValue={type}
+          onValueChange={(itemValue) => setType(itemValue)}
+          dropdownIconColor="#4F46E5"
+        >
+          <Picker.Item label="Selecciona un tipo..." value="" enabled={false} />
+          <Picker.Item label="Suplemento" value="SUPLEMENTO" />
+          <Picker.Item label="Medicamento" value="MEDICAMENTO" />
+        </Picker>
+        <View className="mb-4">
+          <Text className="text-xl">Hora</Text>
+          <TimerPicker time={time} setTime={setTime} />
+        </View>
+
+        <View className="mb-4 wrap">
+          <Text className="text-xl">Días de la semana</Text>
+          <CustomDayPicker
+            selectedDays={daysOfWeek}
+            setSelectedDays={setDaysOfWeek}
+          />
+        </View>
+
+        <View className="mb-4">
+          <Text className=" text-xl ">Notas</Text>
+
+          <TextInput
+            multiline
+            numberOfLines={6}
+            className=" bg-white rounded text-base border border-gray-300  shadow-sm"
+            value={notes}
+            onChangeText={setNotes}
+            blurOnSubmit={true}
+            onSubmitEditing={() => Keyboard.dismiss()}
+            returnKeyType="done"
+            onContentSizeChange={(e) =>
+              setHeight(e.nativeEvent.contentSize.height)
+            }
+            style={{ height }}
+            textAlignVertical="top"
+            placeholder="Escribe tu mensaje aquí..."
+          />
+
+          {error && (
+            <Text className="text-red-600 font-medium text-base my-2 text-center">
+              {error}
+            </Text>
+          )}
+        </View>
+
+        <Pressable
+          onPress={handleSubmit}
+          disabled={isSubmitting}
+          className={`  rounded-xl p-4 my-4 shadow-md active:opacity-80 ${
+            isSubmitting ? 'bg-gray-400' : 'bg-primary'
+          }`}
+        >
+          <Text className="text-center text-white text-lg">
+            {isSubmitting ? 'Guardando...' : 'Agregar Alarma'}
+          </Text>
+        </Pressable>
+      </View>
+    </ScrollView>
+  )
+
   return (
     <SafeAreaContainer>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={100} // ajusta según tu header si tienes uno
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView
-            contentContainerStyle={{ flexGrow: 1, padding: 16 }}
-            keyboardShouldPersistTaps="handled"
-          >
-            <View className="border border-gray-300 p-5 rounded-md shadow py-4 bg-background">
-              <Text className="text-lg">Número de cédula del paciente</Text>
-              <TextInput
-                className=" p-2 mb-4 bg-white rounded border border-gray-300 shadow-sm"
-                value={patientId}
-                returnKeyType="done"
-                onChangeText={(value) => setPatientId(value)}
-              />
-
-              <Text className="text-lg">Nombre de la alarma</Text>
-              <TextInput
-                className="p-2 mb-4 bg-white rounded border border-gray-300 shadow-sm"
-                value={name}
-                returnKeyType="done"
-                onChangeText={(value) => setName(value)}
-              />
-
-              <Text className="text-lg">Tipo de Alarma</Text>
-              <Picker
-                className="h-10 px-2 mb-4 rounded  border border-gray-300 shadow-sm"
-                selectedValue={type}
-                onValueChange={(itemValue) => setType(itemValue)}
-                dropdownIconColor="#4F46E5"
-              >
-                <Picker.Item
-                  label="Selecciona un tipo..."
-                  value=""
-                  enabled={false}
-                />
-                <Picker.Item label="Suplemento" value="SUPLEMENTO" />
-                <Picker.Item label="Medicamento" value="MEDICAMENTO" />
-              </Picker>
-              <View className="mb-4">
-                <Text className="text-xl">Hora</Text>
-                <TimerPicker time={time} setTime={setTime} />
-              </View>
-
-              <View className="mb-4 wrap">
-                <Text className="text-xl">Días de la semana</Text>
-                <CustomDayPicker
-                  selectedDays={daysOfWeek}
-                  setSelectedDays={setDaysOfWeek}
-                />
-              </View>
-
-              <View className="mb-4">
-                <Text className=" text-xl ">Notas</Text>
-
-                <TextInput
-                  multiline
-                  numberOfLines={6}
-                  className=" bg-white rounded text-base border border-gray-300  shadow-sm"
-                  value={notes}
-                  onChangeText={setNotes}
-                  blurOnSubmit={true}
-                  onSubmitEditing={() => Keyboard.dismiss()}
-                  returnKeyType="done"
-                  onContentSizeChange={(e) =>
-                    setHeight(e.nativeEvent.contentSize.height)
-                  }
-                  style={{ height }}
-                  textAlignVertical="top"
-                  placeholder="Escribe tu mensaje aquí..."
-                />
-
-                {error && (
-                  <Text className="text-red-600 font-medium text-base my-2 text-center">
-                    {error}
-                  </Text>
-                )}
-              </View>
-
-              <Pressable
-                onPress={handleSubmit}
-                disabled={isSubmitting}
-                className={`  rounded-xl p-4 my-4 shadow-md active:opacity-80 ${
-                  isSubmitting ? 'bg-gray-400' : 'bg-primary'
-                }`}
-              >
-                <Text className="text-center text-white text-lg">
-                  {isSubmitting ? 'Guardando...' : 'Agregar Alarma'}
-                </Text>
-              </Pressable>
-            </View>
-          </ScrollView>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+      {Platform.OS === 'web' ? (
+        formContent
+      ) : (
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior="padding"
+          keyboardVerticalOffset={100}
+        >
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            {formContent}
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      )}
     </SafeAreaContainer>
   )
 }

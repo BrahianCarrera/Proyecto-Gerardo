@@ -9,9 +9,14 @@ import {
 } from 'react-native'
 import { Eye, EyeOff, UsersRound } from 'lucide-react-native'
 import { Checkbox, Divider } from 'react-native-paper'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
 import Logo from '../../assets/logo.svg'
 import SafeAreaContainer from 'components/safeAreaContainer'
+import { login } from 'services/loginService'
+import Toast from 'react-native-toast-message'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { jwtDecode } from 'jwt-decode'
+import { useUser } from '../context/UserContext'
 
 export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false)
@@ -19,11 +24,29 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
 
-  const handleSubmit = () => {
-    Alert.alert(
-      'Login attempt',
-      JSON.stringify({ email, password, rememberMe }),
-    )
+  interface JwtPayload {
+    id: string
+    email: string
+    role: string
+  }
+
+  const { user } = useUser()
+  const handleSubmit = async () => {
+    const payload = { email, password }
+
+    try {
+      const response = await login(payload)
+      const token = response.accessToken
+
+      await AsyncStorage.setItem('token', token)
+
+      const decoded = jwtDecode(token)
+      user
+
+      router.push('/(users)/userProfile')
+    } catch (error) {
+      console.log('Error en login:', error)
+    }
   }
 
   return (
@@ -101,7 +124,7 @@ export default function LoginScreen() {
           <View className="items-center">
             <Text className="text-sm text-gray-600">
               No tienes una cuenta?{' '}
-              <Link href={'./register'} asChild>
+              <Link href={'./landingpage/register'} asChild>
                 <Text className="text-primary font-medium">Registrate</Text>
               </Link>
             </Text>

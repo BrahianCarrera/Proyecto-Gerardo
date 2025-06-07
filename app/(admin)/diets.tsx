@@ -4,6 +4,8 @@ import SafeAreaContainer from 'components/safeAreaContainer'
 import { useRouter } from 'expo-router'
 import PatientCard from 'components/PatientCard'
 import { getDiets } from 'services/dietService'
+import { useFocusEffect } from '@react-navigation/native'
+import { useCallback } from 'react'
 
 const Diets = () => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -12,23 +14,25 @@ const Diets = () => {
   const [loading, setLoading] = useState(true)
   const router = useRouter()
 
-  useEffect(() => {
-    const fetchDiets = async () => {
-      setLoading(true)
-      try {
-        const data = await getDiets()
-        setAllDiets(data)
-        setFilteredDiets(data)
-      } catch {
-        setAllDiets([])
-        setFilteredDiets([])
-      } finally {
-        setLoading(false)
+  useFocusEffect(
+    useCallback(() => {
+      const fetchDiets = async () => {
+        setLoading(true)
+        try {
+          const data = await getDiets()
+          setAllDiets(data)
+          setFilteredDiets(data)
+        } catch {
+          setAllDiets([])
+          setFilteredDiets([])
+        } finally {
+          setLoading(false)
+        }
       }
-    }
 
-    fetchDiets()
-  }, [])
+      fetchDiets()
+    }, []),
+  )
 
   useEffect(() => {
     if (searchTerm.trim() === '') {
