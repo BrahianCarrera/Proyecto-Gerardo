@@ -114,19 +114,16 @@ const FoodTracking = () => {
     fetchDietAndMeals()
   }, [user])
 
-  // This function will be called when the card is pressed
-  const handleCardPress = (mealId: string) => {
-    const meal = meals.find((m) => m.id === mealId)
+  const handlePress = (MealId: string) => {
+    const meal = meals.find((m) => m.id === MealId)
 
     if (!meal) {
-      console.warn('Meal not found for ID:', mealId)
+      console.warn('Meal not found for ID:', MealId)
       return
     }
 
-    // Determine the current consumption status of the meal
     const currentIsConsumed = meal.isConsumed
 
-    // Logic remains: only ask for confirmation if marking as consumed
     if (!currentIsConsumed) {
       Alert.alert(
         'Confirmar Consumo',
@@ -268,12 +265,12 @@ const FoodTracking = () => {
               meal.type.charAt(0).toUpperCase() +
               meal.type.slice(1).toLowerCase()
             }
+            isConsumed={meal.isConsumed}
             imageUrl={mealTypeImages[meal.type.toLowerCase()]}
-            onPressCard={handleCardPress} // Pass the new handler
+            onPressCard={handlePress}
           />
         ))}
       </ScrollView>
-      <Toast />
     </SafeAreaContainer>
   )
 }
