@@ -17,3 +17,7 @@ export async function assignMealsToDiet(payload: {dietId: string, mealIds : Stri
   console.log(payload)
   return await api.put("/meals/assign" , payload)
 }
+
+export async function getDietByPatientId(userId: string){
+  return await api.get(`/diets?patientId=${userId}`)
+}

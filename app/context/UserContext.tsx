@@ -1,19 +1,17 @@
+// ../context/UserContext.tsx
+
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { jwtDecode } from 'jwt-decode'
 
 export type User = {
   id: string
-  name: string
-  role: 'ESPECIALISTA' | 'user'
-  dietId: string
-  image: null
-  email: string
+  role: string
 }
 
 type UserContextType = {
   user: User | null
-  setUser: (user: User) => void
+  setUser: (user: User | null) => void
   logout: () => void
 }
 
@@ -31,11 +29,15 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       try {
         const token = await AsyncStorage.getItem('token')
         if (token) {
-          const decoded = jwtDecode<User>(token)
-          setUser(decoded)
+          const decoded: { id: string; role: string } = jwtDecode(token)
+
+          setUser({ id: decoded.id, role: decoded.role })
         }
       } catch (error) {
-        console.log('Error al cargar el usuario:', error)
+        console.log('Error al cargar el usuario desde el token:', error)
+        // Opcional: Manejar el error limpiando el token si es inválido
+        await AsyncStorage.removeItem('token')
+        setUser(null)
       }
     }
 

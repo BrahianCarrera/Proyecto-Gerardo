@@ -45,7 +45,7 @@ export default function LoginScreen() {
       const decoded = jwtDecode<User>(token)
       setUser(decoded)
 
-      if (user?.role === 'ESPECIALISTA') {
+      if (decoded.role === 'ESPECIALISTA') {
         router.push('/(admin)/patients')
       } else {
         router.push('/(users)/userProfile')

@@ -1,16 +1,12 @@
-import { apiFetch } from './api'
+import { api} from './api'
 
 export async function getMeals() {
-  return apiFetch('/meals')
+  return await api.get('/meals')
 }
 
 export async function logMeal(data: {
-  patientId: string
+  patientId: string | undefined
   mealId: string
-  date?: string
 }) {
-  return apiFetch('/meal-logs', {
-    method: 'POST',
-    body: JSON.stringify(data),
-  })
+  return await api.post("/mealLogs", data)
 }

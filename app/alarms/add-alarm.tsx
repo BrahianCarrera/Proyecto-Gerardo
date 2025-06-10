@@ -57,7 +57,7 @@ const addAlarm = () => {
         type: 'success',
         text1: 'Alarma creada correctamente',
       })
-      router.replace('/(tabs)/alarms')
+      router.replace('/(admin)/alarms')
     } catch (error: any) {
       const errorMessage = error?.error || error?.message || 'Error desconocido'
       setError(errorMessage)
