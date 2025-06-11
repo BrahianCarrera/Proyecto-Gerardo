@@ -32,12 +32,15 @@ const foodTracking = () => {
           {meals.map((meal) => (
             <Card
               key={meal.id}
+              id=""
               title={meal.name}
               description={
                 meal.type.charAt(0).toUpperCase() +
                 meal.type.slice(1).toLowerCase()
               }
+              isConsumed={false}
               imageUrl={mealTypeImages[meal.type.toLowerCase()]}
+              onPressCard={() => console.log('')}
             />
           ))}
         </ScrollView>

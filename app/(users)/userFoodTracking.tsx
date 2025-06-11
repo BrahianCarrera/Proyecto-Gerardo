@@ -1,4 +1,11 @@
-import { View, Text, ActivityIndicator, ScrollView, Alert } from 'react-native' // Import Alert
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  ScrollView,
+  Alert,
+  TouchableOpacity,
+} from 'react-native' // Import Alert
 import Card from 'components/Card'
 import { useEffect, useState } from 'react'
 import Header from 'components/Header'
@@ -7,8 +14,8 @@ import { useUser } from 'app/context/UserContext'
 import { getDietByPatientId } from 'services/dietService'
 import Toast from 'react-native-toast-message'
 import { logMeal } from 'services/mealService'
+import { HelpCircle } from 'lucide-react-native'
 
-// --- Interfaces para tipar los datos de la API (las mismas que antes) ---
 interface Ingredient {
   name: string
   unit: string
@@ -53,9 +60,21 @@ interface Diet {
   meals: Meal[]
 }
 
-// Interfaz para la comida con su estado de consumo (still needed for logic)
 interface ConsumableMeal extends Meal {
-  isConsumed: boolean // Keep this internal to FoodTracking for state management
+  isConsumed: boolean
+}
+
+interface GroupedMeals {
+  [key: string]: ConsumableMeal[]
+}
+
+const mealTypeClasses: Record<string, string> = {
+  desayuno: 'bg-yellow-100',
+  almuerzo: 'bg-green-100',
+  cena: 'bg-indigo-100',
+  merienda: 'bg-pink-100',
+  mediatarde: 'bg-orange-100',
+  snack: 'bg-blue-100',
 }
 
 const FoodTracking = () => {
@@ -64,6 +83,7 @@ const FoodTracking = () => {
   const [meals, setMeals] = useState<ConsumableMeal[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [groupedMeals, setGroupedMeals] = useState<GroupedMeals>({})
 
   const mealTypeImages: Record<string, string> = {
     desayuno:
@@ -77,6 +97,34 @@ const FoodTracking = () => {
       'https://images.unsplash.com/photo-1619566636858-adf3ef46400b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   }
 
+  const groupAndSetMeals = (mealsToGroup: ConsumableMeal[]) => {
+    const mealOrder = ['desayuno', 'almuerzo', 'merienda', 'cena', 'mediatarde']
+
+    const grouped = mealsToGroup.reduce((acc, meal) => {
+      const type = meal.type.toLowerCase()
+      if (!acc[type]) {
+        acc[type] = []
+      }
+      acc[type].push(meal)
+      return acc
+    }, {} as GroupedMeals)
+
+    const orderedGroupedMeals: GroupedMeals = {}
+    mealOrder.forEach((type) => {
+      if (grouped[type]) {
+        orderedGroupedMeals[type] = grouped[type]
+      }
+    })
+
+    Object.keys(grouped).forEach((type) => {
+      if (!orderedGroupedMeals[type]) {
+        orderedGroupedMeals[type] = grouped[type]
+      }
+    })
+
+    setGroupedMeals(orderedGroupedMeals)
+  }
+
   useEffect(() => {
     const fetchDietAndMeals = async () => {
       if (!user?.id) {
@@ -84,28 +132,28 @@ const FoodTracking = () => {
         setError('ID de usuario no disponible.')
         return
       }
-
       try {
         setLoading(true)
         setError(null)
-
         const diets: Diet[] = await getDietByPatientId(user.id)
 
         if (diets && diets.length > 0) {
-          // Initialize all meals as not consumed
           const initialMeals: ConsumableMeal[] = diets[0].meals.map((meal) => ({
             ...meal,
             isConsumed: false,
           }))
           setMeals(initialMeals)
+          groupAndSetMeals(initialMeals) // Agrupar al cargar
         } else {
           setMeals([])
+          setGroupedMeals({})
           setError('No se encontraron dietas para este paciente.')
         }
       } catch (err) {
         console.error('Error fetching diet or meals:', err)
         setError('Error al cargar la información de la dieta.')
         setMeals([])
+        setGroupedMeals({})
       } finally {
         setLoading(false)
       }
@@ -142,9 +190,6 @@ const FoodTracking = () => {
         { cancelable: true },
       )
     } else {
-      // If already consumed, we can optionally ask to unmark or just unmark directly.
-      // For this request, we'll assume no confirmation is needed to unmark.
-      // If you want confirmation to unmark, you'd add another Alert.alert here.
       Alert.alert(
         'Marcar como No Consumida',
         `¿Quieres desmarcar "${meal.name}" como consumida?`,
@@ -166,51 +211,29 @@ const FoodTracking = () => {
 
   const updateMealConsumptionStatus = async (
     mealId: string,
-    currentIsConsumed: boolean, // This is the state *before* the toggle
+    currentIsConsumed: boolean,
   ) => {
-    // Optimistic update
-    setMeals((prevMeals) =>
-      prevMeals.map((meal) =>
-        meal.id === mealId ? { ...meal, isConsumed: !currentIsConsumed } : meal,
-      ),
+    const updatedMeals = meals.map((meal) =>
+      meal.id === mealId ? { ...meal, isConsumed: !currentIsConsumed } : meal,
     )
+    setMeals(updatedMeals)
+    groupAndSetMeals(updatedMeals) // Re-agrupar después de la actualización
 
     try {
-      const data = {
-        patientId: user?.id,
-        mealId: mealId,
-        // You might need to send a `status` (e.g., true/false) to your API
-        // if `logMeal` doesn't automatically toggle based on existence.
-        // For now, assuming logMeal acts as a toggle or "mark as consumed"
-      }
-      await logMeal(data)
-
+      await logMeal({ patientId: user?.id, mealId: mealId })
       Toast.show({
         type: 'success',
         text1: 'Estado de comida actualizado',
-        text2: `La comida "${meals.find((m) => m.id === mealId)?.name}" ha sido marcada como ${!currentIsConsumed ? 'consumida' : 'no consumida'}.`,
-        visibilityTime: 3000,
       })
     } catch (error) {
-      console.error(
-        'Error al actualizar el estado de consumo de la comida:',
-        error,
+      console.error('Error al actualizar el estado:', error)
+      Toast.show({ type: 'error', text1: 'Error al actualizar estado' })
+
+      const revertedMeals = meals.map((meal) =>
+        meal.id === mealId ? { ...meal, isConsumed: currentIsConsumed } : meal,
       )
-      Toast.show({
-        type: 'error',
-        text1: 'Error al actualizar estado',
-        text2:
-          'No se pudo actualizar el estado de la comida. Intenta de nuevo.',
-        visibilityTime: 4000,
-      })
-      // Revert optimistic update on error
-      setMeals((prevMeals) =>
-        prevMeals.map((meal) =>
-          meal.id === mealId
-            ? { ...meal, isConsumed: currentIsConsumed } // Revert to original state
-            : meal,
-        ),
-      )
+      setMeals(revertedMeals)
+      groupAndSetMeals(revertedMeals)
     }
   }
 
@@ -255,22 +278,60 @@ const FoodTracking = () => {
   return (
     <SafeAreaContainer>
       <Header />
+      <View className="flex-row justify-end px-4 py-2">
+        <TouchableOpacity
+          onPress={() =>
+            Alert.alert(
+              'Información de la Dieta',
+              'Aquí puedes mostrar las observaciones generales de la dieta o cualquier otra ayuda.',
+            )
+          }
+        >
+          <HelpCircle color="#14798B" size={32} />
+        </TouchableOpacity>
+      </View>
+
       <ScrollView className="px-2">
-        {meals.map((meal) => (
-          <Card
-            key={meal.id}
-            id={meal.id}
-            title={meal.name}
-            description={
-              meal.type.charAt(0).toUpperCase() +
-              meal.type.slice(1).toLowerCase()
-            }
-            isConsumed={meal.isConsumed}
-            imageUrl={mealTypeImages[meal.type.toLowerCase()]}
-            onPressCard={handlePress}
-          />
+        {Object.entries(groupedMeals).map(([type, mealsOfType]) => (
+          <View key={type} className="mb-4">
+            {(() => {
+              const mealTypeClasses: Record<string, string> = {
+                desayuno: 'bg-yellow-100',
+                almuerzo: 'bg-green-100',
+                cena: 'bg-indigo-100',
+                merienda: 'bg-blue-100',
+                mediatarde: 'bg-orange-100',
+                snack: 'bg-blue-100',
+              }
+              const bgColor =
+                mealTypeClasses[type.toLowerCase()] || 'bg-gray-100'
+
+              return (
+                <View className={`rounded-xl ${bgColor}`}>
+                  <Text className="text-xl font-bold text-gray-800 capitalize px-2 py-2">
+                    {type}
+                  </Text>
+                </View>
+              )
+            })()}
+            {mealsOfType.map((meal) => (
+              <Card
+                key={meal.id}
+                id={meal.id}
+                title={meal.name}
+                description={
+                  meal.type.charAt(0).toUpperCase() + meal.type.slice(1)
+                }
+                imageUrl={mealTypeImages[meal.type.toLowerCase()]}
+                onPressCard={handlePress}
+                isConsumed={meal.isConsumed}
+                size={meal.size} // Prop 'size' añadida
+              />
+            ))}
+          </View>
         ))}
       </ScrollView>
+      <Toast />
     </SafeAreaContainer>
   )
 }

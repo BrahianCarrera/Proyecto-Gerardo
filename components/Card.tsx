@@ -9,6 +9,7 @@ interface CardProps {
   imageUrl: string
   isConsumed: boolean
   onPressCard: (mealId: string) => void
+  size: string
 }
 
 const Card: React.FC<CardProps> = ({
@@ -18,6 +19,7 @@ const Card: React.FC<CardProps> = ({
   imageUrl,
   isConsumed,
   onPressCard,
+  size,
 }) => {
   const cardContainerStyle = `flex-row bg-white rounded-xl shadow-md my-2 mx-1 overflow-hidden items-center pr-4 ${isConsumed ? 'opacity-60' : ''}`
 
@@ -25,11 +27,12 @@ const Card: React.FC<CardProps> = ({
 
   return (
     <Pressable className={cardContainerStyle} onPress={() => onPressCard(id)}>
-      <Image source={{ uri: imageUrl }} className="w-24 h-24" />
+      <Image source={{ uri: imageUrl }} className="w-32 h-32" />
 
       <View className="flex-1 py-2 px-3">
         <Text className={textTitleStyle}>{title}</Text>
-        <Text className="text-sm text-gray-600">{description}</Text>
+        <Text className="text-sm text-gray-700">{description}</Text>
+        <Text className="text-sm text-gray-700">{size}</Text>
       </View>
 
       {isConsumed && (
