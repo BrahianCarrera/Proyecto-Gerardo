@@ -107,21 +107,6 @@ export default function LoginScreen() {
               </View>
             </View>
 
-            <View className="flex-row justify-between items-center">
-              <View className="flex-row items-center">
-                <Checkbox
-                  status={rememberMe ? 'checked' : 'unchecked'}
-                  onPress={() => setRememberMe(!rememberMe)}
-                />
-                <Text className="text-sm text-gray-600">Recuerdame</Text>
-              </View>
-              <Pressable>
-                <Text className="text-sm text-primary font-medium">
-                  Recuperar contraseña
-                </Text>
-              </Pressable>
-            </View>
-
             <Pressable
               onPress={handleSubmit}
               className="bg-primary rounded-md h-12 justify-center items-center"

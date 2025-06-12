@@ -38,6 +38,7 @@ const foodTracking = () => {
                 meal.type.charAt(0).toUpperCase() +
                 meal.type.slice(1).toLowerCase()
               }
+              size={meal.size}
               isConsumed={false}
               imageUrl={mealTypeImages[meal.type.toLowerCase()]}
               onPressCard={() => console.log('')}

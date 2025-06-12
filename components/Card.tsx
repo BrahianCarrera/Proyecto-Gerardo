@@ -1,6 +1,6 @@
 import { View, Text, Image, TouchableOpacity, Pressable } from 'react-native'
 import React from 'react'
-import { Apple } from 'lucide-react-native'
+import { Apple, Flame, Soup } from 'lucide-react-native'
 
 interface CardProps {
   id: string
@@ -31,8 +31,17 @@ const Card: React.FC<CardProps> = ({
 
       <View className="flex-1 py-2 px-3">
         <Text className={textTitleStyle}>{title}</Text>
-        <Text className="text-sm text-gray-700">{description}</Text>
-        <Text className="text-sm text-gray-700">{size}</Text>
+        <View className="flex-row  gap-x-1 items-center">
+          <Soup size={20} color="#374151" />
+          <Text className="text-sm text-gray-700">{size}</Text>
+        </View>
+        <View className="flex-row  items-center">
+          <Flame size={20} color="#374151" />
+          <Text className="text-sm text-gray-700">
+            {' '}
+            Calorias: {description}
+          </Text>
+        </View>
       </View>
 
       {isConsumed && (

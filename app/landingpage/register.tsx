@@ -319,7 +319,7 @@ const Register = () => {
         await registerUser(payload)
 
         resetForm()
-        router.back()
+        router.push('./login')
 
         Toast.show({
           type: 'success',

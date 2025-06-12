@@ -143,7 +143,7 @@ const FoodTracking = () => {
             isConsumed: false,
           }))
           setMeals(initialMeals)
-          groupAndSetMeals(initialMeals) // Agrupar al cargar
+          groupAndSetMeals(initialMeals)
         } else {
           setMeals([])
           setGroupedMeals({})
@@ -278,7 +278,10 @@ const FoodTracking = () => {
   return (
     <SafeAreaContainer>
       <Header />
-      <View className="flex-row justify-end px-4 py-2">
+      <View className="flex-row justify-end gap-x-2 items-center px-4 py-2">
+        <Text className="text-xl underline">
+          Para más información sobre los tamaños
+        </Text>
         <TouchableOpacity
           onPress={() =>
             Alert.alert(
@@ -298,7 +301,7 @@ const FoodTracking = () => {
               const mealTypeClasses: Record<string, string> = {
                 desayuno: 'bg-yellow-100',
                 almuerzo: 'bg-green-100',
-                cena: 'bg-indigo-100',
+                cena: 'bg-red-100',
                 merienda: 'bg-blue-100',
                 mediatarde: 'bg-orange-100',
                 snack: 'bg-blue-100',
@@ -319,13 +322,14 @@ const FoodTracking = () => {
                 key={meal.id}
                 id={meal.id}
                 title={meal.name}
-                description={
-                  meal.type.charAt(0).toUpperCase() + meal.type.slice(1)
-                }
+                description={meal.calories.toString()}
                 imageUrl={mealTypeImages[meal.type.toLowerCase()]}
                 onPressCard={handlePress}
                 isConsumed={meal.isConsumed}
-                size={meal.size} // Prop 'size' añadida
+                size={
+                  meal.size.charAt(0).toUpperCase() +
+                  meal.size.slice(1).toLowerCase()
+                }
               />
             ))}
           </View>

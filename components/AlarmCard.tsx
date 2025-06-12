@@ -31,7 +31,7 @@ export default function AlarmCard({
 }: alarmCardProps) {
   return (
     <Pressable onPress={onPress}>
-      <View className="flex-row justify-between items-center bg-white p-4 border border-gray-300 rounded-md mb-2 border-l-4 border-l-blue-500">
+      <View className="flex-row h-32 shadow-md justify-between items-center bg-white px-4 border border-gray-300 rounded-md mb-2 border-l-4 border-l-blue-500">
         <View className="flex-1 mr-2">
           <Text className="text-base font-medium mb-1" numberOfLines={1}>
             {name}
