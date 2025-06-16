@@ -278,17 +278,12 @@ const FoodTracking = () => {
   return (
     <SafeAreaContainer>
       <Header />
-      <View className="flex-row justify-end gap-x-2 items-center px-4 py-2">
-        <Text className="text-xl underline">
-          Para más información sobre los tamaños
+      <View className="flex-row justify-end items-center gap-x-2 px-4 py-2">
+        <Text className="text-xl underline ">
+          Más informacion sobre los tamaños
         </Text>
         <TouchableOpacity
-          onPress={() =>
-            Alert.alert(
-              'Información de la Dieta',
-              'Aquí puedes mostrar las observaciones generales de la dieta o cualquier otra ayuda.',
-            )
-          }
+          onPress={() => Alert.alert('Información de la Dieta', 'PlaceHolder.')}
         >
           <HelpCircle color="#14798B" size={32} />
         </TouchableOpacity>

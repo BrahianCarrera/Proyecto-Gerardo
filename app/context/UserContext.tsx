@@ -7,6 +7,9 @@ import { jwtDecode } from 'jwt-decode'
 export type User = {
   id: string
   role: string
+  name?: string
+  picture?: string
+  email: string
 }
 
 type UserContextType = {
@@ -29,9 +32,10 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       try {
         const token = await AsyncStorage.getItem('token')
         if (token) {
-          const decoded: { id: string; role: string } = jwtDecode(token)
+          const decoded: { id: string; role: string; email: string } =
+            jwtDecode(token)
 
-          setUser({ id: decoded.id, role: decoded.role })
+          setUser({ id: decoded.id, role: decoded.role, email: decoded.email })
         }
       } catch (error) {
         console.log('Error al cargar el usuario desde el token:', error)

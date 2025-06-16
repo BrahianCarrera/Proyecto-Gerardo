@@ -1,101 +1,84 @@
-// components/ProfileImagePicker.tsx
-
-import React, { useState, useEffect } from 'react'
-import { View, Image, TouchableOpacity, StyleSheet, Alert } from 'react-native'
+import React, { useState } from 'react'
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  Text,
+  ActivityIndicator,
+  Alert,
+} from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
+import { updatePhoto } from '../services/userService' // asegúrate que el path es correcto
 
-interface ProfileImagePickerProps {
+interface Props {
   userId: string
-  imageUrlFromServer?: string
-  backendUrl: string
-  onImageUploaded?: (url: string) => void
+  currentProfilePicture?: string
+  onProfileUpdateSuccess?: (newImageUrl: string) => void
 }
 
-const ProfileImagePicker: React.FC<ProfileImagePickerProps> = ({
+const ProfileImagePicker = ({
   userId,
-  imageUrlFromServer,
-  backendUrl,
-  onImageUploaded,
-}) => {
-  const [imageUri, setImageUri] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (imageUrlFromServer) {
-      setImageUri(`${backendUrl}${imageUrlFromServer}`)
-    } else {
-      fetch(`${backendUrl}/users/${userId}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.imageUrl) {
-            setImageUri(`${backendUrl}${data.imageUrl}`)
-          }
-        })
-        .catch(() => {})
-    }
-  }, [])
+  currentProfilePicture,
+  onProfileUpdateSuccess,
+}: Props) => {
+  const [image, setImage] = useState(currentProfilePicture)
+  const [uploading, setUploading] = useState(false)
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 0.7,
+      mediaTypes: ['images'],
       allowsEditing: true,
+      aspect: [1, 1], // cuadrado
+      quality: 1,
     })
 
-    if (!result.canceled) {
-      const image = result.assets[0]
-      const formData = new FormData()
-
-      formData.append('image', {
-        uri: image.uri,
-        name: 'profile.jpg',
-        type: 'image/jpeg',
-      } as any)
-
-      formData.append('userId', userId.toString())
+    if (!result.canceled && result.assets.length > 0) {
+      const selected = result.assets[0]
 
       try {
-        const res = await fetch(`${backendUrl}/upload`, {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
+        setUploading(true)
 
-        const data = await res.json()
-        if (data.path) {
-          const fullPath = `${backendUrl}${data.path}`
-          setImageUri(fullPath)
-          onImageUploaded?.(fullPath)
+        const response = await updatePhoto(selected.uri, userId)
+
+        if (response.picture) {
+          setImage(response.picture)
+          onProfileUpdateSuccess?.(response.picture)
+        } else {
+          Alert.alert('Error', 'No se pudo actualizar la foto de perfil')
         }
       } catch (err) {
-        Alert.alert('Error', 'No se pudo subir la imagen')
+        console.error('Error al subir imagen:', err)
+        Alert.alert('Error', 'No se pudo subir la imagen. Revisa la consola.')
+      } finally {
+        setUploading(false)
       }
     }
   }
 
   return (
-    <TouchableOpacity onPress={pickImage}>
-      <Image
-        source={
-          imageUri
-            ? { uri: imageUri }
-            : require('../assets/profile-placeholder.png')
-        }
-        style={styles.avatar}
-      />
-    </TouchableOpacity>
+    <View className="items-center">
+      <TouchableOpacity onPress={pickImage} disabled={uploading}>
+        <View className="w-48 h-48 rounded-full overflow-hidden border-2 border-gray-300">
+          {image ? (
+            <Image
+              source={{ uri: image }}
+              className="w-full h-full"
+              resizeMode="cover"
+            />
+          ) : (
+            <View className="flex-1 justify-center items-center bg-gray-200">
+              <Text>Seleccionar Foto</Text>
+            </View>
+          )}
+          {uploading && (
+            <View className="absolute inset-0 bg-white bg-opacity-70 justify-center items-center">
+              <ActivityIndicator size="large" color="#14798B" />
+            </View>
+          )}
+        </View>
+      </TouchableOpacity>
+    </View>
   )
 }
 
 export default ProfileImagePicker
-
-const styles = StyleSheet.create({
-  avatar: {
-    width: 160,
-    height: 160,
-    borderRadius: 70,
-    borderWidth: 0,
-    borderColor: '#ccc',
-  },
-})

@@ -16,7 +16,7 @@ export default function PatientsStackLayout() {
       />
 
       <Stack.Screen
-        name="add-patient"
+        name="register"
         options={{
           headerTitle: 'Registrate',
         }}

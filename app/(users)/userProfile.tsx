@@ -2,12 +2,13 @@ import { View, Text, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import SafeAreaContainer from 'components/safeAreaContainer'
 import Header from 'components/Header'
-import ProfileImagePicker from 'components/ProfileImagePicker'
-import { useUser } from 'app/context/UserContext'
+import ProfileImagePicker from 'components/ProfileImagePicker' // Asumo que este es el componente que proporcioné previamente
+import { User, useUser } from 'app/context/UserContext'
 import { SettingsList } from 'components/SettingsList'
 import { Cake, Mail, UserRound } from 'lucide-react-native'
 import { getUserInfo } from '../../services/userService'
-import { router } from 'expo-router'
+import { router } from 'expo-router' // Mantengo esta importación por si la usas en otro lugar
+import { ScrollView } from 'react-native-gesture-handler'
 
 interface UserDetailsFromAPI {
   id: string
@@ -15,12 +16,12 @@ interface UserDetailsFromAPI {
   email: string
   birthDate?: string
   role: string
-  picture?: string | null
+  picture?: string
   createdAt: string
 }
 
 const UserProfile = () => {
-  const { user } = useUser()
+  const { user, setUser } = useUser()
 
   const [userDetails, setUserDetails] = useState<UserDetailsFromAPI | null>(
     null,
@@ -28,22 +29,33 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  if (!user?.id) {
-    router.replace('/login')
-    return (
-      <View className="flex-1 justify-center items-center">
-        <Text>No autenticado. Redirigiendo...</Text>
-      </View>
+  /**
+   * Maneja la actualización de la imagen de perfil.
+   * Esta función es llamada por ProfileImagePicker una vez que la imagen se ha subido exitosamente.
+   * @param {string} newImageUrl La nueva URL de la imagen de perfil.
+   */
+  const handleProfileImageUpdate = (newImageUrl: string) => {
+    setUserDetails((currentDetails) =>
+      currentDetails ? { ...currentDetails, picture: newImageUrl } : null,
     )
+
+    if (user) {
+      setUser({
+        ...user,
+        picture: newImageUrl,
+      })
+    }
   }
 
   useEffect(() => {
     const fetchUserDetails = async () => {
+      // Asegúrate de que user y user.id estén disponibles antes de intentar buscar detalles
       if (user && user.id) {
         try {
           setLoading(true)
           setError(null)
 
+          // Llama al servicio para obtener la información del usuario
           const data = await getUserInfo(user.id)
 
           if (data) {
@@ -58,18 +70,19 @@ const UserProfile = () => {
           setLoading(false)
         }
       } else {
+        // Si no hay usuario o ID, no se puede cargar el perfil
         setLoading(false)
         setError('Usuario no autenticado o ID no disponible.')
       }
     }
 
     fetchUserDetails()
-  }, [user])
+  }, [user]) // Dependencia en 'user' para re-fetch si el objeto usuario cambia (ej. al loggearse)
 
   if (loading) {
     return (
       <View className="flex-1 justify-center items-center">
-        <ActivityIndicator size="large" color="#14798B" />{' '}
+        <ActivityIndicator size="large" color="#14798B" />
         <Text>Cargando perfil del usuario...</Text>
       </View>
     )
@@ -93,6 +106,7 @@ const UserProfile = () => {
     )
   }
 
+  // Lista de información del usuario para el componente SettingsList
   const info = [
     {
       icon: <UserRound size={40} color="#14798B" />,
@@ -107,13 +121,12 @@ const UserProfile = () => {
     {
       icon: <Cake size={40} color="#14798B" />,
       title: 'Cumpleaños',
-
       subtitle: userDetails.birthDate
         ? new Date(userDetails.birthDate).toLocaleDateString('es-ES')
         : 'No especificado',
-      onClick: () => console.log('Go to notifications'),
+      onClick: () => console.log('Go to notifications'), // Mantengo tu onClick original
     },
-    // Puedes agregar más elementos usando otras propiedades de userDetails
+    // Si deseas mostrar el rol:
     // {
     //   icon: <UserRound size={40} color="#14798B" />,
     //   title: 'Rol',
@@ -126,22 +139,21 @@ const UserProfile = () => {
       <Header />
       <View className="p-4">
         <Text className="text-xl text-gray-600">Bienvenido</Text>
-
         <Text className="font-bold text-2xl text-gray-700">
           {userDetails.name}
         </Text>
 
-        <View className="items-center ">
-          <View className="my-10">
+        <ScrollView className="items-center ">
+          <View className="my-5">
+            {/* Componente ProfileImagePicker para seleccionar y subir la imagen */}
             <ProfileImagePicker
-              userId={user.id} // Aquí sigues usando user.id del contexto
-              backendUrl={'localhost:4000'}
-              // Puedes pasar userDetails.picture si lo tienes y lo necesitas
-              // currentImage={userDetails.picture}
+              userId={user?.id ?? ''} // Pasa el ID del usuario, vacío si no está disponible
+              currentProfilePicture={userDetails.picture} // Pasa la URL actual de la imagen
+              onProfileUpdateSuccess={handleProfileImageUpdate}
             />
           </View>
           <SettingsList items={info} />
-        </View>
+        </ScrollView>
       </View>
     </SafeAreaContainer>
   )

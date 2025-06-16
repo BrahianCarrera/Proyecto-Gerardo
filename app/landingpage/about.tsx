@@ -75,7 +75,7 @@ const About = () => {
             <Pressable
               className="flex-row justify-center items-center border pl-2 border-gray-400 rounded-full mb-20 "
               onPress={() => {
-                router.push('/users/login')
+                router.push('landingpage/login')
               }}
             >
               <Text>Regresar</Text>
