@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+// verificationScreen.tsx
+import React, { useState, useEffect } from 'react'
 import {
   View,
   Text,
@@ -8,30 +9,38 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
+  ActivityIndicator,
 } from 'react-native'
-import Logo from '../../assets/logo.svg' // Asegúrate de que esta ruta sea correcta
-import SafeAreaContainer from 'components/safeAreaContainer' // Asegúrate de que esta ruta sea correcta
+import Logo from '../../assets/logo.svg'
+import SafeAreaContainer from 'components/safeAreaContainer'
 import Toast from 'react-native-toast-message'
-import { router } from 'expo-router' // Para la navegación
-import { useUser } from 'app/context/UserContext'
-import { verifyCode } from 'services/authService'
+import { router, useLocalSearchParams } from 'expo-router'
+import { api } from 'services/api' // Usa tu objeto `api`
 
-interface VerificationForm {
-  email: string
-  code: string
-}
+import { verifyCode } from 'services/authService'
 
 interface VerificationErrors {
   [key: string]: string
 }
 
 export default function CodeVerificationScreen() {
+  const { email } = useLocalSearchParams<{ email: string }>()
   const [code, setCode] = useState<string>('')
   const [errors, setErrors] = useState<VerificationErrors>({})
   const [loading, setLoading] = useState<boolean>(false)
-  const { user } = useUser()
 
-  // Función para validar el código (puedes añadir tu lógica de validación real aquí)
+  useEffect(() => {
+    if (!email) {
+      Toast.show({
+        type: 'error',
+        text1: 'Error de navegación',
+        text2: 'No se pudo obtener el correo para verificación.',
+        position: 'bottom',
+      })
+      router.replace('/landingpage/registerSpecialist')
+    }
+  }, [email])
+
   const validateCode = (inputCode: string): VerificationErrors => {
     const newErrors: VerificationErrors = {}
     const regex = /^[0-9]*$/
@@ -40,7 +49,7 @@ export default function CodeVerificationScreen() {
     } else if (inputCode.trim().length !== 6) {
       newErrors.code = 'El código debe tener 6 caracteres.'
     } else if (regex.test(inputCode) == false) {
-      newErrors.code = ' El código debe ser númerico'
+      newErrors.code = 'El código debe ser númerico.'
     }
     return newErrors
   }
@@ -61,37 +70,90 @@ export default function CodeVerificationScreen() {
       return
     }
 
+    if (!email) {
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'No se pudo obtener el correo. Intenta de nuevo.',
+        position: 'bottom',
+      })
+      setLoading(false)
+      return
+    }
+
     try {
       const payload = {
-        email: user?.email,
-        opt: code,
+        email: email,
+        otp: code,
       }
-      const response = await verifyCode(payload)
 
-      if (response && response.accessToken) {
+      const response = await api.post('/users/verify-specialist', payload)
+
+      if (response && response.id && response.email && response.role) {
         Toast.show({
           type: 'success',
           text1: 'Verificación exitosa',
-          text2: 'Tu cuenta ha sido verificada.',
+          text2: 'Tu cuenta ha sido verificada. ¡Ya puedes iniciar sesión!',
           position: 'bottom',
         })
-        // Redirige al usuario a la siguiente pantalla (ej. inicio de sesión o perfil)
-        router.push('/login')
+        router.replace('landingpage/login') // Redirige al usuario a la pantalla de login para que inicie sesión
       } else {
-        setErrors({ code: 'El código ingresado es incorrecto.' })
+        // Esto se ejecutará si la respuesta no es un objeto de usuario válido,
+        // lo que puede indicar un código incorrecto o un error diferente del backend.
+        setErrors({
+          code: 'El código ingresado es incorrecto o hubo un problema.',
+        })
         Toast.show({
           type: 'error',
-          text1: 'Código incorrecto',
-          text2: 'Por favor, intenta de nuevo.',
+          text1: 'Verificación fallida',
+          text2: 'El código es incorrecto o no se pudo verificar.',
           position: 'bottom',
         })
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error al verificar el código:', error)
+      const errorMessage =
+        error.data?.message || 'Ocurrió un problema, intenta de nuevo.'
       Toast.show({
         type: 'error',
         text1: 'Error en la verificación',
-        text2: 'Ocurrió un problema, intenta de nuevo.',
+        text2: errorMessage,
+        position: 'bottom',
+      })
+      setErrors({ code: errorMessage })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleResendCode = async () => {
+    if (!email) {
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'No se pudo obtener el correo para reenviar el código.',
+        position: 'bottom',
+      })
+      return
+    }
+
+    setLoading(true)
+    try {
+      await api.post('/auth/resend-otp', { email: email })
+      Toast.show({
+        type: 'success',
+        text1: 'Código reenviado',
+        text2: 'Se ha enviado un nuevo código a tu correo.',
+        position: 'bottom',
+      })
+    } catch (error: any) {
+      console.error('Error al reenviar código:', error)
+      const errorMessage =
+        error.data?.message || 'No se pudo reenviar el código.'
+      Toast.show({
+        type: 'error',
+        text1: 'Error al reenviar',
+        text2: errorMessage,
         position: 'bottom',
       })
     } finally {
@@ -119,23 +181,25 @@ export default function CodeVerificationScreen() {
                 Verificación de Código
               </Text>
               <Text className="text-gray-600 text-center px-2">
-                Hemos enviado un código de verificación a tu correo electrónico.
-                Por favor, ingrésalo a continuación para continuar.
+                Hemos enviado un código de verificación a{' '}
+                <Text className="font-bold">
+                  {email || 'tu correo electrónico'}
+                </Text>
+                . Por favor, ingrésalo a continuación para continuar.
               </Text>
             </View>
 
-            {/* Campo para el código */}
             <View className="mt-4 gap-y-2">
               <Text className="text-sm font-medium text-gray-700">
                 Código de Verificación
               </Text>
               <TextInput
                 className="h-12 px-4 border border-gray-300 rounded-md text-base text-center tracking-widest"
-                placeholder="------" // Placeholder para indicar la longitud
-                keyboardType="number-pad" // Solo números
+                placeholder="------"
+                keyboardType="number-pad"
                 value={code}
                 onChangeText={setCode}
-                maxLength={6} // Limita la entrada a 6 caracteres
+                maxLength={6}
               />
               {errors.code && (
                 <Text className="text-red-500 text-sm mt-1">{errors.code}</Text>
@@ -147,19 +211,17 @@ export default function CodeVerificationScreen() {
               className={`bg-primary rounded-md h-12 justify-center items-center mt-6 ${loading ? 'opacity-70' : ''}`}
               disabled={loading}
             >
-              <Text className="text-base font-medium text-white">
-                {loading ? 'Verificando...' : 'Verificar Código'}
-              </Text>
+              {loading ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <Text className="text-base font-medium text-white">
+                  Verificar Código
+                </Text>
+              )}
             </TouchableOpacity>
 
-            {/* Opción para reenviar el código */}
             <TouchableOpacity
-              onPress={() =>
-                Alert.alert(
-                  'Reenviar Código',
-                  'El código ha sido reenviado a tu correo.',
-                )
-              }
+              onPress={handleResendCode}
               className="mt-4 items-center"
               disabled={loading}
             >
@@ -167,8 +229,6 @@ export default function CodeVerificationScreen() {
                 ¿No recibiste el código? Reenviar
               </Text>
             </TouchableOpacity>
-
-            <Toast />
           </ScrollView>
         </View>
       </KeyboardAvoidingView>

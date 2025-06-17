@@ -1,8 +1,8 @@
 import { api } from './api'
 
 export async function verifyCode(codePayload: {
-    email:string | undefined,
-    opt: string,
+    email:string 
+    otp: string,
 }){
-    return api.post("/auth/login", codePayload)
+    return api.post("/users/verify-specialist", codePayload)
 }
