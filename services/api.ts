@@ -1,7 +1,7 @@
 // apiService.ts
 import AsyncStorage from '@react-native-async-storage/async-storage' // Necesario para obtener tokens si no usas UserContext directamente aquí
 
-const BASE_URL = 'http://192.168.0.18:4000'
+const BASE_URL = 'http://localhost:4000'
 
 interface ApiCallOptions extends RequestInit {
   // Puedes extender RequestInit si necesitas más opciones personalizadas

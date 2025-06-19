@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Card from 'components/Card'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import { useEffect, useState } from 'react'
 import { getMeals } from '../../services/mealService'
 import { ScrollView } from 'react-native'
 import SafeAreaContainer from 'components/safeAreaContainer'
+import { router } from 'expo-router'
 
 const foodTracking = () => {
   const [meals, setMeals] = useState<any[]>([])
@@ -45,6 +46,12 @@ const foodTracking = () => {
             />
           ))}
         </ScrollView>
+        <Pressable
+          onPress={() => router.push('/meals/addMeals')}
+          className="bg-blue-400 p-4 my-4 rounded-md bg-primary"
+        >
+          <Text className="text-center text-white text-lg">Agregar Comida</Text>
+        </Pressable>
       </SafeAreaContainer>
     </SafeAreaProvider>
   )

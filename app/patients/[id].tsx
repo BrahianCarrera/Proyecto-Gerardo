@@ -19,6 +19,7 @@ import { ClipboardCopy } from 'lucide-react-native'
 import { Alert } from 'react-native'
 
 import { getDiets } from 'services/dietService'
+import SafeAreaContainer from 'components/safeAreaContainer'
 
 interface DietType {
   id: string
@@ -164,215 +165,221 @@ export default function PatientDetail() {
     )
   }
   return (
-    <View className="flex-1 relative">
-      <ScrollView className="p-6">
-        <View className="border border-gray-200 bg-white p-4 rounded-md shadow  mb-2">
-          <Text className="text-xl font-bold text-center mb-6">
-            Información General
-          </Text>
+    <SafeAreaContainer>
+      <View className="flex-1 relative">
+        <ScrollView>
+          <View className="border border-gray-200 bg-white p-4 rounded-md shadow  mb-2">
+            <Text className="text-xl font-bold text-center mb-6">
+              Información General
+            </Text>
 
-          <View className="">
-            <View className="flex-row items-center">
-              <View className="w-2/5">
-                <Text className="text-base font-bold">Documento:</Text>
+            <View className="">
+              <View className="flex-row items-center">
+                <View className="w-2/5">
+                  <Text className="text-base font-bold">Documento:</Text>
+                </View>
+                <View className="flex-row items-center flex-1 gap-x-10">
+                  <Text className="text-base break-words">{patient.id}</Text>
+                  <TouchableOpacity
+                    onPress={() => copyToClipboard(patient.id)}
+                    className="p-1"
+                  >
+                    <ClipboardCopy size={30} color="#14798B" />
+                  </TouchableOpacity>
+                </View>
               </View>
-              <View className="flex-row items-center flex-1 gap-x-2">
-                <Text className="text-base break-words">{patient.id}</Text>
-                <TouchableOpacity
-                  onPress={() => copyToClipboard(patient.id)}
-                  className="p-1"
+
+              <View className="flex-row my-4">
+                <View className="w-2/5">
+                  <Text className="text-base font-bold">Nombre:</Text>
+                </View>
+                <View className="flex-1 ">
+                  {isEditing ? (
+                    <TextInput
+                      className="border border-primary p-2 bg-white rounded"
+                      value={patient.name}
+                      onChangeText={(text) =>
+                        setPatient({ ...patient, name: text })
+                      }
+                    />
+                  ) : (
+                    <Text className="text-base break-words">
+                      {patient.name}
+                    </Text>
+                  )}
+                </View>
+              </View>
+
+              <View className="flex-row my-4">
+                <View className="w-2/5">
+                  <Text className="text-base font-bold">Edad:</Text>
+                </View>
+                <View className="flex-1">
+                  {isEditing ? (
+                    <TextInput
+                      className="border border-primary p-2 my.2bg-white rounded"
+                      value={patient.age}
+                      onChangeText={(text) =>
+                        setPatient({ ...patient, age: text })
+                      }
+                    />
+                  ) : (
+                    <Text className="text-base">{patient.age} años</Text>
+                  )}
+                </View>
+              </View>
+
+              <View className="flex-row my-4">
+                <View className="w-2/5">
+                  <Text className="text-base font-bold">Diagnóstico:</Text>
+                </View>
+                <View className="flex-1">
+                  {isEditing ? (
+                    <TextInput
+                      multiline
+                      numberOfLines={8}
+                      className=" bg-white rounded text-base border border-primary shadow-sm"
+                      value={patient.diagnosis}
+                      onChangeText={(text) =>
+                        setPatient({ ...patient, diagnosis: text })
+                      }
+                    />
+                  ) : (
+                    <Text className="text-base break-words">
+                      {patient.diagnosis}
+                    </Text>
+                  )}
+                </View>
+              </View>
+
+              <View className="flex-row my-4">
+                <View className="w-2/5">
+                  <Text className="text-base font-bold">
+                    Hábitos alimenticios:
+                  </Text>
+                </View>
+                <View className="flex-1">
+                  {isEditing ? (
+                    <TextInput
+                      className="border border-primary p-2 bg-white rounded"
+                      value={patient.eatingHabits}
+                      multiline
+                      onChangeText={(text) =>
+                        setPatient({ ...patient, eatingHabits: text })
+                      }
+                    />
+                  ) : (
+                    <Text className="text-base break-words">
+                      {patient.eatingHabits}
+                    </Text>
+                  )}
+                </View>
+              </View>
+            </View>
+
+            <View className="items-center mt-4">
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={isEditing ? handleSave : () => setIsEditing(true)}
+                className="bg-primary rounded-lg py-2 px-6"
+              >
+                <Text className="text-white font-bold text-base">
+                  {isEditing ? 'Guardar' : 'Editar'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View className="border border-gray-300 bg-white p-4 rounded-md shadow gap-y-4">
+            <Text className="text-xl font-bold text-center mb-6">
+              Dietas Asignadas
+            </Text>
+
+            {isAssigningDiet ? (
+              <View className="border border-gray-300 rounded-md overflow-hidden bg-white">
+                <Picker
+                  className="h-10 px-2"
+                  selectedValue={selectedDiet}
+                  onValueChange={(itemValue) => setSelectedDiet(itemValue)}
+                  dropdownIconColor="#4F46E5"
                 >
-                  <ClipboardCopy size={18} color="#4F46E5" />
+                  <Picker.Item
+                    label="Selecciona un tipo..."
+                    value=""
+                    enabled={false}
+                  />
+                  {diets.map((diet) => (
+                    <Picker.Item
+                      key={diet.id}
+                      label={diet.name}
+                      value={diet.id}
+                    />
+                  ))}
+                </Picker>
+              </View>
+            ) : (
+              <></>
+            )}
+
+            <Text className="text-base font-bold mb-2">
+              {patient.diet.name}
+            </Text>
+            <View className="flex-row gap-x-4 justify-center">
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={
+                  isAssigningDiet
+                    ? handleDietAssign
+                    : () => setIsAssigningDiet(true)
+                }
+                className="bg-primary rounded-lg px-6 py-2 mx-4 items-center justify-center w-32"
+              >
+                <Text className="text-white font-bold text-base text-center">
+                  {isAssigningDiet ? 'Guardar' : 'Asignar'}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => setIsModalVisible(true)}
+                className="bg-red-500 rounded-lg px-6 py-2 mx-4 items-center justify-center w-32"
+              >
+                <Text className="text-white font-bold text-base text-center">
+                  Eliminar
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
+
+        {isModalVisible && (
+          <View className="absolute inset-0 z-50 bg-black/50 items-center justify-center">
+            <View className="bg-white w-4/5 p-6 rounded-xl shadow-lg">
+              <Text className="text-lg font-bold text-center mb-4">
+                ¿Estás seguro de que quieres eliminar esta dieta?
+              </Text>
+
+              <View className="flex-row justify-around mt-2">
+                <TouchableOpacity
+                  onPress={() => {
+                    handleDeleteDiet()
+                    setIsModalVisible(false)
+                  }}
+                  className="bg-red-500 px-4 py-2 rounded-lg"
+                >
+                  <Text className="text-white font-bold">Eliminar</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => setIsModalVisible(false)}
+                  className="bg-gray-200 px-4 py-2 rounded-lg"
+                >
+                  <Text className="text-gray-800 font-bold">Cancelar</Text>
                 </TouchableOpacity>
               </View>
             </View>
-
-            <View className="flex-row my-4">
-              <View className="w-2/5">
-                <Text className="text-base font-bold">Nombre:</Text>
-              </View>
-              <View className="flex-1 ">
-                {isEditing ? (
-                  <TextInput
-                    className="border border-primary p-2 bg-white rounded"
-                    value={patient.name}
-                    onChangeText={(text) =>
-                      setPatient({ ...patient, name: text })
-                    }
-                  />
-                ) : (
-                  <Text className="text-base break-words">{patient.name}</Text>
-                )}
-              </View>
-            </View>
-
-            <View className="flex-row my-4">
-              <View className="w-2/5">
-                <Text className="text-base font-bold">Edad:</Text>
-              </View>
-              <View className="flex-1">
-                {isEditing ? (
-                  <TextInput
-                    className="border border-primary p-2 my.2bg-white rounded"
-                    value={patient.age}
-                    onChangeText={(text) =>
-                      setPatient({ ...patient, age: text })
-                    }
-                  />
-                ) : (
-                  <Text className="text-base">{patient.age} años</Text>
-                )}
-              </View>
-            </View>
-
-            <View className="flex-row my-4">
-              <View className="w-2/5">
-                <Text className="text-base font-bold">Diagnóstico:</Text>
-              </View>
-              <View className="flex-1">
-                {isEditing ? (
-                  <TextInput
-                    multiline
-                    numberOfLines={8}
-                    className=" bg-white rounded text-base border border-primary shadow-sm"
-                    value={patient.diagnosis}
-                    onChangeText={(text) =>
-                      setPatient({ ...patient, diagnosis: text })
-                    }
-                  />
-                ) : (
-                  <Text className="text-base break-words">
-                    {patient.diagnosis}
-                  </Text>
-                )}
-              </View>
-            </View>
-
-            <View className="flex-row my-4">
-              <View className="w-2/5">
-                <Text className="text-base font-bold">
-                  Hábitos alimenticios:
-                </Text>
-              </View>
-              <View className="flex-1">
-                {isEditing ? (
-                  <TextInput
-                    className="border border-primary p-2 bg-white rounded"
-                    value={patient.eatingHabits}
-                    multiline
-                    onChangeText={(text) =>
-                      setPatient({ ...patient, eatingHabits: text })
-                    }
-                  />
-                ) : (
-                  <Text className="text-base break-words">
-                    {patient.eatingHabits}
-                  </Text>
-                )}
-              </View>
-            </View>
           </View>
-
-          <View className="items-center mt-4">
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={isEditing ? handleSave : () => setIsEditing(true)}
-              className="bg-primary rounded-lg py-2 px-6"
-            >
-              <Text className="text-white font-bold text-base">
-                {isEditing ? 'Guardar' : 'Editar'}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View className="border border-gray-300 bg-white p-4 rounded-md shadow gap-y-4">
-          <Text className="text-xl font-bold text-center mb-6">
-            Dieta Asignadas
-          </Text>
-
-          {isAssigningDiet ? (
-            <View className="border border-gray-300 rounded-md overflow-hidden bg-white">
-              <Picker
-                className="h-10 px-2"
-                selectedValue={selectedDiet}
-                onValueChange={(itemValue) => setSelectedDiet(itemValue)}
-                dropdownIconColor="#4F46E5"
-              >
-                <Picker.Item
-                  label="Selecciona un tipo..."
-                  value=""
-                  enabled={false}
-                />
-                {diets.map((diet) => (
-                  <Picker.Item
-                    key={diet.id}
-                    label={diet.name}
-                    value={diet.id}
-                  />
-                ))}
-              </Picker>
-            </View>
-          ) : (
-            <></>
-          )}
-
-          <Text className="text-base font-bold mb-2">{patient.diet.name}</Text>
-          <View className="flex-row gap-x-4 justify-center">
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={
-                isAssigningDiet
-                  ? handleDietAssign
-                  : () => setIsAssigningDiet(true)
-              }
-              className="bg-primary rounded-lg px-6 py-2 mx-4 items-center justify-center w-32"
-            >
-              <Text className="text-white font-bold text-base text-center">
-                {isAssigningDiet ? 'Guardar' : 'Asignar'}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() => setIsModalVisible(true)}
-              className="bg-red-500 rounded-lg px-6 py-2 mx-4 items-center justify-center w-32"
-            >
-              <Text className="text-white font-bold text-base text-center">
-                Eliminar
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </ScrollView>
-
-      {isModalVisible && (
-        <View className="absolute inset-0 z-50 bg-black/50 items-center justify-center">
-          <View className="bg-white w-4/5 p-6 rounded-xl shadow-lg">
-            <Text className="text-lg font-bold text-center mb-4">
-              ¿Estás seguro de que quieres eliminar esta dieta?
-            </Text>
-
-            <View className="flex-row justify-around mt-2">
-              <TouchableOpacity
-                onPress={() => {
-                  handleDeleteDiet()
-                  setIsModalVisible(false)
-                }}
-                className="bg-red-500 px-4 py-2 rounded-lg"
-              >
-                <Text className="text-white font-bold">Eliminar</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() => setIsModalVisible(false)}
-                className="bg-gray-200 px-4 py-2 rounded-lg"
-              >
-                <Text className="text-gray-800 font-bold">Cancelar</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      )}
-    </View>
+        )}
+      </View>
+    </SafeAreaContainer>
   )
 }

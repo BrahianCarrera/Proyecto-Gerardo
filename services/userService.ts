@@ -9,7 +9,7 @@ export async function registerUser(userPayload:any) {
 
 
 export async function getUserInfo(userId: string){
-  return await api.get("/users/"+userId)
+  return await api.get(`/users?id=${userId}`)
 }
 
 export const updatePhoto = async (uri: string, userId: string) => {

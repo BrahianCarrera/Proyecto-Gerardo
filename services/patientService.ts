@@ -6,12 +6,10 @@ export async function getPatients() {
 
 export async function getPatientById(id: string) {
   const res = await api.get(`/patients?id=${id}`)
-  console.log(res[0])
   return res[0]
 }
 
 export async function updatePatient( data: any) {
-  console.log(data)
   return await api.put(`/patients`, data)
 }
 

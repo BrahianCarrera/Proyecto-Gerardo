@@ -1,11 +1,12 @@
 import { Tabs } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { CookingPot } from 'lucide-react-native'
+
+import { CircleUserRound, CookingPot } from 'lucide-react-native'
+import SafeAreaContainer from 'components/safeAreaContainer'
 
 export default function AdminLayout() {
   return (
-    <SafeAreaProvider>
+    <SafeAreaContainer>
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: '#14798B',
@@ -58,7 +59,17 @@ export default function AdminLayout() {
             ),
           }}
         />
+
+        <Tabs.Screen
+          name="userProfile"
+          options={{
+            title: 'Perfil',
+            tabBarIcon: ({ color, size }) => (
+              <CircleUserRound size={size} color={color} />
+            ),
+          }}
+        />
       </Tabs>
-    </SafeAreaProvider>
+    </SafeAreaContainer>
   )
 }

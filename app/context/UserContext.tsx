@@ -7,6 +7,7 @@ import React, {
 } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage' // Usaremos AsyncStorage para ambos tokens
 import { jwtDecode } from 'jwt-decode'
+import { router } from 'expo-router'
 
 interface DecodedToken {
   id: string
@@ -67,13 +68,12 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Define logout antes de refreshAccessToken para que pueda ser llamada
   const logout = useCallback(async () => {
-    console.log('Cerrando sesión. Limpiando tokens de AsyncStorage.')
     try {
       await AsyncStorage.removeItem('accessToken')
       await AsyncStorage.removeItem('refreshToken')
       setUser(null)
       setAccessToken(null)
-      // Opcional: Llamada a la API para invalidar el refresh token en el servidor
+      router.replace('landingpage/loginf')
     } catch (error) {
       console.error('Error al cerrar sesión:', error)
     }

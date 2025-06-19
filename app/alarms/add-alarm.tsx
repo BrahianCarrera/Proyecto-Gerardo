@@ -73,22 +73,28 @@ const addAlarm = () => {
     >
       <View className="border border-gray-300 p-5 rounded-md shadow py-4 bg-background">
         <Text className="text-lg">Número de cédula del paciente</Text>
+        <Text className="text-sm">Ingresa el numero sin puntos ni comas</Text>
         <TextInput
           className=" p-2 mb-4 bg-white rounded border border-gray-300 shadow-sm"
           value={patientId}
           returnKeyType="done"
+          placeholder="1194075221"
+          placeholderTextColor="#888"
           onChangeText={(value) => setPatientId(value)}
         />
 
         <Text className="text-lg">Nombre de la alarma</Text>
+
         <TextInput
           className="p-2 mb-4 bg-white rounded border border-gray-300 shadow-sm"
           value={name}
           returnKeyType="done"
+          placeholder="Vitamina C"
+          placeholderTextColor="#888"
           onChangeText={(value) => setName(value)}
         />
 
-        <Text className="text-lg">Tipo de Alarma</Text>
+        <Text className="text-lg">Tipo de alarma</Text>
         <Picker
           className="h-10 px-2 mb-4 rounded  border border-gray-300 shadow-sm"
           selectedValue={type}
@@ -129,7 +135,7 @@ const addAlarm = () => {
             }
             style={{ height }}
             textAlignVertical="top"
-            placeholder="Escribe tu mensaje aquí..."
+            placeholder="Escribe las notas de la alarma aquí..."
           />
 
           {error && (

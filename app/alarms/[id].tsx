@@ -40,7 +40,6 @@ export default function AlarmDetail() {
         .then((alarms) => {
           if (alarms.length > 0) {
             const alarm = alarms[0]
-            console.log('Datos recibidos:', alarm)
 
             setForm({
               alarmId: alarmId,
@@ -82,13 +81,13 @@ export default function AlarmDetail() {
       await updateAlarm(form)
       Toast.show({
         type: 'success',
-        text1: 'Alarm updated successfully',
+        text1: 'Alarma editada correctamente',
       })
       router.back()
     } catch (error) {
       Toast.show({
         type: 'error',
-        text1: 'Error updating alarm',
+        text1: 'Hubo un error actualizando la alarma',
       })
     } finally {
       setIsSubmitting(false)
@@ -127,7 +126,7 @@ export default function AlarmDetail() {
           <Picker
             className="h-10 px-2 mb-4 rounded  border border-primary shadow-sm"
             selectedValue={form.type}
-            onValueChange={(value) => setForm({ ...form, name: value })}
+            onValueChange={(value) => setForm({ ...form, type: value })}
             dropdownIconColor="#4F46E5"
           >
             <Picker.Item
