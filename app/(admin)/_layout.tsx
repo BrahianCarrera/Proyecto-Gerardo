@@ -61,8 +61,9 @@ export default function AdminLayout() {
         />
 
         <Tabs.Screen
-          name="userProfile"
+          name="/(shared)/userProfile"
           options={{
+            href: '/(shared)/userProfile',
             title: 'Perfil',
             tabBarIcon: ({ color, size }) => (
               <CircleUserRound size={size} color={color} />

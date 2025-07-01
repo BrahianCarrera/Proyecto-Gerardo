@@ -73,7 +73,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       await AsyncStorage.removeItem('refreshToken')
       setUser(null)
       setAccessToken(null)
-      router.replace('landingpage/loginf')
+      router.replace('landingpage/login')
     } catch (error) {
       console.error('Error al cerrar sesión:', error)
     }

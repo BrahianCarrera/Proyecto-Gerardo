@@ -20,7 +20,7 @@ interface UserDetailsFromAPI {
 }
 
 const UserProfile = () => {
-  const { user, logout } = useUser() // Assuming signOut is available from your UserContext
+  const { user, logout } = useUser()
 
   const [userDetails, setUserDetails] = useState<UserDetailsFromAPI | null>(
     null,
@@ -63,7 +63,6 @@ const UserProfile = () => {
     fetchUserDetails()
   }, [user])
 
-  // --- Loading, error, and no user data states ---
   if (loading) {
     return (
       <View className="flex-1 justify-center items-center bg-white">
@@ -112,12 +111,6 @@ const UserProfile = () => {
         ? new Date(userDetails.birthDate).toLocaleDateString('es-ES')
         : 'No especificado',
     },
-    // Add more info here if needed, e.g., role
-    // {
-    //   icon: <Briefcase size={24} color="#14798B" />,
-    //   title: 'Rol',
-    //   subtitle: userDetails.role,
-    // }
   ]
 
   return (

@@ -7,7 +7,14 @@ export default function MealsLayout() {
   return (
     <>
       <SafeAreaProvider>
-        <Stack screenOptions={{ headerShown: false }} />
+        <Stack screenOptions={{ headerShown: true }} />
+
+        <Stack.Screen
+          name="addMeals"
+          options={{
+            headerTitle: 'Añadir comida',
+          }}
+        />
       </SafeAreaProvider>
     </>
   )

@@ -248,7 +248,7 @@ export default function CreateFoodScreen() {
       <View className="mt-4 gap-y-4">
         <Field label="Nombre del Plato">
           <TextInput
-            className="h-12 px-4 border border-gray-300 rounded-md text-base"
+            className=" px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ej. Sopa Ligera"
             value={form.name}
             onChangeText={(text) => updateForm('name', text)}
@@ -263,7 +263,7 @@ export default function CreateFoodScreen() {
               onValueChange={(itemValue: string) =>
                 updateForm('type', itemValue)
               }
-              style={{ height: 50, width: '100%' }}
+              style={{ width: '100%' }}
             >
               {MEAL_TYPE_OPTIONS.map((option) => (
                 <Picker.Item
@@ -280,7 +280,7 @@ export default function CreateFoodScreen() {
 
         <Field label="Tamaño (ej. MEDIANA, GRANDE)">
           <TextInput
-            className="h-12 px-4 border border-gray-300 rounded-md text-base"
+            className=" px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ej. MEDIANA"
             value={form.size}
             onChangeText={(text) => updateForm('size', text)}
@@ -290,7 +290,7 @@ export default function CreateFoodScreen() {
 
         <Field label="Grupo Alimenticio (ej. VERDURAS)">
           <TextInput
-            className="h-12 px-4 border border-gray-300 rounded-md text-base"
+            className=" px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ej. VERDURAS"
             value={form.foodGroup}
             onChangeText={(text) => updateForm('foodGroup', text)}
@@ -300,7 +300,7 @@ export default function CreateFoodScreen() {
 
         <Field label="Calorías (kcal)">
           <TextInput
-            className="h-12 px-4 border border-gray-300 rounded-md text-base"
+            className=" px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ej. 320"
             keyboardType="numeric"
             value={form.calories.toString()}
@@ -311,7 +311,7 @@ export default function CreateFoodScreen() {
 
         <Field label="Proteína (g)">
           <TextInput
-            className="h-12 px-4 border border-gray-300 rounded-md text-base"
+            className=" px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ej. 12"
             keyboardType="numeric"
             value={form.protein.toString()}
@@ -322,7 +322,7 @@ export default function CreateFoodScreen() {
 
         <Field label="Carbohidratos (g)">
           <TextInput
-            className="h-12 px-4 border border-gray-300 rounded-md text-base"
+            className=" px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ej. 28"
             keyboardType="numeric"
             value={form.carbs.toString()}
@@ -333,7 +333,7 @@ export default function CreateFoodScreen() {
 
         <Field label="Azúcar (g)">
           <TextInput
-            className="h-12 px-4 border border-gray-300 rounded-md text-base"
+            className=" px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ej. 5"
             keyboardType="numeric"
             value={form.sugar.toString()}
@@ -344,7 +344,7 @@ export default function CreateFoodScreen() {
 
         <Field label="Grasa (g)">
           <TextInput
-            className="h-12 px-4 border border-gray-300 rounded-md text-base"
+            className=" px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ej. 15"
             keyboardType="numeric"
             value={form.fat.toString()}
@@ -355,7 +355,7 @@ export default function CreateFoodScreen() {
 
         <Field label="Fibra (g)">
           <TextInput
-            className="h-12 px-4 border border-gray-300 rounded-md text-base"
+            className=" px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ej. 4"
             keyboardType="numeric"
             value={form.fiber.toString()}
@@ -366,7 +366,7 @@ export default function CreateFoodScreen() {
 
         <Field label="Sodio (mg)">
           <TextInput
-            className="h-12 px-4 border border-gray-300 rounded-md text-base"
+            className="px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ej. 850"
             keyboardType="numeric"
             value={form.sodium.toString()}
@@ -388,13 +388,13 @@ export default function CreateFoodScreen() {
                 Ingrediente {index + 1}
               </Text>
               <TextInput
-                className="h-10 px-3 border border-gray-300 rounded-md text-base"
+                className=" px-3 border border-gray-300 rounded-md text-base"
                 placeholder="Nombre"
                 value={ingredient.name}
                 onChangeText={(text) => updateIngredient(index, 'name', text)}
               />
               <TextInput
-                className="h-10 px-3 border border-gray-300 rounded-md text-base"
+                className=" px-3 border border-gray-300 rounded-md text-base"
                 placeholder="Cantidad"
                 keyboardType="numeric"
                 value={ingredient.quantity.toString()}
@@ -403,7 +403,7 @@ export default function CreateFoodScreen() {
                 }
               />
               <TextInput
-                className="h-10 px-3 border border-gray-300 rounded-md text-base"
+                className=" px-3 border border-gray-300 rounded-md text-base"
                 placeholder="Unidad (ej. g, ml, rebanada)"
                 value={ingredient.unit}
                 onChangeText={(text) => updateIngredient(index, 'unit', text)}
@@ -411,7 +411,7 @@ export default function CreateFoodScreen() {
               {form.ingredients.length > 1 && (
                 <TouchableOpacity
                   onPress={() => removeIngredient(index)}
-                  className="bg-red-500 rounded-md h-8 justify-center items-center mt-2"
+                  className="bg-red-500 rounded-md justify-center items-center mt-2"
                 >
                   <Text className="text-white text-sm font-medium">
                     Remover Ingrediente
@@ -422,7 +422,7 @@ export default function CreateFoodScreen() {
           ))}
           <TouchableOpacity
             onPress={addIngredient}
-            className="bg-blue-500 rounded-md h-10 justify-center items-center mt-2"
+            className="bg-primary rounded-md h-12 justify-center items-center mt-2"
           >
             <Text className="text-white text-base font-medium">
               Añadir Ingrediente
@@ -433,7 +433,7 @@ export default function CreateFoodScreen() {
 
         <Pressable
           onPress={handleSubmit}
-          className={`bg-primary rounded-md h-12 justify-center items-center mt-6 ${loading ? 'opacity-70' : ''}`}
+          className={`bg-primary rounded-md h-12 justify-center items-center my-10 ${loading ? 'opacity-70' : ''}`}
           disabled={loading}
         >
           <Text className="text-base font-medium text-white">

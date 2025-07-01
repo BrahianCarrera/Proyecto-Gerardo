@@ -14,10 +14,13 @@ const KeyboardAvoidingContainer = ({
 }: any) => {
   return (
     <SafeAreaContainer
-      className={`flex-1 ${containerClassName}`}
-      style={{
-        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-      }}
+      style={[
+        {
+          flex: 1,
+          paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+        },
+        // Optionally, you can add more styles here if containerClassName is needed
+      ]}
     >
       <KeyboardAvoidingView
         style={{

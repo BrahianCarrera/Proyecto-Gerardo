@@ -45,7 +45,7 @@ export default function UserTabsLayout() {
       />
 
       <Tabs.Screen
-        name="userProfile"
+        name="/(shared)/userProfile"
         options={{
           title: 'Perfil',
           tabBarIcon: ({ color, size }) => (

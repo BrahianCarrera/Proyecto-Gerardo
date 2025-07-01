@@ -83,7 +83,7 @@ export default function LoginScreen() {
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <View className="flex-1 bg-primary justify-center items-center">
+        <View className="flex-1 bg-primary justify-center items-center p-2">
           <ScrollView
             className="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 flex-1"
             keyboardShouldPersistTaps="handled"

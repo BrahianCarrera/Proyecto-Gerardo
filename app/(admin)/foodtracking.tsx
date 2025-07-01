@@ -6,6 +6,7 @@ import { getMeals } from '../../services/mealService'
 import { ScrollView } from 'react-native'
 import SafeAreaContainer from 'components/safeAreaContainer'
 import { router } from 'expo-router'
+import Header from 'components/Header'
 
 const foodTracking = () => {
   const [meals, setMeals] = useState<any[]>([])
@@ -29,6 +30,7 @@ const foodTracking = () => {
   return (
     <SafeAreaProvider>
       <SafeAreaContainer>
+        <Header />
         <ScrollView className="px-2">
           {meals.map((meal) => (
             <Card
