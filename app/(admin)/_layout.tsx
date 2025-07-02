@@ -39,16 +39,7 @@ export default function AdminLayout() {
             ),
           }}
         />
-        <Tabs.Screen
-          name="alarms"
-          options={{
-            title: 'Alarmas',
-            headerTitle: 'Alarmas ',
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="alarm" size={size} color={color} />
-            ),
-          }}
-        />
+
         <Tabs.Screen
           name="diets"
           options={{
@@ -59,11 +50,20 @@ export default function AdminLayout() {
             ),
           }}
         />
+        <Tabs.Screen
+          name="alarms"
+          options={{
+            title: 'Alarmas',
+            headerTitle: 'Alarmas ',
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="alarm" size={size} color={color} />
+            ),
+          }}
+        />
 
         <Tabs.Screen
-          name="/(shared)/userProfile"
+          name="userProfile"
           options={{
-            href: '/(shared)/userProfile',
             title: 'Perfil',
             tabBarIcon: ({ color, size }) => (
               <CircleUserRound size={size} color={color} />

@@ -1,19 +1,35 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Card from 'components/Card'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react' // Importa useCallback
 import { getMeals } from '../../services/mealService'
 import { ScrollView } from 'react-native'
 import SafeAreaContainer from 'components/safeAreaContainer'
 import { router } from 'expo-router'
 import Header from 'components/Header'
+import { useFocusEffect } from '@react-navigation/native' // Importa useFocusEffect
 
 const foodTracking = () => {
   const [meals, setMeals] = useState<any[]>([])
 
-  useEffect(() => {
-    getMeals().then(setMeals).catch(console.error)
-  }, [])
+  // Función para cargar las comidas
+  const fetchMeals = async () => {
+    try {
+      const fetchedMeals = await getMeals()
+      setMeals(fetchedMeals)
+    } catch (error) {
+      console.error('Error fetching meals:', error)
+    }
+  }
+
+  // Usa useFocusEffect para recargar cuando la pantalla esté enfocada
+  useFocusEffect(
+    useCallback(() => {
+      fetchMeals()
+      // Retorna una función de limpieza si es necesario, aunque en este caso no lo es
+      return () => {}
+    }, []), // Dependencias vacías significan que el efecto se crea una vez y se ejecuta en cada foco
+  )
 
   const mealTypeImages: Record<string, string> = {
     desayuno:
@@ -35,7 +51,7 @@ const foodTracking = () => {
           {meals.map((meal) => (
             <Card
               key={meal.id}
-              id=""
+              id={meal.id} // Asegúrate de pasar el ID real si lo tienes
               title={meal.name}
               description={
                 meal.type.charAt(0).toUpperCase() +
@@ -44,7 +60,7 @@ const foodTracking = () => {
               size={meal.size}
               isConsumed={false}
               imageUrl={mealTypeImages[meal.type.toLowerCase()]}
-              onPressCard={() => console.log('')}
+              onPressCard={() => console.log('Card Pressed:', meal.id)} // Aquí podrías navegar a los detalles
             />
           ))}
         </ScrollView>

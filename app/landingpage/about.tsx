@@ -67,9 +67,10 @@ const About = () => {
               <Text className="text-xl font-semibold text-gray-700 mb-2">
                 Autores
               </Text>
-              <Text className="text-gray-600">Miguel Angel Velez Aguirre</Text>
+              <Text className="text-gray-600">Miguelangel Velez Aguirre</Text>
               <Text className="text-gray-600">Brahian Carrera Rodriguez</Text>
-              <Text className="text-gray-600">Diana Margot</Text>
+              <Text className="text-gray-600">Diana Margot López Herrera</Text>
+              <Text className="text-gray-600">Francia Edith López Herrera</Text>
             </View>
 
             <Pressable

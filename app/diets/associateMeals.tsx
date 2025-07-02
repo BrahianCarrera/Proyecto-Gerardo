@@ -93,7 +93,7 @@ export default function AssignMealsToDiet() {
       await assignMealsToDiet(payload)
 
       Alert.alert('Éxito', 'Comidas asignadas correctamente.')
-      router.back()
+      router.replace('/diets')
     } catch (err) {
       console.error(err)
       Alert.alert('Error', 'No se pudieron asignar las comidas.')

@@ -11,7 +11,9 @@ import {
 import Toast from 'react-native-toast-message'
 import KeyboardAvoidingContainer from 'components/KeyboardAvoidingContainer'
 import { Picker } from '@react-native-picker/picker'
-import { Apple } from 'lucide-react-native'
+import { Apple, Plus } from 'lucide-react-native'
+import { red100 } from 'react-native-paper/lib/typescript/styles/themes/v2/colors'
+import { addMeal } from 'services/mealService'
 
 interface Ingredient {
   name: string
@@ -36,7 +38,6 @@ interface FoodData {
 
 interface FormErrors {
   [key: string]: string
-  FoodData: string
 }
 
 const INITIAL_FORM_STATE: FoodData = {
@@ -62,6 +63,24 @@ const MEAL_TYPE_OPTIONS = [
   { label: 'Merienda', value: 'MERIENDA' },
   { label: 'Media Tarde', value: 'MEDIATARDE' },
 ]
+const MEAL_FOODGROUP_OPTIONS = [
+  { label: 'Selecciona un grupo alimenticio...', value: '', enabled: false },
+  { label: 'Carbohidratos', value: 'CARBOHIDRATOS' },
+  { label: 'Frutas', value: 'FRUTAS' },
+  { label: 'Verduras', value: 'VERDURAS' },
+  { label: 'Lacteos', value: 'LACTEOS' },
+  { label: 'Proteínas Animales', value: 'PROTEINAS_ANIMALES' },
+  { label: 'Proteína Vegetal', value: 'PROTEINAS_VEGETALES' },
+  { label: 'Grasas Saludables', value: 'GRASAS_SALUDABLES' },
+  { label: 'Azúcares', value: 'AZUCARES' },
+]
+
+const MEAL_SIZE_OPTIONS = [
+  { label: 'Selecciona un tamaño...', value: '', enabled: false },
+  { label: 'Pequeña', value: 'PEQUEÑA' },
+  { label: 'Mediana', value: 'MEDIANA' },
+  { label: 'Grande', value: 'GRANDE' },
+]
 
 const Field: React.FC<{ label: string; children: React.ReactNode }> = ({
   label,
@@ -80,7 +99,7 @@ const ErrorText: React.FC<{ error?: string }> = ({ error }) => {
 
 export default function CreateFoodScreen() {
   const [form, setForm] = useState<FoodData>(INITIAL_FORM_STATE)
-  const [errors, setErrors] = useState<FormErrors>({ FoodData: ' ' }) // Inicializar con propiedad requerida
+  const [errors, setErrors] = useState<FormErrors>({ FoodData: ' ' })
   const [loading, setLoading] = useState<boolean>(false)
 
   const updateForm = (field: keyof FoodData, value: any) => {
@@ -129,12 +148,10 @@ export default function CreateFoodScreen() {
   }
 
   const validateForm = (): FormErrors => {
-    const newErrors: FormErrors = {
-      FoodData: '',
-    }
+    const newErrors: FormErrors = {}
 
     if (!form.name.trim()) newErrors.name = 'El nombre es obligatorio.'
-    if (!form.type.trim()) newErrors.type = 'El tipo es obligatorio.' // La validación es la misma
+    if (!form.type.trim()) newErrors.type = 'El tipo es obligatorio.'
     if (!form.size.trim()) newErrors.size = 'El tamaño es obligatorio.'
     if (form.calories === '' || isNaN(Number(form.calories)))
       newErrors.calories =
@@ -162,7 +179,6 @@ export default function CreateFoodScreen() {
         isNaN(Number(ing.quantity)) ||
         !ing.unit.trim()
       ) {
-        // Solo asignamos el error si aún no existe, para evitar duplicados
         newErrors.ingredients =
           newErrors.ingredients ||
           'Todos los campos de los ingredientes son obligatorios y la cantidad debe ser un número.'
@@ -172,11 +188,14 @@ export default function CreateFoodScreen() {
     return newErrors
   }
 
-  // Manejador de envío del formulario
   const handleSubmit = () => {
     setLoading(true)
     const validationErrors = validateForm()
     setErrors(validationErrors)
+
+    console.log(Object.keys(validationErrors).length)
+
+    console.log(Object.keys(validationErrors))
 
     if (Object.keys(validationErrors).length > 0) {
       Toast.show({
@@ -208,11 +227,8 @@ export default function CreateFoodScreen() {
       })),
     }
 
-    console.log('Payload a enviar a la API:', JSON.stringify(payload, null, 2))
-
-    // Simulación de llamada a la API
     try {
-      // await yourApiService.createFood(payload); // Descomenta y reemplaza con tu API real
+      addMeal(payload)
 
       Toast.show({
         type: 'success',
@@ -220,7 +236,7 @@ export default function CreateFoodScreen() {
         text2: 'El alimento ha sido registrado exitosamente.',
         position: 'bottom',
       })
-      setForm(INITIAL_FORM_STATE) // Restablecer formulario
+      setForm(INITIAL_FORM_STATE)
     } catch (apiError) {
       console.error('Error al crear la comida:', apiError)
       Toast.show({
@@ -237,7 +253,7 @@ export default function CreateFoodScreen() {
   return (
     <KeyboardAvoidingContainer containerClassName="bg-primary">
       <View className="items-center gap-y-4">
-        <Apple width={120} height={120} color={'#4B5563'} />
+        <Apple width={120} height={120} color={'#e64635'} />
         <Text className="text-2xl font-bold text-gray-900">
           Crear Nueva Comida
         </Text>
@@ -279,22 +295,46 @@ export default function CreateFoodScreen() {
         </Field>
 
         <Field label="Tamaño (ej. MEDIANA, GRANDE)">
-          <TextInput
-            className=" px-4 border border-gray-300 rounded-md text-base"
-            placeholder="Ej. MEDIANA"
-            value={form.size}
-            onChangeText={(text) => updateForm('size', text)}
-          />
+          <View className="border border-gray-300 rounded-md bg-white">
+            <Picker
+              selectedValue={form.size}
+              onValueChange={(itemValue: string) =>
+                updateForm('size', itemValue)
+              }
+              style={{ width: '100%' }}
+            >
+              {MEAL_SIZE_OPTIONS.map((option) => (
+                <Picker.Item
+                  key={option.value}
+                  label={option.label}
+                  value={option.value}
+                  enabled={option.enabled !== false}
+                />
+              ))}
+            </Picker>
+          </View>
           <ErrorText error={errors.size} />
         </Field>
 
         <Field label="Grupo Alimenticio (ej. VERDURAS)">
-          <TextInput
-            className=" px-4 border border-gray-300 rounded-md text-base"
-            placeholder="Ej. VERDURAS"
-            value={form.foodGroup}
-            onChangeText={(text) => updateForm('foodGroup', text)}
-          />
+          <View className="border border-gray-300 rounded-md bg-white">
+            <Picker
+              selectedValue={form.foodGroup}
+              onValueChange={(itemValue: string) =>
+                updateForm('foodGroup', itemValue)
+              }
+              style={{ width: '100%' }}
+            >
+              {MEAL_FOODGROUP_OPTIONS.map((option) => (
+                <Picker.Item
+                  key={option.value}
+                  label={option.label}
+                  value={option.value}
+                  enabled={option.enabled !== false}
+                />
+              ))}
+            </Picker>
+          </View>
           <ErrorText error={errors.foodGroup} />
         </Field>
 
@@ -422,9 +462,10 @@ export default function CreateFoodScreen() {
           ))}
           <TouchableOpacity
             onPress={addIngredient}
-            className="bg-primary rounded-md h-12 justify-center items-center mt-2"
+            className="bg-gray-300 border-4 border-primary rounded-md h-12 justify-center gap-x-2 items-center flex-row mt-2"
           >
-            <Text className="text-white text-base font-medium">
+            <Plus size={20} color={'#14798B'} />
+            <Text className="text-primary text-base font-medium">
               Añadir Ingrediente
             </Text>
           </TouchableOpacity>

@@ -1,21 +1,26 @@
-import { UserProvider } from './../context/UserContext'
+import React from 'react'
 import { Stack } from 'expo-router'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
-import Toast from 'react-native-toast-message'
 
-export default function MealsLayout() {
+export default function AddMealsLayout() {
   return (
-    <>
-      <SafeAreaProvider>
-        <Stack screenOptions={{ headerShown: true }} />
-
-        <Stack.Screen
-          name="addMeals"
-          options={{
-            headerTitle: 'Añadir comida',
-          }}
-        />
-      </SafeAreaProvider>
-    </>
+    <Stack
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#14798B',
+        },
+        headerTitleAlign: 'center',
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+    >
+      <Stack.Screen
+        name="addMeals"
+        options={{
+          headerTitle: 'Añadir una comida',
+        }}
+      />
+    </Stack>
   )
 }
