@@ -43,4 +43,3 @@ function getNextDayOfWeekTime(dayOfWeek: number, hour: number, minute: number): 
 
   return result
 }
-export default syncLocalAlarms

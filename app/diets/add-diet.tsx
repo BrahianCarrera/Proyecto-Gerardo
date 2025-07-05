@@ -26,7 +26,7 @@ const AddDiet = () => {
     setLoading(true)
     try {
       const newDiet = await createDiet(payload)
-      console.log('Redirecting to associateMeals with ID:', newDiet.id)
+
       router.push({
         pathname: '/diets/associateMeals',
         params: { dietId: newDiet.id },

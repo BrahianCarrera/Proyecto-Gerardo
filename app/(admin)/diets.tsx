@@ -1,16 +1,22 @@
 import { View, Text, ScrollView, TextInput, Pressable } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import SafeAreaContainer from 'components/safeAreaContainer'
 import { useRouter } from 'expo-router'
-import PatientCard from 'components/PatientCard'
 import { getDiets } from 'services/dietService'
 import { useFocusEffect } from '@react-navigation/native'
-import { useCallback } from 'react'
+
+interface Diet {
+  id: string
+  name: string
+  description?: string
+  observations?: string
+  tags?: string[]
+}
 
 const Diets = () => {
   const [searchTerm, setSearchTerm] = useState('')
-  const [allDiets, setAllDiets] = useState<any[]>([])
-  const [filteredDiets, setFilteredDiets] = useState<any[]>([])
+  const [allDiets, setAllDiets] = useState<Diet[]>([])
+  const [filteredDiets, setFilteredDiets] = useState<Diet[]>([])
   const [loading, setLoading] = useState(true)
   const router = useRouter()
 
@@ -19,7 +25,7 @@ const Diets = () => {
       const fetchDiets = async () => {
         setLoading(true)
         try {
-          const data = await getDiets()
+          const data: Diet[] = await getDiets()
           setAllDiets(data)
           setFilteredDiets(data)
         } catch {
@@ -66,7 +72,7 @@ const Diets = () => {
           {!loading &&
             filteredDiets.map((diet) => (
               <View key={diet.id}>
-                <Pressable>
+                <Pressable onPress={() => router.push(`/diets/${diet.id}`)}>
                   <View className="justify-between items-center bg-white p-4  my-2 border border-gray-300 rounded-md ">
                     <View className="flex-1 mr-2">
                       <Text
@@ -78,7 +84,7 @@ const Diets = () => {
                     </View>
 
                     <View className="flex-row flex-wrap gap-2 mt-2">
-                      {diet.tags?.map((tag: string, index: number) => (
+                      {diet.tags?.map((tag, index) => (
                         <View
                           key={index}
                           className="bg-secondary px-2 py-1 rounded"

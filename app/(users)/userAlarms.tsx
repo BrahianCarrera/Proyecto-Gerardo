@@ -100,13 +100,13 @@ TaskManager.defineTask(BACKGROUND_ALARM_FETCH_TASK, async () => {
     await AsyncStorage.setItem(ALARMS_DATA_KEY, JSON.stringify(data))
 
     console.log('Sincronización de alarmas en segundo plano completada.')
-    return BackgroundTasks.BackgroundTaskResult.Success // Cambiado aquí
+    return BackgroundTasks.BackgroundTaskResult.Success
   } catch (error) {
     console.error(
       'Error en la sincronización de alarmas en segundo plano:',
       error,
     )
-    return BackgroundTasks.BackgroundTaskResult.Failed // Cambiado aquí
+    return BackgroundTasks.BackgroundTaskResult.Failed
   }
 })
 
@@ -155,12 +155,35 @@ export default function AlarmMedicinesScreen() {
   }, [user])
 
   useEffect(() => {
+    const requestNotificationPermissions = async () => {
+      const { status: existingStatus } =
+        await Notifications.getPermissionsAsync()
+      let finalStatus = existingStatus
+
+      if (existingStatus !== 'granted') {
+        const { status } = await Notifications.requestPermissionsAsync()
+        finalStatus = status
+      }
+
+      if (finalStatus !== 'granted') {
+        Alert.alert(
+          'Permisos de Notificación Necesarios',
+          'Para que las alarmas funcionen correctamente, la aplicación necesita permisos para enviar notificaciones. Por favor, habilítalos en la configuración de tu dispositivo.',
+        )
+        return false
+      }
+
+      return true
+    }
+
+    requestNotificationPermissions()
+
     Notifications.setNotificationHandler({
       handleNotification: async () => ({
-        shouldShowBanner: true,
-        shouldShowList: true,
         shouldPlaySound: true,
         shouldSetBadge: false,
+        shouldShowBanner: true,
+        shouldShowList: true,
       }),
     })
 
@@ -169,9 +192,8 @@ export default function AlarmMedicinesScreen() {
         BACKGROUND_ALARM_FETCH_TASK,
       )
       if (!isRegistered) {
-        // Usar BackgroundTasks.registerTaskAsync en lugar de BackgroundFetch
         await BackgroundTasks.registerTaskAsync(BACKGROUND_ALARM_FETCH_TASK, {
-          minimumInterval: 60 * 15,
+          minimumInterval: 60 * 15, // 15 minutos
         })
         console.log(
           'Tarea de sincronización de alarmas en segundo plano registrada.',
@@ -185,12 +207,21 @@ export default function AlarmMedicinesScreen() {
       AsyncStorage.setItem(USER_ID_BACKGROUND_KEY, user.id)
       fetchAlarms()
     }
-  }, [user?.id, fetchAlarms])
+  }, [user?.id, fetchAlarms]) // Añadido fetchAlarms a las dependencias para useCallback
 
   const scheduleTestAlarm = async () => {
+    const { status } = await Notifications.getPermissionsAsync()
+    if (status !== 'granted') {
+      Alert.alert(
+        'Permisos Denegados',
+        'No se pueden programar alarmas de prueba porque no hay permisos de notificación.',
+      )
+      return
+    }
+
     try {
       const now = new Date()
-      const testAlarmTime = new Date(now.getTime() + 5 * 1000)
+      const testAlarmTime = new Date(now.getTime() + 5 * 1000) // 5 segundos en el futuro
       const testAlarmUid = `test-alarm-${Date.now()}`
 
       await scheduleAlarm({
@@ -200,16 +231,16 @@ export default function AlarmMedicinesScreen() {
         description: '¡Es hora de tu medicamento de prueba!',
         showDismiss: true,
         showSnooze: true,
-        snoozeInterval: 1,
-        repeating: false,
+        snoozeInterval: 1, // 1 minuto para posponer
+        repeating: false, // Para una alarma de prueba, generalmente no se repite
         active: true,
         dismissText: 'Entendido',
-        snoozeText: 'posponer 5 min',
+        snoozeText: 'Posponer',
       } as any)
 
       Alert.alert(
         'Alarma de Prueba Programada',
-        'Se ha programado una alarma para dentro de 5 segundos.',
+        'Se ha programado una alarma para dentro de 5 segundos. Asegúrate de tener la app en segundo plano o cerrada para ver la notificación.',
       )
     } catch (error) {
       console.error('Error al programar alarma de prueba:', error)
