@@ -52,7 +52,7 @@ export default function MedicineReminderCard({
             : 'bg-purple-100 text-purple-600'
         }`}
       >
-        <Pill size={24} color={isTaken ? '#16A34A' : '#9333ea'} />{' '}
+        <Pill size={24} color={isTaken ? '#16A34A' : '#9333ea'} />
       </View>
       <View className="flex-1">
         <Text

@@ -1,8 +1,10 @@
 import { scheduleAlarm, removeAlarm } from 'expo-alarm-module'
+import * as Notifications from 'expo-notifications'
+
 
 export async function syncLocalAlarms(alarms: any[]) {
   for (const alarm of alarms) {
-    // Elimina alarmas anteriores para evitar duplicados
+   
     for (const day of alarm.daysOfWeek) {
       await removeAlarm(alarm.id + '-' + day)
     }
@@ -34,10 +36,11 @@ function getNextDayOfWeekTime(dayOfWeek: number, hour: number, minute: number): 
   result.setDate(now.getDate() + ((7 + dayOfWeek - now.getDay()) % 7))
   result.setHours(hour, minute, 0, 0)
 
-  // Si ya pasó esa hora hoy
+  
   if (result <= now) {
     result.setDate(result.getDate() + 7)
   }
 
   return result
 }
+export default syncLocalAlarms

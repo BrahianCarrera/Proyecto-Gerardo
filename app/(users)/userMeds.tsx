@@ -166,7 +166,6 @@ const MedicineTracking = () => {
 
       <ScrollView className="p-2">
         <View className="mb-4">
-          {/* Mostramos el día actual */}
           <View className="rounded-xl bg-purple-100 p-2 mb-4">
             <Text className="text-2xl font-bold text-gray-800 capitalize text-center">
               Medicinas para hoy: {currentDayName}
@@ -181,7 +180,7 @@ const MedicineTracking = () => {
               >
                 <MedicineReminderCard
                   name={med.name}
-                  times={[med.time]} // Pasamos la hora como un arreglo para que coincida con el prop 'times'
+                  times={[med.time]}
                   isTaken={med.isTaken} // Pasamos el estado de 'isTaken'
                 />
               </TouchableOpacity>

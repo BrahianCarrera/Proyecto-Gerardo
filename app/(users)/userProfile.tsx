@@ -7,7 +7,7 @@ import { useUser } from 'app/context/UserContext'
 import { SettingsList } from 'components/SettingsList'
 import { Cake, Mail, UserRound } from 'lucide-react-native'
 import { getUserInfo } from '../../services/userService'
-import { Pressable, ScrollView } from 'react-native-gesture-handler' // If you need specific gesture handling, otherwise use 'react-native' ScrollView
+import { Pressable, ScrollView } from 'react-native' // If you need specific gesture handling, otherwise use 'react-native' ScrollView
 
 interface UserDetailsFromAPI {
   id: string

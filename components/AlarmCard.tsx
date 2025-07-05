@@ -3,7 +3,7 @@ import { View, Text, Pressable } from 'react-native'
 
 interface alarmCardProps {
   name: string
-  subtext: string
+  subtext: string | undefined
   detail: string
   onPress?: () => void
   DownElement?: React.ReactNode
