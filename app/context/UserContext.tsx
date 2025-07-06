@@ -27,7 +27,7 @@ export type User = {
 type UserContextType = {
   user: User | null
   loading: boolean
-  accessToken: string | null // El access token actual en el estado del contexto
+  accessToken: string | null
   login: (accessToken: string, refreshToken: string) => Promise<void>
   logout: () => void
   refreshAccessToken: () => Promise<boolean> // Función para refrescar el token

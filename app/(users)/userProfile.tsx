@@ -1,4 +1,4 @@
-import { View, Text, ActivityIndicator } from 'react-native'
+import { View, Text, ActivityIndicator, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import SafeAreaContainer from 'components/safeAreaContainer'
 import Header from 'components/Header'
@@ -7,7 +7,8 @@ import { useUser } from 'app/context/UserContext'
 import { SettingsList } from 'components/SettingsList'
 import { Cake, Mail, UserRound } from 'lucide-react-native'
 import { getUserInfo } from '../../services/userService'
-import { Pressable, ScrollView } from 'react-native' // If you need specific gesture handling, otherwise use 'react-native' ScrollView
+import { Pressable, ScrollView } from 'react-native'
+import { router } from 'expo-router'
 
 interface UserDetailsFromAPI {
   id: string
@@ -92,7 +93,6 @@ const UserProfile = () => {
     )
   }
 
-  // --- Data for SettingsList ---
   const info = [
     {
       icon: <UserRound size={24} color="#14798B" />,
@@ -117,11 +117,9 @@ const UserProfile = () => {
     <SafeAreaContainer>
       <Header />
       <ScrollView
-        // Apply consistent horizontal padding to the content within ScrollView
-        className="flex-grow pb-8 px-4 bg-gray-100" // Increased padding-bottom for scrollable content
-        showsVerticalScrollIndicator={false} // Hide scroll indicator for a cleaner look
+        className="flex-grow pb-8 px-4 bg-gray-100"
+        showsVerticalScrollIndicator={false}
       >
-        {/* Welcome Section */}
         <View className="pt-6 mb-4">
           <Text className="text-lg text-gray-600">Bienvenido</Text>
           <Text className="font-bold text-2xl text-gray-700">
@@ -129,7 +127,6 @@ const UserProfile = () => {
           </Text>
         </View>
 
-        {/* Profile Image Picker */}
         <View className="items-center my-8">
           <ProfileImagePicker
             userId={user?.id ?? ''}
@@ -138,10 +135,39 @@ const UserProfile = () => {
           />
         </View>
 
-        {/* User Details / Settings List */}
         <View className=" mb-6">
           <SettingsList items={info} />
         </View>
+
+        {userDetails.role === 'CUIDADOR' && (
+          <View className="w-full items-center mb-6">
+            <Pressable
+              onPress={() => {
+                router.push('patients/CaregiverRequestScreen')
+              }}
+              className="bg-blue-600 rounded-xl py-4 w-11/12 items-center justify-center shadow-md active:opacity-80"
+            >
+              <Text className="text-white font-bold text-lg">
+                Gestionar Pacientes (Cuidador)
+              </Text>
+            </Pressable>
+          </View>
+        )}
+
+        {userDetails.role === 'PACIENTE' && (
+          <View className="w-full items-center mb-6">
+            <Pressable
+              onPress={() => {
+                router.push('patients/PatientRequestScreen')
+              }}
+              className="bg-blue-600 rounded-xl py-4 w-11/12 items-center justify-center shadow-md active:opacity-80"
+            >
+              <Text className="text-white font-bold text-lg">
+                Gestionar Solicitudes de Cuidadores
+              </Text>
+            </Pressable>
+          </View>
+        )}
 
         {/* Logout Button */}
         <View className="w-full items-center mb-8">

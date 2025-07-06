@@ -207,7 +207,7 @@ export default function AlarmMedicinesScreen() {
       AsyncStorage.setItem(USER_ID_BACKGROUND_KEY, user.id)
       fetchAlarms()
     }
-  }, [user?.id, fetchAlarms]) // Añadido fetchAlarms a las dependencias para useCallback
+  }, [user?.id, fetchAlarms])
 
   const scheduleTestAlarm = async () => {
     const { status } = await Notifications.getPermissionsAsync()
@@ -231,8 +231,8 @@ export default function AlarmMedicinesScreen() {
         description: '¡Es hora de tu medicamento de prueba!',
         showDismiss: true,
         showSnooze: true,
-        snoozeInterval: 1, // 1 minuto para posponer
-        repeating: false, // Para una alarma de prueba, generalmente no se repite
+        snoozeInterval: 1,
+        repeating: false,
         active: true,
         dismissText: 'Entendido',
         snoozeText: 'Posponer',
