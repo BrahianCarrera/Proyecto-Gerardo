@@ -140,6 +140,6 @@ export const protectedApiCall = async (
     return null;
   } catch (error) {
     console.error('Error en protectedApiCall:', error)
-    throw error // Propagar el error para que sea manejado por el componente
+    throw error 
   }
 }

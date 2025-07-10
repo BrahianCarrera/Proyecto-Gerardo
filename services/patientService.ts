@@ -17,3 +17,7 @@ export async function assignDietToPatientData(data:any) {
   return await api.put('/patients/assign',data)
   
 }
+
+export async function getCaregiverPatients(id:string){
+  return await api.get(`/patients/?caregiver=${id}`)
+}

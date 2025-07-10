@@ -10,7 +10,7 @@ import SafeAreaContainer from './safeAreaContainer'
 
 const KeyboardAvoidingContainer = ({
   children,
-  containerClassName = 'bg-gray-100',
+  containerClassName = {},
 }: any) => {
   return (
     <SafeAreaContainer
@@ -19,7 +19,7 @@ const KeyboardAvoidingContainer = ({
           flex: 1,
           paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
         },
-        // Optionally, you can add more styles here if containerClassName is needed
+        containerClassName,
       ]}
     >
       <KeyboardAvoidingView

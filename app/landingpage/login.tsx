@@ -96,7 +96,7 @@ export default function LoginScreen() {
             </View>
             <View className="items-center gap-y-2 mt-4">
               <Text className="text-2xl font-bold text-gray-900">
-                Bienvenido a Gerardo
+                Bienvenid@ a Gerardo
               </Text>
               <Text className="text-gray-600">Iniciar Sesión</Text>
             </View>

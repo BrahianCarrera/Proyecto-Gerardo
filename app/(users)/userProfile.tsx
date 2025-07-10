@@ -121,7 +121,7 @@ const UserProfile = () => {
         showsVerticalScrollIndicator={false}
       >
         <View className="pt-6 mb-4">
-          <Text className="text-lg text-gray-600">Bienvenido</Text>
+          <Text className="text-lg text-gray-600">Bienvenid@</Text>
           <Text className="font-bold text-2xl text-gray-700">
             {userDetails.name}
           </Text>

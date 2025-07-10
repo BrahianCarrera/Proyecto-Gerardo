@@ -176,7 +176,7 @@ const RegisterSpecialist = () => {
         const payload = createPayload()
 
         await api.post('/users/register/specialist', payload)
-
+        console.log(payload)
         resetForm()
 
         router.push({
@@ -214,7 +214,9 @@ const RegisterSpecialist = () => {
   }
 
   return (
-    <KeyboardAvoidingContainer containerClassName="bg-primary">
+    <KeyboardAvoidingContainer
+      containerClassName={{ backgroundColor: '#187c8c' }}
+    >
       <View className="items-center gap-y-4">
         <Logo width={120} height={120} />
         <Text className="text-2xl font-bold text-gray-900">Regístrate</Text>
