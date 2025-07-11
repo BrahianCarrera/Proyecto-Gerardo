@@ -18,3 +18,8 @@ export const getAlarmById = async (id: string) => {
   const response = await api.get(`/alarms?id=${id}`);
   return response
 }
+
+export async function deleteAlarm(id:string){
+
+    const response = await api.delete(`/alarms/${id}`)
+}

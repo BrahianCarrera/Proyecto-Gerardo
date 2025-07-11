@@ -293,7 +293,7 @@ const FoodTracking = () => {
         <View className="p-4 bg-gray-100 border-b border-gray-200">
           <Text className="text-lg font-bold mb-2">Ver Dieta de Paciente</Text>
 
-          <View className="border rounded-xl border-gray-300">
+          <View className="border rounded-xl border-gray-300  bg-white">
             <Picker
               selectedValue={caregiverPatientId}
               onValueChange={(itemValue: string, itemIndex: number) => {

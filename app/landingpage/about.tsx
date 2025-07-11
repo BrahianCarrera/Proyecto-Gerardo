@@ -5,12 +5,13 @@ import Logo from '../../assets/logo.svg'
 import { Divider } from 'react-native-paper'
 import { UsersRound, ShieldCheck, Zap, ArrowBigLeft } from 'lucide-react-native'
 import { useRouter } from 'expo-router'
+
 const About = () => {
   const router = useRouter()
 
   return (
     <SafeAreaContainer>
-      <View className="flex-1 bg-primary  justify-center items-center px-4">
+      <View className="flex-1 bg-primary justify-center items-center px-4">
         <ScrollView className="w-full m-4 bg-white rounded-2xl shadow-xl p-6 gap-y-6">
           <View className="flex-1 justify-center items-center gap-y-4">
             <Logo width={120} height={120} />
@@ -35,9 +36,12 @@ const About = () => {
               <View className="flex-row items-start gap-x-2">
                 <UsersRound size={20} className="mt-1 text-indigo-500" />
                 <Text className="text-gray-600 flex-1">
-                  <Text className="font-semibold">Registro rápido:</Text>{' '}
-                  completa tu perfil con nombre, fecha de nacimiento, peso,
-                  estatura y género.
+                  <Text className="font-semibold">Registro:</Text> Si eres un
+                  especialista de la salud, ingresa con la función
+                  correspondiente. Necesitarás el código exclusivo para
+                  especialistas. Si eres un paciente o cuidas de alguien,
+                  completa tu perfil con nombre, peso, estatura, fecha de
+                  nacimiento y género.
                 </Text>
               </View>
 
@@ -47,15 +51,18 @@ const About = () => {
                   <Text className="font-semibold">
                     Seguimiento inteligente:
                   </Text>{' '}
-                  recibe análisis y recordatorios personalizados según tu
-                  perfil.
+                  Para poder visualizar y monitorear la información de alguien,
+                  es necesario que le envíes una solicitud en la pestaña de
+                  perfil y que esa persona te acepte como su cuidador. Recibe
+                  recordatorios, alarmas y lleva un control de tus comidas
+                  sugeridas a través de la app.
                 </Text>
               </View>
 
               <View className="flex-row items-start gap-x-2">
                 <ShieldCheck size={20} className="mt-1 text-indigo-500" />
                 <Text className="text-gray-600 flex-1">
-                  <Text className="font-semibold">Privacidad primero:</Text> tus
+                  <Text className="font-semibold">Privacidad primero:</Text> Tus
                   datos están seguros y no se comparten sin tu consentimiento.
                 </Text>
               </View>
@@ -67,8 +74,8 @@ const About = () => {
               <Text className="text-xl font-semibold text-gray-700 mb-2">
                 Autores
               </Text>
-              <Text className="text-gray-600">Miguelangel Velez Aguirre</Text>
-              <Text className="text-gray-600">Brahian Carrera Rodriguez</Text>
+              <Text className="text-gray-600">Miguelangel Vélez Aguirre</Text>
+              <Text className="text-gray-600">Brahian Carrera Rodríguez</Text>
               <Text className="text-gray-600">Diana Margot López Herrera</Text>
               <Text className="text-gray-600">Francia Edith López Herrera</Text>
             </View>

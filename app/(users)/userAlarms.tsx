@@ -280,6 +280,7 @@ export default function AlarmMedicinesScreen() {
                     alarm.type.charAt(0).toUpperCase() +
                     alarm.type.slice(1).toLowerCase()
                   }
+                  hour={alarm.time}
                   subtext={alarm.notes}
                   detail={alarm.name}
                   days={alarm.daysOfWeek}

@@ -251,7 +251,7 @@ export default function CreateFoodScreen() {
   }
 
   return (
-    <KeyboardAvoidingContainer containerClassName="bg-primary">
+    <KeyboardAvoidingContainer>
       <View className="items-center gap-y-4">
         <Apple width={120} height={120} color={'#e64635'} />
         <Text className="text-2xl font-bold text-gray-900">

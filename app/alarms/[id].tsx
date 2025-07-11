@@ -15,6 +15,7 @@ import { getAlarmById, updateAlarm } from 'services/alarmService'
 import TimePicker from 'components/TimePicker'
 import CustomDayPicker from 'components/DayPicker'
 import SafeAreaContainer from 'components/safeAreaContainer'
+import { deleteAlarm } from 'services/alarmService'
 
 export default function AlarmDetail() {
   const { alarmId } = useLocalSearchParams()
@@ -60,11 +61,18 @@ export default function AlarmDetail() {
         })
         .finally(() => {
           setLoading(false)
-
-          setTimeout(() => console.log('Estado actual:', form), 100)
         })
     }
   }, [alarmId])
+
+  const handleDelete = async () => {
+    if (typeof alarmId === 'string') {
+      await deleteAlarm(alarmId)
+      router.back()
+    } else {
+      setError('Invalid alarm ID')
+    }
+  }
 
   const handleSubmit = async () => {
     const { patientId, name, type, time, daysOfWeek } = form
@@ -180,6 +188,13 @@ export default function AlarmDetail() {
               {error}
             </Text>
           )}
+
+          <Pressable
+            onPress={handleDelete}
+            className="my-4 p-4 rounded-xl shadow-md bg-red-500 active:opacity-80" // Añadí active:opacity-80 para consistencia
+          >
+            <Text className="text-center text-white text-lg">Eliminar</Text>
+          </Pressable>
 
           <Pressable
             onPress={handleSubmit}
