@@ -296,6 +296,7 @@ export default function DietDetail() {
                 <TextInput
                   className="border border-primary p-2 bg-white rounded"
                   placeholder="Separar etiquetas por comas (ej: vegana, baja en sodio)"
+                  placeholderTextColor="#9CA3AF"
                   value={diet.tags?.join(', ') || ''}
                   onChangeText={(text) =>
                     setDiet({

@@ -79,7 +79,7 @@ const addAlarm = () => {
           value={patientId}
           returnKeyType="done"
           placeholder="1194075221"
-          placeholderTextColor="#888"
+          placeholderTextColor="#9CA3AF"
           onChangeText={(value) => setPatientId(value)}
         />
 
@@ -90,7 +90,7 @@ const addAlarm = () => {
           value={name}
           returnKeyType="done"
           placeholder="Vitamina C"
-          placeholderTextColor="#888"
+          placeholderTextColor="#9CA3AF"
           onChangeText={(value) => setName(value)}
         />
 
@@ -136,6 +136,7 @@ const addAlarm = () => {
             style={{ height }}
             textAlignVertical="top"
             placeholder="Escribe las notas de la alarma aquí..."
+            placeholderTextColor="#9CA3AF"
           />
 
           {error && (

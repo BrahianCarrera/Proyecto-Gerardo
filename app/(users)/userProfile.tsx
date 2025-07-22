@@ -169,7 +169,6 @@ const UserProfile = () => {
           </View>
         )}
 
-        {/* Logout Button */}
         <View className="w-full items-center mb-8">
           <Pressable
             onPress={logout}

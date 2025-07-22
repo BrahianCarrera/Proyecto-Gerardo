@@ -22,7 +22,7 @@ export const updatePhoto = async (uri: string, userId: string) => {
     type: 'image/jpeg',
   } as any);
 
-  const response = await fetch('http://192.168.0.18:4000/users', {
+  const response = await fetch('https://gerardo-backend.onrender.com/users', {
     method: 'PUT',
     body: formData,
   });

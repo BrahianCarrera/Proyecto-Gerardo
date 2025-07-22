@@ -1,7 +1,8 @@
 {
   "expo": {
+    
     "name": "Gerardo App",
-    "slug": "Gerardo App",
+    "slug": "my-expo-app",
     "scheme": "Gerardo App",
     "version": "1.0.0",
     "web": {
@@ -11,6 +12,7 @@
     "experiments": {
       "tsconfigPaths": true
     },
+    
     "plugins": [
       "expo-router",
       [
@@ -25,7 +27,7 @@
       ]
     ],
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -37,15 +39,17 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.gerardoProject"
+      "bundleIdentifier": "com.gerardoProject",
+      "userInterfaceStyle": "light"
     },
     "android": {
       "notification": {
         "sound": "alarma.wav"
       },
+      "userInterfaceStyle": "light",
       "useNextNotificationsApi": true,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.gerardoProject",

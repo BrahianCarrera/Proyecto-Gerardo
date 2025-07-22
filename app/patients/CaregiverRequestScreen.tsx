@@ -58,6 +58,7 @@ export default function CaregiverRequestScreen() {
           <TextInput
             className="border border-gray-300 rounded-lg p-3 mb-6 bg-white text-base"
             placeholder="Email del paciente"
+            placeholderTextColor="#9CA3AF"
             keyboardType="email-address"
             autoCapitalize="none"
             value={patientIdentifier}

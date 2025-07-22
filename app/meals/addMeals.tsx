@@ -77,7 +77,7 @@ const MEAL_FOODGROUP_OPTIONS = [
 
 const MEAL_SIZE_OPTIONS = [
   { label: 'Selecciona un tamaño...', value: '', enabled: false },
-  { label: 'Pequeña', value: 'PEQUEÑA' },
+  { label: 'Pequeña', value: 'PEQUENA' },
   { label: 'Mediana', value: 'MEDIANA' },
   { label: 'Grande', value: 'GRANDE' },
 ]
@@ -266,6 +266,7 @@ export default function CreateFoodScreen() {
           <TextInput
             className=" px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ej. Sopa Ligera"
+            placeholderTextColor="#9CA3AF"
             value={form.name}
             onChangeText={(text) => updateForm('name', text)}
           />
@@ -342,6 +343,7 @@ export default function CreateFoodScreen() {
           <TextInput
             className=" px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ej. 320"
+            placeholderTextColor="#9CA3AF"
             keyboardType="numeric"
             value={form.calories.toString()}
             onChangeText={(text) => updateNumberField('calories', text)}
@@ -353,6 +355,7 @@ export default function CreateFoodScreen() {
           <TextInput
             className=" px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ej. 12"
+            placeholderTextColor="#9CA3AF"
             keyboardType="numeric"
             value={form.protein.toString()}
             onChangeText={(text) => updateNumberField('protein', text)}
@@ -364,6 +367,7 @@ export default function CreateFoodScreen() {
           <TextInput
             className=" px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ej. 28"
+            placeholderTextColor="#9CA3AF"
             keyboardType="numeric"
             value={form.carbs.toString()}
             onChangeText={(text) => updateNumberField('carbs', text)}
@@ -375,6 +379,7 @@ export default function CreateFoodScreen() {
           <TextInput
             className=" px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ej. 5"
+            placeholderTextColor="#9CA3AF"
             keyboardType="numeric"
             value={form.sugar.toString()}
             onChangeText={(text) => updateNumberField('sugar', text)}
@@ -386,6 +391,7 @@ export default function CreateFoodScreen() {
           <TextInput
             className=" px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ej. 15"
+            placeholderTextColor="#9CA3AF"
             keyboardType="numeric"
             value={form.fat.toString()}
             onChangeText={(text) => updateNumberField('fat', text)}
@@ -397,6 +403,7 @@ export default function CreateFoodScreen() {
           <TextInput
             className=" px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ej. 4"
+            placeholderTextColor="#9CA3AF"
             keyboardType="numeric"
             value={form.fiber.toString()}
             onChangeText={(text) => updateNumberField('fiber', text)}
@@ -408,6 +415,7 @@ export default function CreateFoodScreen() {
           <TextInput
             className="px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ej. 850"
+            placeholderTextColor="#9CA3AF"
             keyboardType="numeric"
             value={form.sodium.toString()}
             onChangeText={(text) => updateNumberField('sodium', text)}
@@ -430,12 +438,14 @@ export default function CreateFoodScreen() {
               <TextInput
                 className=" px-3 border border-gray-300 rounded-md text-base"
                 placeholder="Nombre"
+                placeholderTextColor="#9CA3AF"
                 value={ingredient.name}
                 onChangeText={(text) => updateIngredient(index, 'name', text)}
               />
               <TextInput
                 className=" px-3 border border-gray-300 rounded-md text-base"
                 placeholder="Cantidad"
+                placeholderTextColor="#9CA3AF"
                 keyboardType="numeric"
                 value={ingredient.quantity.toString()}
                 onChangeText={(text) =>
@@ -445,6 +455,7 @@ export default function CreateFoodScreen() {
               <TextInput
                 className=" px-3 border border-gray-300 rounded-md text-base"
                 placeholder="Unidad (ej. g, ml, rebanada)"
+                placeholderTextColor="#9CA3AF"
                 value={ingredient.unit}
                 onChangeText={(text) => updateIngredient(index, 'unit', text)}
               />

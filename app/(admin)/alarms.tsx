@@ -52,6 +52,7 @@ const AlarmMedicines = () => {
           <TextInput
             className="border border-gray-300 rounded-md p-2  mb-4 bg-white"
             placeholder="Buscar por cédula..."
+            placeholderTextColor="#9CA3AF"
             value={searchTerm}
             onChangeText={setSearchTerm}
           />

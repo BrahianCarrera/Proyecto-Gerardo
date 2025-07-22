@@ -2,8 +2,9 @@ import { UserProvider, useUser } from './context/UserContext'
 import { Stack } from 'expo-router'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
-import { useEffect } from 'react' // Importar useEffect
-import { initRequestService } from 'services/requestService' // Importar initRequestService
+import { useEffect } from 'react'
+import { initRequestService } from 'services/requestService'
+import { StatusBar } from 'react-native' // <-- Importa StatusBar aquí
 
 // Componente que contendrá la lógica y las pantallas de navegación
 function RootLayoutContent() {
@@ -17,17 +18,18 @@ function RootLayoutContent() {
       refreshAccessToken, // refreshAccessTokenFn
       logout, // onSessionExpired
     )
-  }, [accessToken, refreshAccessToken, logout]) // Dependencias para re-inicializar si cambian
+  }, [accessToken, refreshAccessToken, logout])
 
   return (
     <>
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+
       <Stack screenOptions={{ headerShown: false }} />
       <Toast />
     </>
   )
 }
 
-// Envuelve tu RootLayoutContent con el UserProvider
 export default function RootLayout() {
   return (
     <SafeAreaProvider>

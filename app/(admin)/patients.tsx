@@ -41,7 +41,7 @@ const Patients = () => {
           <TextInput
             className="border border-gray-300 rounded-md p-2 bg-white mb-4"
             placeholder="Buscar por nombre o cédula..."
-            placeholderTextColor="#888"
+            placeholderTextColor="#9CA3AF"
             value={searchTerm}
             onChangeText={setSearchTerm}
           />

@@ -12,7 +12,6 @@ import { useFocusEffect } from '@react-navigation/native' // Importa useFocusEff
 const foodTracking = () => {
   const [meals, setMeals] = useState<any[]>([])
 
-  // Función para cargar las comidas
   const fetchMeals = async () => {
     try {
       const fetchedMeals = await getMeals()

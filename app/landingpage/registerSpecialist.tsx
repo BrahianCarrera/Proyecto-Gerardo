@@ -20,6 +20,7 @@ import { registerSpecialist } from 'services/userService'
 interface FormData {
   id: string
   name: string
+  lastName: string
   email: string
   password: string
   confirmPassword: string
@@ -35,6 +36,7 @@ interface FormErrors {
 const INITIAL_FORM_STATE: FormData = {
   id: '',
   name: '',
+  lastName: '',
   email: '',
   password: '',
   confirmPassword: '',
@@ -99,7 +101,7 @@ const useFormData = () => {
 
   const createPayload = () => ({
     id: form.id,
-    name: form.name,
+    name: form.name + ' ' + form.lastName,
     email: form.email,
     password: form.password,
     enterpriseCode: form.enterpriseCode,
@@ -141,6 +143,7 @@ const PasswordInput: React.FC<{
     <TextInput
       className=" px-4 pr-12 border border-gray-300 rounded-md text-base"
       placeholder={placeholder}
+      placeholderTextColor="#9CA3AF"
       secureTextEntry={!show}
       value={value}
       onChangeText={onChangeText}
@@ -228,6 +231,7 @@ const RegisterSpecialist = () => {
           <TextInput
             className="px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ingresa tu cédula"
+            placeholderTextColor="#9CA3AF"
             keyboardType="numeric"
             value={form.id}
             scrollEnabled={false}
@@ -240,9 +244,22 @@ const RegisterSpecialist = () => {
           <TextInput
             className="px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ingresa tu nombre"
+            placeholderTextColor="#9CA3AF"
             value={form.name}
             scrollEnabled={false}
             onChangeText={(val) => updateForm('name', val)}
+          />
+          <ErrorText error={errors.name} />
+        </Field>
+
+        <Field label="Apellidos">
+          <TextInput
+            className="px-4 border border-gray-300 rounded-md text-base"
+            placeholder="Ingresa tus apellidos "
+            placeholderTextColor="#9CA3AF"
+            value={form.lastName}
+            scrollEnabled={false}
+            onChangeText={(val) => updateForm('lastName', val)}
           />
           <ErrorText error={errors.name} />
         </Field>
@@ -251,6 +268,7 @@ const RegisterSpecialist = () => {
           <TextInput
             className="px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ingresa tu Email"
+            placeholderTextColor="#9CA3AF"
             keyboardType="email-address"
             autoCapitalize="none"
             scrollEnabled={false}
@@ -293,6 +311,7 @@ const RegisterSpecialist = () => {
           <TextInput
             className="px-4 border border-gray-300 rounded-md text-base"
             placeholder="Ingresa el código para especialistas"
+            placeholderTextColor="#9CA3AF"
             value={form.enterpriseCode}
             scrollEnabled={false}
             onChangeText={(val) => updateForm('enterpriseCode', val)}

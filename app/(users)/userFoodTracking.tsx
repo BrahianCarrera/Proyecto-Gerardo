@@ -7,6 +7,9 @@ import {
   TouchableOpacity,
   TextInput,
   Button,
+  Modal, // <-- Importa Modal
+  Image, // <-- Importa Image
+  StyleSheet, // <-- Importa StyleSheet para los estilos del modal
 } from 'react-native'
 import Card from 'components/Card'
 import { useEffect, useState } from 'react'
@@ -16,9 +19,12 @@ import { useUser } from 'app/context/UserContext'
 import { getDietByPatientId } from 'services/dietService'
 import Toast from 'react-native-toast-message'
 import { logMeal } from 'services/mealService'
-import { HelpCircle } from 'lucide-react-native'
+import { HelpCircle, X } from 'lucide-react-native' // <-- Importa X para el botón de cerrar
 import { getCaregiverPatients } from 'services/patientService'
 import { Picker } from '@react-native-picker/picker'
+
+// Importa tu imagen 'sizes.png' desde la carpeta de assets
+const SizesImage = require('../../assets/sizes.png') // <-- Asegúrate de que esta ruta sea correcta
 
 interface Ingredient {
   name: string
@@ -97,6 +103,9 @@ const FoodTracking = () => {
 
   const [caregiverPatientId, setCaregiverPatientId] = useState<string>('')
   const [displayPatientId, setDisplayPatientId] = useState<string | null>(null) // ID del paciente cuya dieta se está mostrando
+
+  // Estado para controlar la visibilidad del modal de la imagen de tamaños
+  const [showSizesModal, setShowSizesModal] = useState(false) // <-- Nuevo estado
 
   const mealTypeImages: Record<string, string> = {
     desayuno:
@@ -343,14 +352,13 @@ const FoodTracking = () => {
       {!loading && meals.length > 0 && (
         <>
           <View className="flex-row justify-end items-center gap-x-2 px-4 py-2">
-            <Text className="text-xl underline">
-              Más información sobre los tamaños
-            </Text>
             <TouchableOpacity
-              onPress={() =>
-                Alert.alert('Información de la Dieta', 'PlaceHolder.')
-              }
+              onPress={() => setShowSizesModal(true)} // <-- Cambiado para abrir el modal
             >
+              <Text className="text-xl underline">
+                Más información sobre los tamaños
+              </Text>
+
               <HelpCircle color="#14798B" size={32} />
             </TouchableOpacity>
           </View>
@@ -414,8 +422,70 @@ const FoodTracking = () => {
         )}
 
       <Toast />
+
+      {/* Modal para mostrar la imagen de tamaños */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showSizesModal}
+        onRequestClose={() => setShowSizesModal(false)}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <TouchableOpacity
+              onPress={() => setShowSizesModal(false)}
+              style={styles.closeButton}
+            >
+              <X size={24} color="#333" />
+            </TouchableOpacity>
+            <Image
+              source={SizesImage}
+              style={styles.image}
+              resizeMode="contain"
+            />
+          </View>
+        </View>
+      </Modal>
     </SafeAreaContainer>
   )
 }
+
+// Estilos para el modal
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.7)',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    width: '90%',
+    height: '80%',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    zIndex: 1,
+    padding: 5,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+  },
+})
 
 export default FoodTracking

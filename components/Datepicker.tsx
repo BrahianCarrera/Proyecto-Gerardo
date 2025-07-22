@@ -48,6 +48,7 @@ const DateInput: React.FC<{
       <TextInput
         className="h-12 px-4 border border-gray-300 rounded-md text-base w-full tracking-widest"
         placeholder="DD/MM/AAAA"
+        placeholderTextColor="#9CA3AF"
         value={inputValue}
         onChangeText={handleChange}
         maxLength={10}

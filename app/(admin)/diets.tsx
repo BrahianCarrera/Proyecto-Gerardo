@@ -59,6 +59,7 @@ const Diets = () => {
           <TextInput
             className="border border-gray-300 rounded-md p-2 mb-2 bg-white"
             placeholder="Buscar Dieta"
+            placeholderTextColor="#9CA3AF"
             value={searchTerm}
             onChangeText={setSearchTerm}
           />

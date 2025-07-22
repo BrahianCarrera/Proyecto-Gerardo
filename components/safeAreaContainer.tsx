@@ -20,8 +20,6 @@ const SafeAreaContainer: React.FC<SafeAreaContainerProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // Puedes añadir un color de fondo aquí si lo necesitas
-    // backgroundColor: 'white',
   },
 })
 

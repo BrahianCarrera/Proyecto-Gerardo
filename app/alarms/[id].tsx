@@ -181,6 +181,7 @@ export default function AlarmDetail() {
             style={{ height }}
             textAlignVertical="top"
             placeholder="Escribe tu mensaje aquí..."
+            placeholderTextColor="#9CA3AF"
           />
 
           {error && (
